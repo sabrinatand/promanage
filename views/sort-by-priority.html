@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/bootstrap.min.css" rel="stylesheet" />
+  <title>Sorted task by Priority</title>
+</head>
+
+<div class="container pt-4">
+  <a type="button" class="btn btn-dark" href="/">Home</a>
+  <a type="button" class="btn btn-dark" href="/add-task">Add Task</a>
+</div>
+
+<div class="container">
+  <div class="my-4 p-5 bg-dark text-white rounded">
+    <h1>Sorted task by Priority</h1>
+    <p>List of Task</p>
+  </div>
+</div>
+
+<body>
+  <h2 class="text-center mb-4">Urgent Priority</h2>
+  <div class="container mt-4 rounded table-responsive">
+    <table class="table style="table-layout: fixed; width: 100%;">
+      <thead class="table-dark">
+        <tr>
+            <th style="width: 5%;">#</th>
+            <th style="width: 10%;">ID</th>
+            <th style="width: 20%;">Name</th>
+            <th style="width: 10%;">Status</th>
+            <th style="width: 15%;">Team Member</th>
+            <th style="width: 10%;">Priority</th>
+            <th style="width: 10%;">Details</th>
+      </thead>
+      <tbody>
+        <% for(let i=0; i < UrgPriority.length; i++ ){ %>
+          <tr>
+            <td>
+              <%= (i+1) %>
+            </td>
+            <td>
+              <%= UrgPriority[i].id %>
+            </td>
+            <td>
+              <%= UrgPriority[i].name %>
+            </td>
+            <td>
+              <%= UrgPriority[i].status %>
+            </td>
+            <td>
+              <%= UrgPriority[i].teamMember %>
+            </td>
+            <td>
+              <%= UrgPriority[i].priority %>
+            </td>
+            <td>
+              <a href="show-task/<%= tasks[i].id %>">
+                <button class="btn btn-dark">View</button>
+              </a>
+            </td>
+          </tr>
+          <% } %>
+      </tbody>
+    </table>
+  </div>
+    <h2 class="text-center mb-4">High Priority</h2>
+  <div class="container mt-4 rounded table-responsive">
+    <table class="table style="table-layout: fixed; width: 100%;">
+      <thead class="table-dark">
+        <tr>
+            <th style="width: 5%;">#</th>
+            <th style="width: 10%;">ID</th>
+            <th style="width: 20%;">Name</th>
+            <th style="width: 10%;">Status</th>
+            <th style="width: 15%;">Team Member</th>
+            <th style="width: 10%;">Priority</th>
+            <th style="width: 10%;">Details</th>
+      </thead>
+      <tbody>
+        <% for(let i=0; i < HighPriority.length; i++ ){ %>
+          <tr>
+            <td>
+              <%= (i+1) %>
+            </td>
+            <td>
+              <%= HighPriority[i].id %>
+            </td>
+            <td>
+              <%= HighPriority[i].name %>
+            </td>
+            <td>
+              <%= HighPriority[i].status %>
+            </td>
+            <td>
+              <%= HighPriority[i].teamMember %>
+            </td>
+            <td>
+              <%= HighPriority[i].priority %>
+            </td>
+            <td>
+              <a href="show-task/<%= tasks[i].id %>">
+                <button class="btn btn-dark">View</button>
+              </a>
+            </td>
+          </tr>
+          <% } %>
+      </tbody>
+    </table>
+  </div>
+  <h2 class="text-center mb-4">Medium Priority</h2>
+  <div class="container mt-4 rounded table-responsive">
+    <table class="table style="table-layout: fixed; width: 100%;">
+      <thead class="table-dark">
+        <tr>
+            <th style="width: 5%;">#</th>
+            <th style="width: 10%;">ID</th>
+            <th style="width: 20%;">Name</th>
+            <th style="width: 10%;">Status</th>
+            <th style="width: 15%;">Team Member</th>
+            <th style="width: 10%;">Priority</th>
+            <th style="width: 10%;">Details</th>
+      </thead>
+      <tbody>
+        <% for(let i=0; i < MedPriority.length; i++ ){ %>
+          <tr>
+            <td>
+              <%= (i+1) %>
+            </td>
+            <td>
+              <%= MedPriority[i].id %>
+            </td>
+            <td>
+              <%= MedPriority[i].name %>
+            </td>
+            <td>
+              <%= MedPriority[i].status %>
+            </td>
+            <td>
+              <%= MedPriority[i].teamMember %>
+            </td>
+            <td>
+              <%= MedPriority[i].priority %>
+            </td>
+            <td>
+              <a href="show-task/<%= tasks[i].id %>">
+                <button class="btn btn-dark">View</button>
+              </a>
+            </td>
+          </tr>
+          <% } %>
+      </tbody>
+    </table>
+  </div>
+  <h2 class="text-center mb-4">Low Priority</h2>
+  <div class="container mt-4 rounded table-responsive">
+    <table class="table style="table-layout: fixed; width: 100%;">
+      <thead class="table-dark">
+        <tr>
+            <th style="width: 5%;">#</th>
+            <th style="width: 10%;">ID</th>
+            <th style="width: 20%;">Name</th>
+            <th style="width: 10%;">Status</th>
+            <th style="width: 15%;">Team Member</th>
+            <th style="width: 10%;">Priority</th>
+            <th style="width: 10%;">Details</th>
+      </thead>
+      <tbody>
+        <% for(let i=0; i < LowPriority.length; i++ ){ %>
+          <tr>
+            <td>
+              <%= (i+1) %>
+            </td>
+            <td>
+              <%= LowPriority[i].id %>
+            </td>
+            <td>
+              <%= LowPriority[i].name %>
+            </td>
+            <td>
+              <%= LowPriority[i].status %>
+            </td>
+            <td>
+              <%= LowPriority[i].teamMember %>
+            </td>
+            <td>
+              <%= LowPriority[i].priority %>
+            </td>
+            <td>
+              <a href="show-task/<%= tasks[i].id %>">
+                <button class="btn btn-dark">View</button>
+              </a>
+            </td>
+          </tr>
+          <% } %>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+
+</html>
