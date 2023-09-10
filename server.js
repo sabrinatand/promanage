@@ -20,7 +20,7 @@ app.set("view engine", "html");
 
 let taskDB = [];
 
-// async function connec t() {
+// async function connect() {
 //   await mongoose.connect(url);
 // }
 // connect()
