@@ -14,7 +14,7 @@ class Task {
     name,
     description = "No Description",
     teamMember = "None",
-    priority = 0
+    priority = "Low"
   ) {
     this.name = name;
     this.description = description;

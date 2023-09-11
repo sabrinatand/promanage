@@ -40,13 +40,30 @@
 
                   <div class="mb-3">
                     <label for="priority" class="form-label">Priority</label>
-                    <select name="priority" class="form-select" id="priority">
-                      <option value="low">Low</option>
-                      <option value="medium">Medium</option>
-                      <option value="high">High</option>
-                      <option value="urgent">Urgent</option>
-                    </select>
-
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="priority" id="Low" value="Low" checked>
+                      <label class="form-check-label" for="Low">
+                        Low
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="priority" id="Medium" value="Medium">
+                      <label class="form-check-label" for="Medium">
+                        Medium
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="priority" id="High" value="High">
+                      <label class="form-check-label" for="High">
+                        High
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="priority" id="Urgent" value="Urgent">
+                      <label class="form-check-label" for="Urgent">
+                        Urgent
+                      </label>
+                    </div>
                   </div>
 
                   <button class="btn btn-primary">Submit</button>
