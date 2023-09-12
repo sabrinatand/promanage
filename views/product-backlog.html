@@ -18,11 +18,20 @@
     <h1>Product Backlog</h1>
     <p>List of Tasks</p>
   </div>
-</div>
+  <h3 class="my-2">Sort Tasks</h3>
+    <div class="mb-3">
+      <label for="sortPriority" class="form-label">Sort by Priority:</label>
+      <select id="sortPriority" class="form-select">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+      <button id="sortButton">Sort</button>
+    </div>
+  </div>
 
 <body>
   <div class="container mt-4 rounded">
-    <table class="table">
+    <table class="table table-sortable">
       <thead class="table-dark">
         <tr>
           <th>#</th>
@@ -64,7 +73,138 @@
       </tbody>
     </table>
   </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const table = document.querySelector("table");
+    const tbody = table.querySelector("tbody");
 
+    const sortButton = document.getElementById("sortButton");
+  
+    sortButton.addEventListener("click", function () {
+      sortTable();
+    });
+  });
+  
+function sortTable() {
+    const sortBy = document.getElementById("sortPriority").value;
+
+    const table = document.querySelector("table");
+    const tbody = table.querySelector("tbody");
+  
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    const priorityOrder = ["low", "medium", "high", "urgent"];
+
+    const asc = (a, b) => {
+      tempA = a.querySelector('td:nth-child(6)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempA.length; i++) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempA.length - 1; i >= 0; i--) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temA = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temA += tempA[i];
+      }
+
+      tempB = b.querySelector('td:nth-child(6)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempB.length; i++) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempB.length - 1; i >= 0; i--) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temB = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temB += tempB[i];
+      }
+
+      idxA = -1, idxB = -1;
+      for (let i = 0; i < priorityOrder.length; i++) {
+        if (temA == priorityOrder[i]) idxA = i;
+        if (temB == priorityOrder[i]) idxB = i;
+      }
+      return idxA - idxB;
+    }
+
+    const dsc = (a, b) => {
+      tempA = a.querySelector('td:nth-child(6)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempA.length; i++) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempA.length - 1; i >= 0; i--) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temA = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temA += tempA[i];
+      }
+
+      tempB = b.querySelector('td:nth-child(6)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempB.length; i++) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempB.length - 1; i >= 0; i--) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temB = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temB += tempB[i];
+      }
+
+      idxA = -1, idxB = -1;
+      for (let i = 0; i < priorityOrder.length; i++) {
+        if (temA == priorityOrder[i]) idxA = i;
+        if (temB == priorityOrder[i]) idxB = i;
+      }
+      return idxB - idxA;
+    }
+
+    if (sortBy == "asc") rows.sort(asc);
+    if (sortBy == "desc")rows.sort(dsc);
+
+    tbody.innerHTML = "";
+  
+    rows.forEach((row) => {
+      tbody.appendChild(row);
+    });
+  }
+  
+</script>
 </body>
 
 </html>
+
