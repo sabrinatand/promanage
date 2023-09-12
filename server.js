@@ -60,8 +60,8 @@ app.post("/delete-task", function (req, res) {
   res.redirect("/product-backlog");
 });
 
-app.get("/change-priority", function (req, res) {
-  res.render("change-priority", { tasks: taskDB});
+app.get("/edit-product-backlog", function (req, res) {
+  res.render("edit-product-backlog", { tasks: taskDB});
 });
 
 app.post("/change-priority/:id", function (req, res) {
@@ -73,27 +73,17 @@ app.post("/change-priority/:id", function (req, res) {
       break;
     }
   }
-  res.redirect("/change-priority");
+  res.redirect("/edit-product-backlog");
 });
 
-app.get("/sort-by-priority", function (req, res) {
-  const taskDB_Low = [];
-  const taskDB_Medium = [];
-  const taskDB_High = [];
-  const taskDB_Urgent = [];
+app.post("/change-status/:id", function (req, res) {
+  const taskId = req.params.id;
+  const newStatus = req.body.newStatus;
   for (let i = 0; i < taskDB.length; i++) {
-    if (taskDB[i].priority === "Low") {
-        taskDB_Low.push(taskDB[i]);
-    }
-    else if (taskDB[i].priority === "Medium") {
-      taskDB_Medium.push(taskDB[i]);
-    }
-    else if (taskDB[i].priority === "High") {
-      taskDB_High.push(taskDB[i]);
-    }
-    else {
-      taskDB_Urgent.push(taskDB[i]);
+    if (taskDB[i].id == taskId) {
+      taskDB[i].status = newStatus;
+      break;
     }
   }
-  res.render("sort-by-priority", { LowPriority: taskDB_Low, MedPriority: taskDB_Medium, HighPriority: taskDB_High, UrgPriority: taskDB_Urgent, tasks: taskDB });
+  res.redirect("/edit-product-backlog");
 });

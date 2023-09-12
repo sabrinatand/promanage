@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/bootstrap.min.css" rel="stylesheet" />
-  <title>Change Priority</title>
+  <title>Edit Product Backlog</title>
 </head>
 
 <div class="container pt-4">
@@ -15,7 +15,7 @@
 
 <div class="container">
   <div class="my-4 p-5 bg-dark text-white rounded">
-    <h1>Change Priority</h1>
+    <h1>Edit Product Backlog</h1>
     <p>List of Tasks</p>
   </div>
 </div>
@@ -29,6 +29,7 @@
           <th>ID</th>
           <th>Name</th>
           <th>Status</th>
+          <th>Change Status</th>
           <th>Team Member</th>
           <th>Priority</th>
           <th>Change Priority</th>
@@ -49,6 +50,18 @@
             <td>
               <%= tasks[i].status %>
             </td>
+            <td>
+              <form action="/change-status/<%= tasks[i].id %>" method="POST">
+                  <div class="input-group">
+                    <select name="newStatus" class="form-select">
+                      <option value="Not Started">Not Started</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Finished">Finished</option>
+                    </select>
+                    <button type="submit" class="btn btn-dark">Change Status</button>
+                  </div>
+                </form>
+          </td>
             <td>
               <%= tasks[i].teamMember %>
             </td>
