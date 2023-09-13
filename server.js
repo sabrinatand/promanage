@@ -40,16 +40,17 @@ app.post("/add-task", function (req, res) {
   let obj = req.body;
   let aTask = new Task(obj.name, obj.description, obj.teamMember, obj.priority);
   taskDB.push(aTask);
-  taskDBunchanged.push(obj.teamMember)
+  taskDBunchanged.push(obj.teamMember);
   res.redirect("/product-backlog");
 });
 
 app.get("/add-task", function (req, res) {
-  res.render('add-task', { memberDB });
+  res.render("add-task", { memberDB });
 });
+
 app.post("/add-member", function (req, res) {
   memberDB.push(req.body.memberName);
-  res.redirect("/add-task");
+  res.redirect("/");
 });
 
 app.get("/add-member", function (req, res) {
@@ -69,13 +70,6 @@ app.post("/delete-task", function (req, res) {
   res.redirect("/product-backlog");
 });
 
-app.get("/edit-product-backlog", function (req, res) {
-  res.render("edit-product-backlog", {
-    tasks: taskDB,
-    tasksunchanged: taskDBunchanged,
-  });
-});
-
 app.post("/change-priority/:id", function (req, res) {
   const taskId = req.params.id;
   const newPriority = req.body.newPriority;
@@ -85,7 +79,7 @@ app.post("/change-priority/:id", function (req, res) {
       break;
     }
   }
-  res.redirect("/edit-product-backlog");
+  res.redirect(`/edit-task/${taskId}`);
 });
 
 app.post("/change-status/:id", function (req, res) {
@@ -97,16 +91,56 @@ app.post("/change-status/:id", function (req, res) {
       break;
     }
   }
-  res.redirect("/edit-product-backlog");
+  res.redirect(`/edit-task/${taskId}`);
 });
+
 app.post("/change-teamMember/:id", function (req, res) {
   const taskId = req.params.id;
-  const newMember = req.body.newMember ;
+  const newMember = req.body.newMember;
   for (let i = 0; i < taskDB.length; i++) {
     if (taskDB[i].id == taskId) {
-      taskDB[i].teamMember = newMember ;
+      taskDB[i].teamMember = newMember;
       break;
     }
   }
-  res.redirect("/edit-product-backlog");
+  res.redirect(`/edit-task/${taskId}`);
+});
+
+app.post("/change-name/:id", function (req, res) {
+  const taskId = req.params.id;
+  const name = req.body.name;
+  for (let i = 0; i < taskDB.length; i++) {
+    if (taskDB[i].id == taskId) {
+      taskDB[i].name = name;
+      break;
+    }
+  }
+  res.redirect(`/edit-task/${taskId}`);
+});
+
+app.post("/change-description/:id", function (req, res) {
+  const taskId = req.params.id;
+  const description = req.body.description;
+  for (let i = 0; i < taskDB.length; i++) {
+    if (taskDB[i].id == taskId) {
+      taskDB[i].description = description;
+      break;
+    }
+  }
+  res.redirect(`/edit-task/${taskId}`);
+});
+
+app.get("/task-detail/:taskId", function (req, res) {
+  let taskId = req.params.taskId;
+  let task = taskDB.find((e) => e.id === taskId);
+  if (task) res.render("task-detail", { task: task });
+  else res.status(404).send("Task not found");
+});
+
+app.get("/edit-task/:taskId", function (req, res) {
+  let taskId = req.params.taskId;
+  let task = taskDB.find((e) => e.id === taskId);
+  if (task)
+    res.render("edit-task", { task: task, tasksunchanged: taskDBunchanged });
+  else res.status(404).send("Task not found");
 });

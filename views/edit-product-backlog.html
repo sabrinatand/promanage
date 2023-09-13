@@ -53,16 +53,16 @@
             </td>
             <td>
               <form action="/change-status/<%= tasks[i].id %>" method="POST">
-                  <div class="input-group">
-                    <select name="newStatus" class="form-select">
-                      <option value="Not Started">Not Started</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Finished">Finished</option>
-                    </select>
-                    <button type="submit" class="btn btn-dark">Change Status</button>
-                  </div>
-                </form>
-          </td>
+                <div class="input-group">
+                  <select name="newStatus" class="form-select">
+                    <option value="Not Started">Not Started</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Finished">Finished</option>
+                  </select>
+                  <button type="submit" class="btn btn-dark">Change Status</button>
+                </div>
+              </form>
+            </td>
             <td>
               <%= tasks[i].teamMember %>
             </td>
@@ -70,9 +70,11 @@
               <form action="/change-teamMember/<%= tasks[i].id %>" method="POST">
                 <div class="input-group">
                   <select name="newMember" class="form-select">
-                    <% for (let j = 0; j < tasks.length; j++) { %>
-                    <option value="<%= tasksunchanged[j] %>"><%= tasksunchanged[j] %></option>
-                    <% } %>
+                    <% for (let j=0; j < tasks.length; j++) { %>
+                      <option value="<%= tasksunchanged[j] %>">
+                        <%= tasksunchanged[j] %>
+                      </option>
+                      <% } %>
                   </select>
                   <button type="submit" class="btn btn-dark">Change Team Member</button>
                 </div>
@@ -82,17 +84,17 @@
               <%= tasks[i].priority %>
             </td>
             <td>
-                <form action="/change-priority/<%= tasks[i].id %>" method="POST">
-                    <div class="input-group">
-                      <select name="newPriority" class="form-select">
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                        <option value="Urgent">Urgent</option>
-                      </select>
-                      <button type="submit" class="btn btn-dark">Change Priority</button>
-                    </div>
-                  </form>
+              <form action="/change-priority/<%= tasks[i].id %>" method="POST">
+                <div class="input-group">
+                  <select name="newPriority" class="form-select">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Urgent">Urgent</option>
+                  </select>
+                  <button type="submit" class="btn btn-dark">Change Priority</button>
+                </div>
+              </form>
             </td>
             <td>
               <a href="show-task/<%= tasks[i].id %>">

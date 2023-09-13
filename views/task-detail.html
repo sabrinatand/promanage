@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="container pt-4">
+  <a type="button" class="btn btn-dark" href="/">Home</a>
+  <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
+</div>
+
+<body>
+
+  <div class="album py-4">
+    <div class="container">
+
+      <div class="row">
+
+
+        <div class="my-2 p-5 bg-dark text-white rounded">
+          <h1>
+            <%= task.name %>
+          </h1>
+          <p>
+            <%= task.description %>
+          </p>
+        </div>
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <p><strong>ID:</strong>
+                    <%= task.id %>
+                  </p>
+                  <p><strong>Status:</strong>
+                    <%= task.status %>
+                  </p>
+                  <p><strong>Team Member:</strong>
+                    <%= task.teamMember %>
+                  </p>
+                  <p><strong>Priority:</strong>
+                    <%= task.priority %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <div class="container pt-4">
+    <a type="button" class="btn btn-dark" href="/edit-task/<%= task.id %>">Edit Task</a>
+  </div>
+</body>
+
+
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="container pt-4">
+  <a type="button" class="btn btn-dark" href="/">Home</a>
+  <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
+</div>
+
+<body>
+
+  <div class="album py-4">
+    <div class="container">
+
+      <div class="row">
+
+        <div class="my-2 p-5 bg-dark text-white rounded">
+          <h1>
+            Edit <%= task.name %>
+          </h1>
+          <p>
+            <%= task.id %>
+          </p>
+        </div>
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <p><strong>Name:</strong></p>
+                  <form action="/change-name/<%= task.id %>" method="POST">
+                    <input type="text" name="name" id="name">
+                    <button type="submit" class="btn btn-dark">Change</button>
+                  </form>
+                  <p><strong>Description:</strong></p>
+                  <form action="/change-description/<%= task.id %>" method="POST">
+                    <input class="form-control" type="text" name="description" id="description">
+                    <button type="submit" class="btn btn-dark">Change</button>
+                  </form>
+                  <p><strong>Status:</strong> </p>
+                  <form action="/change-status/<%= task.id %>" method="POST">
+                    <div class="input-group">
+                      <select name="newStatus" class="form-select">
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Finished">Finished</option>
+                      </select>
+                      <button type="submit" class="btn btn-dark">Change</button>
+                    </div>
+                  </form>
+                  <p><strong>Team Member:</strong></p>
+                  <form action="/change-teamMember/<%= task.id %>" method="POST">
+                    <div class="input-group">
+                      <select name="newMember" class="form-select">
+                        <% for (let j=0; j < tasksunchanged.length; j++) { %>
+                          <option value="<%= tasksunchanged[j] %>">
+                            <%= tasksunchanged[j] %>
+                          </option>
+                          <% } %>
+                      </select>
+                      <button type="submit" class="btn btn-dark">Change</button>
+                    </div>
+                  </form>
+                  <p><strong>Priority:</strong></p>
+                  <form action="/change-priority/<%= task.id %>" method="POST">
+                    <div class="input-group">
+                      <select name="newPriority" class="form-select">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Urgent">Urgent</option>
+                      </select>
+                      <button type="submit" class="btn btn-dark">Change</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>
