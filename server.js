@@ -20,6 +20,7 @@ app.set("view engine", "html");
 
 let taskDB = [];
 let taskDBunchanged = [];
+let memberDB = [];
 // async function connect() {
 //   await mongoose.connect(url);
 // }
@@ -39,14 +40,21 @@ app.post("/add-task", function (req, res) {
   let obj = req.body;
   let aTask = new Task(obj.name, obj.description, obj.teamMember, obj.priority);
   taskDB.push(aTask);
-  taskDBunchanged.push(aTask)
+  taskDBunchanged.push(obj.teamMember)
   res.redirect("/product-backlog");
 });
 
 app.get("/add-task", function (req, res) {
-  res.render("add-task");
+  res.render('add-task', { memberDB });
+});
+app.post("/add-member", function (req, res) {
+  memberDB.push(req.body.memberName);
+  res.redirect("/add-task");
 });
 
+app.get("/add-member", function (req, res) {
+  res.render("add-member");
+});
 app.get("/product-backlog", function (req, res) {
   res.render("product-backlog", { tasks: taskDB });
 });
@@ -91,12 +99,12 @@ app.post("/change-status/:id", function (req, res) {
   }
   res.redirect("/edit-product-backlog");
 });
-app.post("/change-tasks/:id", function (req, res) {
+app.post("/change-teamMember/:id", function (req, res) {
   const taskId = req.params.id;
-  const newTask = req.body.newTask ;
+  const newMember = req.body.newMember ;
   for (let i = 0; i < taskDB.length; i++) {
     if (taskDB[i].id == taskId) {
-      taskDB[i].name = newTask ; 
+      taskDB[i].teamMember = newMember ;
       break;
     }
   }

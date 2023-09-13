@@ -34,8 +34,11 @@
 
                   <div class="mb-3">
                     <label for="teamMember" class="form-label">Assigned Member</label>
-                    <input type="text" name="teamMember" class="form-control" id="teamMember"
-                      placeholder="Enter assigned member" />
+                    <select name="teamMember" class="form-select" id="teamMember">
+                      <% for (let j = 0; j < memberDB.length; j++) { %>
+                      <option value="<%= memberDB[j] %>"><%= memberDB[j] %></option>
+                      <% } %>
+                    </select>
                   </div>
 
                   <div class="mb-3">
