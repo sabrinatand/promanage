@@ -40,21 +40,18 @@
       <thead class="table-dark">
         <tr>
           <th>#</th>
-          <th>ID</th>
           <th>Name</th>
           <th>Status</th>
           <th>Team Member</th>
           <th>Priority</th>
           <th>Details</th>
+          <th>Delete</th>
       </thead>
       <tbody>
         <% for(let i=0; i < tasks.length; i++ ){ %>
           <tr>
             <td>
               <%= (i+1) %>
-            </td>
-            <td>
-              <%= tasks[i].id %>
             </td>
             <td>
               <%= tasks[i].name %>
@@ -69,8 +66,13 @@
               <%= tasks[i].priority %>
             </td>
             <td>
-              <a href="task-detail/<%= tasks[i].id %>">
+              <a href="task-detail/<%= tasks[i]._id %>">
                 <button class="btn btn-dark">View</button>
+              </a>
+            </td>
+            <td>
+              <a href="delete-task/<%= tasks[i]._id %>">
+                <button class="btn btn-danger">Delete</button>
               </a>
             </td>
           </tr>
