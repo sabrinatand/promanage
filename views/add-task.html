@@ -35,9 +35,11 @@
                   <div class="mb-3">
                     <label for="teamMember" class="form-label">Assigned Member</label>
                     <select name="teamMember" class="form-select" id="teamMember">
-                      <% for (let j = 0; j < memberDB.length; j++) { %>
-                      <option value="<%= memberDB[j] %>"><%= memberDB[j] %></option>
-                      <% } %>
+                      <% for(let i=0; i < members.length; i++ ){ %>
+                        <option value="<%= members[i].name %>">
+                          <%= members[i].name %>
+                        </option>
+                        <% } %>
                     </select>
                   </div>
 
@@ -49,7 +51,6 @@
                       <option value="High">High</option>
                       <option value="Urgent">Urgent</option>
                     </select>
-
                   </div>
 
                   <button class="btn btn-primary">Submit</button>
