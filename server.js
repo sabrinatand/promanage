@@ -42,6 +42,10 @@ app.get("/add-task", async function (req, res) {
 app.post("/add-task", async function (req, res) {
   try {
     let obj = req.body;
+    const createAt = Date(obj.createAt);
+    const duration = parseInt(obj.duration);
+    const dueDate = new Date(createAt);
+    dueDate.setDate(dueDate.getDate() + duration);
 
     let theTask = new Task({
       name: obj.name,
@@ -49,6 +53,11 @@ app.post("/add-task", async function (req, res) {
       startDateTime: obj.startDateTime,
       teamMember: obj.teamMember,
       priority: obj.priority,
+      startDate: obj.startDate,
+      endDate: obj.endDate,
+      createAt: createAt,
+      duration: duration,
+      dueDate: dueDate,
     });
 
     await theTask.save();
@@ -106,6 +115,13 @@ app.post("/edit-task/:taskId", async function (req, res) {
   try {
     let taskId = req.params.taskId;
     let obj = req.body;
+
+    const duration = parseInt(obj.duration);
+    const createAt = Date(obj.createAt);
+    let dueDate = new Date(createAt);
+    dueDate.setDate(dueDate.getDate() + duration);
+    obj.dueDate = dueDate;
+
     await Task.updateOne({ _id: taskId }, obj);
     res.redirect("/product-backlog");
   } catch (err) {
@@ -123,6 +139,45 @@ app.post("/add-member", async function (req, res) {
   });
   await newMember.save();
   res.redirect("/");
+});
+
+app.get("/start-task/:taskId", async function (req, res) {
+  try {
+    let taskId = req.params.taskId;
+    let task = await Task.findOne({ _id: taskId });
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    task.startDate = new Date();
+    task.status = "In Progress";
+    task.endDate = null;
+    await task.save();
+
+    res.redirect("/product-backlog");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/finish-task/:taskId", async function (req, res) {
+  try {
+    let taskId = req.params.taskId;
+    let task = await Task.findOne({ _id: taskId });
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    task.endDate = new Date();
+    task.status = "Finished";
+    await task.save();
+
+    res.redirect("/product-backlog");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 // app.post("/add-task", function (req, res) {
