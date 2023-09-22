@@ -1,35 +1,32 @@
 const randString = require("randomstring");
+const mongoose = require("mongoose");
 
-// const mongoose = require("mongoose");
+const taskSchema = mongoose.Schema({
+  name: {
+    type: String,
+  },
 
-// const taskSchema = mongoose.Schema({
-//   name: String,
-//   description: String,
-// });
+  description: {
+    type: String,
+    default: "No Description",
+  },
 
-// module.exports = mongoose.model("task", taskSchema);
+  startDateTime: {
+    type: Date,
+  },
 
-class Task {
-  constructor(
-    name,
-    description = "No Description",
-    teamMember = "None",
-    priority = 0
-  ) {
-    this.name = name;
-    this.description = description;
-    this.status = "Not Started";
-    this.id =
-      "E" +
-      randString.generate({
-        length: 2,
-        charset: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-      }) +
-      "-" +
-      Math.round(Math.random() * 1000);
-    this.teamMember = teamMember;
-    this.priority = priority;
-  }
-}
+  status: {
+    type: String,
+    default: "Not Started",
+  },
 
-module.exports = Task;
+  teamMember: {
+    type: String,
+  },
+
+  priority: {
+    type: String,
+  },
+});
+
+module.exports = mongoose.model("Task", taskSchema);

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="container pt-4">
+  <a type="button" class="btn btn-dark" href="/">Home</a>
+  <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
+</div>
+
+<body>
+
+  <div class="album py-4">
+    <div class="container">
+
+      <div class="row">
+
+        <div class="my-2 p-5 bg-dark text-white rounded">
+          <h1>
+            Edit <%= task.name %>
+          </h1>
+          <p>
+            <%= task.id %>
+          </p>
+        </div>
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <form action="/edit-task/<%= task._id %>" method="POST">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Task Name</label>
+                      <input type="text" name="name" class="form-control" id="name" placeholder="Enter task name"
+                        required />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="description" class="form-label">Description</label>
+                      <input type="text" name="description" class="form-control" id="description"
+                        placeholder="Enter description" />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="teamMember" class="form-label">Assigned Member</label>
+                      <select name="teamMember" class="form-select" id="teamMember">
+                        <% for(let i=0; i < members.length; i++ ){ %>
+                          <option value="<%= members[i].name %>">
+                            <%= members[i].name %>
+                          </option>
+                          <% } %>
+                      </select>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="priority" class="form-label">Priority</label>
+                      <select name="priority" class="form-select" id="priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Urgent">Urgent</option>
+                      </select>
+                    </div>
+
+                    <button class="btn btn-primary">Save</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>
