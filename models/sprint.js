@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
 
 const sprintSchema = mongoose.Schema ({
-    numberOfSprints: {
-        type: Number,
-        enum: [1, 2, 3], // Allow only 1, 2, or 3 sprints
+    name: {
+        type: String,
         required: true,
-      },
-      duration: {
+    },
+    duration: {
         type: Number,
-        min: 1, // Minimum duration is 1 week
         required: true,
       },
     startDate:{
@@ -25,7 +23,7 @@ const sprintSchema = mongoose.Schema ({
 
 sprintSchema.methods.calculateEndDate = function () {
     const endDate = new Date(this.startDate);
-    endDate.setDate(endDate.getDate() + (7 * this.sprintDurationWeeks));
+    endDate.setDate(endDate.getDate() + this.duration);
     return endDate;
   };
 

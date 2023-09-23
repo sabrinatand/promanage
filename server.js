@@ -189,71 +189,32 @@ app.get("/sprint", async function (req, res) {
   res.render("sprint-detail", { sprints: sprint });
 });
 
-app.get("/add-sprint", async function (req, res) {
+app.get("/add-sprint", function (req, res) {
   res.render("add-sprint");
 });
+
 app.post("/add-sprint", async function (req, res) {
-  const numberOfSprints = parseInt(req.body.numberOfSprints);
-  const startDate = new Date(req.body.startDate);
-  const duration = parseInt(req.body.duration);
-
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  // Create an array to store Sprint details
-  const sprintDetails = [];
-
-  // Calculate Sprint details based on user input
-  for (let i = 1; i <= numberOfSprints; i++) {
-    const sprintStartDate = new Date(startDate);
-    const sprintEndDate = new Date(startDate);
-    sprintEndDate.setDate(sprintEndDate.getDate() + duration * 7);
-
-    const currentYear = sprintStartDate.getFullYear();
-
-    const formattedStartDate = `${sprintStartDate.getDate()} ${
-      months[sprintStartDate.getMonth()]
-    } ${currentYear}`;
-    const formattedEndDate = `${sprintEndDate.getDate()} ${
-      months[sprintEndDate.getMonth()]
-    } ${currentYear}`;
-
-    // Create and push Sprint detail object to the array
-    sprintDetails.push({
-      numberOfSprints: i,
-      duration: duration,
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    });
-
-    // Update startDate for the next sprint
-    startDate.setDate(sprintEndDate.getDate() + 1);
-  }
-  const savedSprints = await Sprint.insertMany(sprintDetails);
-
-  res.redirect("/sprint");
-});
-
-app.post("/delete-sprints", async (req, res) => {
   try {
-    await Sprint.deleteMany({});
-    res.redirect("/sprint");
-  } catch (error) {
-    res.status(500).send("Error deleting sprints");
+    let aSprint = new Sprint({name: req.body.name, startDate: new Date(req.body.startDate), duration: parseInt(req.body.duration)});
+    await aSprint.save();
+    res.redirect('/sprint');
+  } catch(err) {
+    res.status(500).json({ message: err.message })
   }
 });
+
+app.post('/delete-sprint', async function (req, res) {
+  try {
+    const sprintId = req.body.sprintId;
+    await Sprint.findByIdAndRemove(sprintId);
+    res.redirect('/sprint');
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+
 // app.post("/add-task", function (req, res) {
 //   let obj = req.body;
 //   let aTask = new Task(obj.name, obj.description, obj.teamMember, obj.priority);

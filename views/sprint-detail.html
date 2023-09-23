@@ -21,16 +21,11 @@
 
 <body>
     <div class="container mt-4 rounded">
-        <div class="row">
-          <div class="col-auto">
-            <a type="button" class="btn btn-dark" href="/add-sprint">Add Sprint</a>
-          </div>
-          <div class="col-auto text-end">
-            <form action="/delete-sprints" method="POST">
-              <button type="submit" class="btn btn-danger">Delete All Sprints</button>
-            </form>
-          </div>
-        </div>
+  <div class="row">
+    <div class="col-auto">
+      <a type="button" class="btn btn-dark" href="/add-sprint">Add Sprint</a>
+    </div>
+  </div>
 
   <div class="container mt-4 rounded">
     <table class="table table-sortable">
@@ -39,14 +34,21 @@
                 <th>Sprint</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
             <% for (let i = 0; i < sprints.length; i++) { %>
                 <tr>
-                    <td>Sprint <%= sprints[i].numberOfSprints %></td>
+                    <td><%= sprints[i].name %></td>
                     <td><%= sprints[i].startDate.toDateString() %></td>
                     <td><%= sprints[i].endDate.toDateString() %></td>
+                    <td>
+                        <form action="/delete-sprint" method="POST">
+                          <input type="hidden" name="sprintId" value="<%= sprints[i]._id %>">
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             <% } %>
         </tbody>
