@@ -3,15 +3,19 @@ const Task = require("../models/task");
 module.exports = {
   createTask: async function (req, res) {
     try {
+      const startDate = new Date(req.body.startDate);
+      const endDate = new Date(req.body.endDate);
       let obj = req.body;
       console.log(obj);
 
       let theTask = new Task({
         name: obj.name,
         description: obj.description,
-        startDateTime: obj.startDateTime,
         teamMember: obj.teamMember,
         priority: obj.priority,
+        startDate: startDate,
+        endDate: endDate,
+        createAt: obj.createAt,
       });
 
       await theTask.save();
