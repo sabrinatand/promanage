@@ -2,6 +2,7 @@ const express = require("express");
 const ejs = require("ejs");
 const Task = require("./models/task");
 const Member = require("./models/members");
+const Sprint = require("./models/sprint");
 const mongoose = require("mongoose");
 const taskRouter = require("./routes/task-route");
 
@@ -125,6 +126,63 @@ app.post("/add-member", async function (req, res) {
   res.redirect("/");
 });
 
+
+app.get("/sprint", async function(req, res) {
+  let sprint = await Sprint.find({});
+  res.render("sprint-detail", {sprints: sprint});
+})
+
+app.get("/add-sprint", async function(req, res) {
+  res.render("add-sprint");
+})
+app.post("/add-sprint", async function(req, res) {
+    const numberOfSprints = parseInt(req.body.numberOfSprints);
+    const startDate = new Date(req.body.startDate);
+    const duration = parseInt(req.body.duration);
+
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Create an array to store Sprint details
+    const sprintDetails = [];
+
+    // Calculate Sprint details based on user input
+    for (let i = 1; i <= numberOfSprints; i++) {
+      const sprintStartDate = new Date(startDate);
+      const sprintEndDate = new Date(startDate);
+      sprintEndDate.setDate(sprintEndDate.getDate() + (duration * 7));
+
+      const currentYear = sprintStartDate.getFullYear();
+
+      const formattedStartDate = `${sprintStartDate.getDate()} ${months[sprintStartDate.getMonth()]} ${currentYear}`;
+      const formattedEndDate = `${sprintEndDate.getDate()} ${months[sprintEndDate.getMonth()]} ${currentYear}`;
+
+        // Create and push Sprint detail object to the array
+      sprintDetails.push({
+          numberOfSprints: i,
+          duration: duration,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate
+      });
+
+        // Update startDate for the next sprint
+      startDate.setDate(sprintEndDate.getDate() + 1);
+    }
+    const savedSprints = await Sprint.insertMany(sprintDetails);
+
+    res.redirect('/sprint');
+})
+
+app.post('/delete-sprints', async (req, res) => {
+  try {
+    await Sprint.deleteMany({});
+    res.redirect('/sprint');
+  } catch (error) {
+    res.status(500).send('Error deleting sprints');
+  }
+});
 // app.post("/add-task", function (req, res) {
 //   let obj = req.body;
 //   let aTask = new Task(obj.name, obj.description, obj.teamMember, obj.priority);
