@@ -130,7 +130,7 @@
       const priorityOrder = ["low", "medium", "high", "urgent"];
 
       const asc = (a, b) => {
-        tempA = a.querySelector('td:nth-child(6)').textContent.toLowerCase();
+        tempA = a.querySelector('td:nth-child(5)').textContent.toLowerCase();
         frontidx = -1;
         for (let i = 0; i < tempA.length; i++) {
           if ('a' <= tempA[i] && tempA[i] <= 'z') {
@@ -150,7 +150,7 @@
           temA += tempA[i];
         }
 
-        tempB = b.querySelector('td:nth-child(6)').textContent.toLowerCase();
+        tempB = b.querySelector('td:nth-child(5)').textContent.toLowerCase();
         frontidx = -1;
         for (let i = 0; i < tempB.length; i++) {
           if ('a' <= tempB[i] && tempB[i] <= 'z') {
@@ -179,7 +179,7 @@
       }
 
       const dsc = (a, b) => {
-        tempA = a.querySelector('td:nth-child(6)').textContent.toLowerCase();
+        tempA = a.querySelector('td:nth-child(5)').textContent.toLowerCase();
         frontidx = -1;
         for (let i = 0; i < tempA.length; i++) {
           if ('a' <= tempA[i] && tempA[i] <= 'z') {
@@ -199,7 +199,7 @@
           temA += tempA[i];
         }
 
-        tempB = b.querySelector('td:nth-child(6)').textContent.toLowerCase();
+        tempB = b.querySelector('td:nth-child(5)').textContent.toLowerCase();
         frontidx = -1;
         for (let i = 0; i < tempB.length; i++) {
           if ('a' <= tempB[i] && tempB[i] <= 'z') {
@@ -248,7 +248,7 @@
       const priorityOrder = ["not started", "in progress", "finished"];
 
       const asc = (a, b) => {
-        tempA = a.querySelector('td:nth-child(4)').textContent.toLowerCase();
+        tempA = a.querySelector('td:nth-child(3)').textContent.toLowerCase();
         frontidx = -1;
         for (let i = 0; i < tempA.length; i++) {
           if ('a' <= tempA[i] && tempA[i] <= 'z') {
@@ -268,7 +268,7 @@
           temA += tempA[i];
         }
 
-        tempB = b.querySelector('td:nth-child(4)').textContent.toLowerCase();
+        tempB = b.querySelector('td:nth-child(3)').textContent.toLowerCase();
         frontidx = -1;
         for (let i = 0; i < tempB.length; i++) {
           if ('a' <= tempB[i] && tempB[i] <= 'z') {
@@ -297,7 +297,7 @@
       }
 
       const dsc = (a, b) => {
-        tempA = a.querySelector('td:nth-child(4)').textContent.toLowerCase();
+        tempA = a.querySelector('td:nth-child(3)').textContent.toLowerCase();
         frontidx = -1;
         for (let i = 0; i < tempA.length; i++) {
           if ('a' <= tempA[i] && tempA[i] <= 'z') {
@@ -317,7 +317,7 @@
           temA += tempA[i];
         }
 
-        tempB = b.querySelector('td:nth-child(4)').textContent.toLowerCase();
+        tempB = b.querySelector('td:nth-child(3)').textContent.toLowerCase();
         frontidx = -1;
         for (let i = 0; i < tempB.length; i++) {
           if ('a' <= tempB[i] && tempB[i] <= 'z') {
@@ -359,3 +359,4 @@
 </body>
 
 </html>
+

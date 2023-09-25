@@ -184,7 +184,9 @@ app.get("/finish-task/:taskId", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
-
+app.get("/burndown-chart", function (req, res) {
+  res.render("burndown-chart");
+});
 // app.post("/add-task", function (req, res) {
 //   let obj = req.body;
 //   let aTask = new Task(obj.name, obj.description, obj.teamMember, obj.priority);
