@@ -11,10 +11,6 @@ const taskSchema = mongoose.Schema({
     default: "No Description",
   },
 
-  startDateTime: {
-    type: Date,
-  },
-
   status: {
     type: String,
     default: "Not Started",
@@ -27,6 +23,27 @@ const taskSchema = mongoose.Schema({
   priority: {
     type: String,
   },
+
+  startDate: {
+    type: Date,
+    default: generateDate,
+  },
+
+  endDate: {
+    type: Date,
+  },
+
+  duration: {
+    type: Number,
+  },
+
+  dueDate: {
+    type: Date,
+  },
 });
+
+function generateDate() {
+  return new Date();
+}
 
 module.exports = mongoose.model("Task", taskSchema);

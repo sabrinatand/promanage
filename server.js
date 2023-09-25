@@ -42,13 +42,30 @@ app.get("/add-task", async function (req, res) {
 app.post("/add-task", async function (req, res) {
   try {
     let obj = req.body;
+    const startDate = new Date(obj.startDate);
+    const dueDate = new Date(obj.dueDate);
+    const durationMiliseconds = dueDate.getTime() - startDate.getTime();
+    const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
+    const total_minutes = parseInt(Math.floor(total_seconds / 60));
+    const total_hours = parseInt(Math.floor(total_minutes / 60));
+    const duration = parseInt(Math.floor(total_hours / 24)) + 1;
+    let status = obj.status
+    const today = new Date();
+    if (startDate < today) {
+      status = 'In Progress';
+    };
 
     let theTask = new Task({
       name: obj.name,
+      status: status,
       description: obj.description,
       startDateTime: obj.startDateTime,
       teamMember: obj.teamMember,
       priority: obj.priority,
+      startDate: startDate,
+      endDate: obj.endDate,
+      duration: duration,
+      dueDate: dueDate,
     });
 
     await theTask.save();
@@ -106,6 +123,30 @@ app.post("/edit-task/:taskId", async function (req, res) {
   try {
     let taskId = req.params.taskId;
     let obj = req.body;
+    let task = await Task.findOne({_id: taskId});
+
+    let startDate = new Date(obj.startDate);
+    let dueDate = new Date(obj.dueDate);
+    const durationMiliseconds = dueDate.getTime() - startDate.getTime();
+    const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
+    const total_minutes = parseInt(Math.floor(total_seconds / 60));
+    const total_hours = parseInt(Math.floor(total_minutes / 60));
+    let duration = parseInt(Math.floor(total_hours / 24)) + 1;
+    obj.duration = duration;
+    let status = obj.status
+    const today = new Date();
+    if (startDate < today) {
+      status = 'In Progress';
+    };
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    task.endDate = null;
+    task.status = status;
+    await task.save();
+
     await Task.updateOne({ _id: taskId }, obj);
     res.redirect("/product-backlog");
   } catch (err) {
@@ -123,6 +164,25 @@ app.post("/add-member", async function (req, res) {
   });
   await newMember.save();
   res.redirect("/");
+});
+
+app.get("/finish-task/:taskId", async function (req, res) {
+  try {
+    let taskId = req.params.taskId;
+    let task = await Task.findOne({ _id: taskId });
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    task.endDate = new Date();
+    task.status = "Finished";
+    await task.save();
+
+    res.redirect("/product-backlog");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 // app.post("/add-task", function (req, res) {
