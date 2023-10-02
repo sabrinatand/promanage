@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+
+<head>
+  <title>Add Book Page</title>
+  <link href="/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <main>
+    <div class="album py-5">
+      <div class="container">
+        <a type="button" class="btn btn-primary" href="/">Home</a>
+        <a type="button" class="btn btn-primary" href="/sprint-detail">Sprint</a>
+
+        <h3 class="my-2">Add Sprint</h3>
+
+        <div class="row row-cols-1 row-cols-sm-2 g-3">
+          <div class="col">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <form action="/add-sprint" method="POST">
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Name of the Sprint</label>
+                    <input type="name" name="name" class="form-control" id="name" placeholder="Enter sprint name" required />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="datetime-local" name="startDate" class="form-control" id="startDate" placeholder="Enter Start Date" />
+                </div>
+                
+                <div>
+                    <label for="duration">Sprint Duration</label>
+                    <div>
+                        <input type="number" name="duration" id="duration" required>
+                        <span>days</span>
+                    </div>
+                </div>
+
+                  <button class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
