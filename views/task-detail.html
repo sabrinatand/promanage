@@ -45,9 +45,6 @@
                   <p><strong>End Date:</strong>
                     <%= task.endDate ? task.endDate : '-' %>
                   </p>
-                  <p><strong>Created At:</strong>
-                    <%= task.createAt %>
-                  </p>
                   <p><strong>Duration:</strong>
                     <%= task.duration %>
                   </p>
@@ -71,7 +68,6 @@
     </div>
     <div class="container pt-4">
       <a type="button" class="btn btn-dark mr-2" href="/edit-task/<%= task.id %>">Edit Task</a>
-      <a type="button" class="btn btn-dark mr-2" href="/start-task/<%= task.id %>">Start Task</a>
       <a type="button" class="btn btn-dark" href="/finish-task/<%= task.id %>">Finish Task</a>
     </div>
 </body>
