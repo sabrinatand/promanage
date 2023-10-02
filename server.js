@@ -2,6 +2,7 @@ const express = require("express");
 const ejs = require("ejs");
 const Task = require("./models/task");
 const Member = require("./models/members");
+const Sprint = require("./models/sprint");
 const mongoose = require("mongoose");
 const taskRouter = require("./routes/task-route");
 
@@ -187,6 +188,38 @@ app.get("/finish-task/:taskId", async function (req, res) {
 app.get("/burndown-chart", function (req, res) {
   res.render("burndown-chart");
 });
+
+app.get("/sprint", async function (req, res) {
+  let sprint = await Sprint.find({});
+  res.render("sprint-detail", { sprints: sprint });
+});
+
+app.get("/add-sprint", function (req, res) {
+  res.render("add-sprint");
+});
+
+app.post("/add-sprint", async function (req, res) {
+  try {
+    let aSprint = new Sprint({name: req.body.name, startDate: new Date(req.body.startDate), duration: parseInt(req.body.duration)});
+    await aSprint.save();
+    res.redirect('/sprint');
+  } catch(err) {
+    res.status(500).json({ message: err.message })
+  }
+});
+
+app.post('/delete-sprint', async function (req, res) {
+  try {
+    const sprintId = req.body.sprintId;
+    await Sprint.findByIdAndRemove(sprintId);
+    res.redirect('/sprint');
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+
 // app.post("/add-task", function (req, res) {
 //   let obj = req.body;
 //   let aTask = new Task(obj.name, obj.description, obj.teamMember, obj.priority);

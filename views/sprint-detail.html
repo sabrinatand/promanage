@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/bootstrap.min.css" rel="stylesheet" />
+  <title>Product Backlog</title>
+</head>
+
+<div class="container pt-4">
+  <a type="button" class="btn btn-dark" href="/">Home</a>
+  <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
+</div>
+
+<div class="container">
+  <div class="my-4 p-5 bg-dark text-white rounded">
+    <h1>Scrum</h1>
+    <p>Sprints</p>
+  </div>
+
+<body>
+    <div class="container mt-4 rounded">
+  <div class="row">
+    <div class="col-auto">
+      <a type="button" class="btn btn-dark" href="/add-sprint">Add Sprint</a>
+    </div>
+  </div>
+
+  <div class="container mt-4 rounded">
+    <table class="table table-sortable">
+        <thead class="table-dark">
+            <tr>
+                <th>Sprint</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < sprints.length; i++) { %>
+                <tr>
+                    <td><%= sprints[i].name %></td>
+                    <td><%= sprints[i].startDate.toDateString() %></td>
+                    <td><%= sprints[i].endDate.toDateString() %></td>
+                    <td>
+                        <form action="/delete-sprint" method="POST">
+                          <input type="hidden" name="sprintId" value="<%= sprints[i]._id %>">
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+  </div>
