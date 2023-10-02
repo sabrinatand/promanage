@@ -68,25 +68,37 @@
 
                     <div class="mb-3">
                       <label for="startDate" class="form-label">Start Date (default is current time)</label>
-                      <input type="datetime-local" name="startDate" class="form-control" id="startDate"/>
-                    </div>
-  
-                    <div class="mb-3">
-                      <label for="dueDate" class="form-label">Due Date</label>
-                      <input type="datetime-local" name="dueDate" class="form-control" id="dueDate"/>
+                      <input type="datetime-local" name="startDate" class="form-control" id="startDate" />
                     </div>
 
-                    <button class="btn btn-primary">Save</button>
-                  </form>
+                    <div class="mb-3">
+                      <label for="dueDate" class="form-label">Due Date</label>
+                      <input type="datetime-local" name="dueDate" class="form-control" id="dueDate" />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="sprint" class="form-label">Sprint</label>
+                      <select name="sprint" class="form-select" id="sprint">
+                        <% for(let i=0; i < sprint.length; i++ ){ %>
+                          <option value="<%= sprint[i]._id %>">
+                            <%= sprint[i].name %>
+                          </option>
+                          <% } %>
+                      </select>
+                    </div>
                 </div>
+
+                <button class="btn btn-primary">Save</button>
+                </form>
               </div>
             </div>
           </div>
         </div>
-
       </div>
 
     </div>
+
+  </div>
   </div>
 
 </body>

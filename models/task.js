@@ -40,6 +40,13 @@ const taskSchema = mongoose.Schema({
   dueDate: {
     type: Date,
   },
+
+  sprint: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Sprint",
+    },
+  ],
 });
 
 function generateDate() {
