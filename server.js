@@ -31,8 +31,17 @@ app.set("view engine", "html");
 
 app.listen(8080);
 
-app.get("/", function (req, res) {
-  res.render("index");
+async function generateSprint() {
+  let sprintOp = await Sprint.countDocuments();
+  if (sprintOp == 0) {
+      let count = new Sprint();
+      count.save();
+  }
+}; generateSprint();
+
+app.get("/", async function (req, res) {
+  let sprint = await Sprint.find({});
+  res.render("index", {sprints: sprint});
 });
 
 app.get("/add-task", async function (req, res) {
