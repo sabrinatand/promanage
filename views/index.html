@@ -83,7 +83,7 @@
     .content {
       width: 100%;
       position: absolute;
-      top: 50%;
+      top: 40%;
       transform: translateY(-50%);
       text-align: center;
       color: var(--secondary-color);
@@ -128,6 +128,7 @@
           <thead>
             <tr>
               <th>Sprint</th>
+              <th>Status</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>View</th>
@@ -138,6 +139,9 @@
               <tr>
                 <td>
                   <%= sprints[i].name %>
+                </td>
+                <td>
+                  <%= sprints[i].status %>
                 </td>
                 <td>
                   <%= sprints[i].startDate.toDateString() %>
