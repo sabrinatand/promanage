@@ -10,10 +10,18 @@
 
 <body>
   <style>
+    :root {
+      --primary-color: rgba(206, 202, 202, 0.75);
+      --secondary-color: #212121;
+    }
+    .dark-theme {
+      --primary-color: rgba(70, 64, 64, 0.75);
+      --secondary-color: #eee1e1;
+    }
     .banner {
     width: 100%;
     height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(/image/image.jpg);
+    background-image: linear-gradient(var(--primary-color),var(--primary-color)), url(/image/image.jpg);
     background-size: cover;
     background-position: center;
     }
@@ -29,6 +37,14 @@
       width: 120px;
       cursor: pointer;
     }
+    #icon {
+      width: 30px;
+      cursor: pointer;
+    }
+    .navbar ul {
+      flex: 1;
+      text-align: right;
+    }
     .navbar ul li {
       list-style: none;
       display: inline-block;
@@ -37,7 +53,7 @@
     }
     .navbar ul li a {
       text-decoration: none;
-      color: #fff;
+      color: var(--secondary-color);
       text-transform: uppercase;
     }
     .navbar ul li::after {
@@ -59,7 +75,7 @@
       top: 50%;
       transform: translateY(-50%);
       text-align: center;
-      color: #fff;
+      color: var(--secondary-color);
     }
     .content h1{
       font-size: 70px;
@@ -86,6 +102,7 @@
         <li><a href="/sprint">Sprint</a></li>
         <li><a href="/burndown-chart">Burndown Chart</a></li>
       </ul>
+      <img src="image/moon.png" id="icon">
     
     </div>
     <div class="content">
@@ -114,5 +131,18 @@
         </div>
         </table>
 </div>
+<script>
+  var icon = document.getElementById("icon");
+
+  icon.onclick = function() {
+    document.body.classList.toggle("dark-theme");
+    if(document.body.classList.contains("dark-theme")) {
+      icon.src = "image/sun.png";
+    }
+    else {
+      icon.src = "image/moon.png";
+    }
+  }
+</script>
 </body>
 </html>
