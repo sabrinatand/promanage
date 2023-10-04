@@ -25,31 +25,43 @@
     <a type="button" class="btn btn-dark" href="/burndown-chart">Burndown Chart</a>
   </div>
 
+
+  <div class="container mt-4 rounded">
+    <table class="table table-sortable">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>View</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let i=0; i < sprints.length; i++) { %>
+          <tr>
+            <td>
+              <%= sprints[i].name %>
+            </td>
+            <td>
+              <%= sprints[i].startDate.toDateString() %>
+            </td>
+            <td>
+              <%= sprints[i].endDate.toDateString() %>
+            </td>
+            <td>
+              <a href="/sprint-detail/<%= sprints[i]._id %>">
+                <button class="btn btn-dark">View</button>
+              </a>
+            </td>
+          </tr>
+          <% } %>
+      </tbody>
+    </table>
+  </div>
+
   <footer>
     &copy; 2023 7uP
   </footer>
-  
 </body>
-<div class="container mt-4 rounded">
-  <table class="table table-sortable">
-    <thead class="table-dark">
-      <tr>
-        <th>Name</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for (let i=0; i < sprints.length; i++) { %>
-        <tr>
-          <td>
-            <%= sprints[i].name %>
-          </td>
-          <td>
-            <%= sprints[i].startDate.toDateString() %>
-          </td>
-          <td>
-            <%= sprints[i].endDate.toDateString() %>
-          </td>
-      <% } %>
+
 </html>
