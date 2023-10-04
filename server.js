@@ -218,8 +218,9 @@ app.post("/change-sprint/:id", async function (req, res) {
   res.redirect(`/sprint-detail/${sprintId}`);
 });
 
-app.get("/add-member", function (req, res) {
-  res.render("add-member");
+app.get("/add-member", async function (req, res) {
+  let memebers = await Member.find({});
+  res.render("add-member", { members: memebers });
 });
 
 app.post("/add-member", async function (req, res) {
@@ -227,7 +228,13 @@ app.post("/add-member", async function (req, res) {
     name: req.body.name,
   });
   await newMember.save();
-  res.redirect("/");
+  res.redirect("/add-member");
+});
+
+app.get("/delete-member/:id", async function (req, res) {
+  let id = req.params.id;
+  await Member.deleteOne({ _id: id });
+  res.redirect("/add-member");
 });
 
 app.get("/finish-task/:taskId", async function (req, res) {
