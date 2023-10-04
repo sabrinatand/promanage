@@ -32,6 +32,7 @@
           <thead class="table-dark">
             <tr>
               <th>Name</th>
+              <th>Status</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>View</th>
@@ -43,6 +44,9 @@
               <tr>
                 <td>
                   <%= sprints[i].name %>
+                </td>
+                <td>
+                  <%= sprints[i].status %>
                 </td>
                 <td>
                   <%= sprints[i].startDate.toDateString() %>

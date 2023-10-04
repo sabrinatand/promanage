@@ -32,6 +32,9 @@
             <div class="col">
               <div class="card shadow-sm">
                 <div class="card-body">
+                  <p><strong>Status:</strong>
+                    <%= sprint.status %>
+                  </p>
                   <p><strong>Start Date:</strong>
                     <%= sprint.startDate ? sprint.startDate : '-' %>
                   </p>
@@ -48,7 +51,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="container pt-4">
         <form action="/delete-sprint" method="POST">
           <input type="hidden" name="sprintId" value="<%= sprint._id %>">
           <button type="submit" class="btn btn-danger">Delete</button>
