@@ -34,7 +34,7 @@ app.listen(8080);
 
 app.get("/", async function (req, res) {
   let sprint = await Sprint.find({});
-  res.render("index", {sprints: sprint});
+  res.render("index", { sprints: sprint });
 });
 
 app.get("/add-task", async function (req, res) {
@@ -45,20 +45,42 @@ app.get("/add-task", async function (req, res) {
 app.post("/add-task", async function (req, res) {
   try {
     let obj = req.body;
-    const createAt = Date(obj.createAt);
-    const duration = parseInt(obj.duration);
-    const dueDate = new Date(createAt);
-    dueDate.setDate(dueDate.getDate() + duration);
+
+    if (obj.startDate === "2023-01-01T00:00") {
+      let startDate = new Date();
+      obj.startDate = startDate;
+    } else {
+      let startDate = new Date(obj.startDate);
+    }
+    if (obj.dueDate === "2023-01-01T00:00") {
+      let dueDate = new Date();
+      obj.dueDate = dueDate;
+    } else {
+      let dueDate = new Date(obj.startDate);
+    }
+
+    const startDate = new Date(obj.startDate);
+    const dueDate = new Date(obj.dueDate);
+    const durationMiliseconds = dueDate.getTime() - startDate.getTime();
+    const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
+    const total_minutes = parseInt(Math.floor(total_seconds / 60));
+    const total_hours = parseInt(Math.floor(total_minutes / 60));
+    const duration = parseInt(Math.floor(total_hours / 24)) + 1;
+    let status = obj.status;
+    const today = new Date();
+    if (startDate < today) {
+      status = "In Progress";
+    }
 
     let theTask = new Task({
       name: obj.name,
+      status: status,
       description: obj.description,
       startDateTime: obj.startDateTime,
       teamMember: obj.teamMember,
       priority: obj.priority,
-      startDate: obj.startDate,
+      startDate: startDate,
       endDate: obj.endDate,
-      createAt: createAt,
       duration: duration,
       dueDate: dueDate,
     });
@@ -77,10 +99,6 @@ app.get("/product-backlog", async function (req, res) {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
-
-app.get("/delete-task", function (req, res) {
-  res.render("delete-task");
 });
 
 app.get("/delete-task/:id", async function (req, res) {
@@ -108,7 +126,12 @@ app.get("/edit-task/:taskId", async function (req, res) {
     let taskId = req.params.taskId;
     let theTask = await Task.findOne({ _id: taskId });
     let members = await Member.find({});
-    res.render("edit-task", { task: theTask, members: members });
+    let sprint = await Sprint.find({});
+    res.render("edit-task", {
+      task: theTask,
+      members: members,
+      sprint: sprint,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -118,12 +141,52 @@ app.post("/edit-task/:taskId", async function (req, res) {
   try {
     let taskId = req.params.taskId;
     let obj = req.body;
+    let task = await Task.findOne({ _id: taskId });
 
-    const duration = parseInt(obj.duration);
-    const createAt = Date(obj.createAt);
-    let dueDate = new Date(createAt);
-    dueDate.setDate(dueDate.getDate() + duration);
-    obj.dueDate = dueDate;
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    if (obj.name === "") {
+      obj.name = task.name;
+    }
+    if (obj.description === "") {
+      obj.description = task.description;
+    }
+    if (obj.teamMember === "") {
+      obj.teamMember = task.teamMember;
+    }
+    if (obj.priority === "") {
+      obj.priority = task.priority;
+    }
+    if (obj.startDate === "2023-01-01T00:00") {
+      obj.startDate = task.startDate;
+      startDate = obj.startDate;
+    } else {
+      startDate = new Date(obj.startDate);
+    }
+    if (obj.dueDate === "2023-01-01T00:00") {
+      obj.dueDate = task.dueDate;
+      dueDate = obj.dueDate;
+    } else {
+      dueDate = new Date(obj.dueDate);
+    }
+
+    const durationMiliseconds = dueDate.getTime() - startDate.getTime();
+    const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
+    const total_minutes = parseInt(Math.floor(total_seconds / 60));
+    const total_hours = parseInt(Math.floor(total_minutes / 60));
+    let duration = parseInt(Math.floor(total_hours / 24)) + 1;
+    obj.duration = duration;
+    let status = obj.status;
+    const today = new Date();
+    if (startDate < today) {
+      status = "In Progress";
+    }
+
+    task.endDate = null;
+    task.status = status;
+    await task.save();
 
     await Task.updateOne({ _id: taskId }, obj);
     res.redirect("/product-backlog");
@@ -142,26 +205,6 @@ app.post("/add-member", async function (req, res) {
   });
   await newMember.save();
   res.redirect("/");
-});
-
-app.get("/start-task/:taskId", async function (req, res) {
-  try {
-    let taskId = req.params.taskId;
-    let task = await Task.findOne({ _id: taskId });
-
-    if (!task) {
-      return res.status(404).json({ message: "Task not found" });
-    }
-
-    task.startDate = new Date();
-    task.status = "In Progress";
-    task.endDate = null;
-    await task.save();
-
-    res.redirect("/product-backlog");
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
 });
 
 app.get("/finish-task/:taskId", async function (req, res) {
@@ -188,6 +231,68 @@ app.get("/burndown-chart", function (req, res) {
 
 app.get("/sprint", async function (req, res) {
   let sprint = await Sprint.find({});
+  res.render("sprint", { sprints: sprint });
+});
+
+app.get("/add-sprint", function (req, res) {
+  res.render("add-sprint");
+});
+
+app.post("/add-sprint", async function (req, res) {
+  try {
+    let aSprint = new Sprint({
+      name: req.body.name,
+      startDate: new Date(req.body.startDate),
+      duration: parseInt(req.body.duration),
+    });
+    await aSprint.save();
+    res.redirect("/sprint");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post("/delete-sprint", async function (req, res) {
+  try {
+    const sprintId = req.body.sprintId;
+    await Sprint.findByIdAndRemove(sprintId);
+    res.redirect("/sprint");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/sprint-detail/:sprintId", async function (req, res) {
+  try {
+    let sprintId = req.params.sprintId;
+    let sprint = await Sprint.findOne({ _id: sprintId });
+    let tasks = await Task.find({ _id: sprint.taskList });
+    if (sprint) res.render("sprint-detail", { sprint: sprint, tasks: tasks });
+  } catch {
+    res.status(404).send("Sprint not found");
+  }
+});
+
+app.get("/task-archive/:id", async function (req, res) {
+  try {
+    let id = req.params.id;
+    let theTask = await Task.findOne({ _id: id });
+    let theSprint = await Sprint.findOne({ _id: theTask.sprint });
+
+    theTask.sprint.pull({ _id: theSprint._id });
+    theSprint.taskList.pull({ _id: theTask._id });
+
+    await theTask.save();
+    await theSprint.save();
+
+    res.redirect(`/sprint-detail/${theSprint._id}`);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/sprint", async function (req, res) {
+  let sprint = await Sprint.find({});
   res.render("sprint-detail", { sprints: sprint });
 });
 
@@ -197,25 +302,27 @@ app.get("/add-sprint", function (req, res) {
 
 app.post("/add-sprint", async function (req, res) {
   try {
-    let aSprint = new Sprint({name: req.body.name, startDate: new Date(req.body.startDate), duration: parseInt(req.body.duration)});
+    let aSprint = new Sprint({
+      name: req.body.name,
+      startDate: new Date(req.body.startDate),
+      duration: parseInt(req.body.duration),
+    });
     await aSprint.save();
-    res.redirect('/sprint');
-  } catch(err) {
-    res.status(500).json({ message: err.message })
-  }
-});
-
-app.post('/delete-sprint', async function (req, res) {
-  try {
-    const sprintId = req.body.sprintId;
-    await Sprint.findByIdAndRemove(sprintId);
-    res.redirect('/sprint');
+    res.redirect("/sprint");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-
+app.post("/delete-sprint", async function (req, res) {
+  try {
+    const sprintId = req.body.sprintId;
+    await Sprint.findByIdAndRemove(sprintId);
+    res.redirect("/sprint");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // app.post("/add-task", function (req, res) {
 //   let obj = req.body;

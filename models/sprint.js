@@ -1,36 +1,36 @@
 const mongoose = require("mongoose");
 
-const sprintSchema = mongoose.Schema ({
-    name: {
-        type: String,
-        required: true,
+const sprintSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    default: function () {
+      return this.calculateEndDate();
     },
-    duration: {
-        type: Number,
-        required: true,
-        min: 1,
-      },
-    startDate:{
-        type: Date,
-        required: true,
-        // validate: {
-        //     validator: function(value) {
-        //         return value > new Date();
-        //     },
-        // }
+  },
+  taskList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Task",
     },
-    endDate: {
-        type: Date,
-        default: function () {
-            return this.calculateEndDate();
-        }
-    },
+  ],
 });
 
 sprintSchema.methods.calculateEndDate = function () {
-    const endDate = new Date(this.startDate);
-    endDate.setDate(endDate.getDate() + this.duration);
-    return endDate;
-  };
+  const endDate = new Date(this.startDate);
+  endDate.setDate(endDate.getDate() + this.duration);
+  return endDate;
+};
 
 module.exports = mongoose.model("Sprint", sprintSchema);

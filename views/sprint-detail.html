@@ -1,56 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/bootstrap.min.css" rel="stylesheet" />
-  <title>Product Backlog</title>
+  <link href="/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <div class="container pt-4">
   <a type="button" class="btn btn-dark" href="/">Home</a>
-  <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
 </div>
 
-<div class="container">
-  <div class="my-4 p-5 bg-dark text-white rounded">
-    <h1>Scrum</h1>
-    <p>Sprints</p>
-  </div>
-
 <body>
-    <div class="container mt-4 rounded">
-  <div class="row">
-    <div class="col-auto">
-      <a type="button" class="btn btn-dark" href="/add-sprint">Add Sprint</a>
-    </div>
-  </div>
 
-  <div class="container mt-4 rounded">
-    <table class="table table-sortable">
-        <thead class="table-dark">
+  <div class="album py-4">
+    <div class="container">
+
+      <div class="row">
+
+
+        <div class="my-2 p-5 bg-dark text-white rounded">
+          <h1>
+            <%= sprint.name %>
+          </h1>
+          <p>
+            <%= sprint.description %>
+          </p>
+        </div>
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <p><strong>Start Date:</strong>
+                    <%= sprint.startDate ? sprint.startDate : '-' %>
+                  </p>
+                  <p><strong>End Date:</strong>
+                    <%= sprint.endDate ? sprint.endDate : '-' %>
+                  </p>
+                  <p><strong>Duration:</strong>
+                    <%= sprint.duration %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <form action="/delete-sprint" method="POST">
+          <input type="hidden" name="sprintId" value="<%= sprint._id %>">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+
+      <div class="container mt-4 rounded">
+        <table class="table table-sortable">
+          <thead class="table-dark">
             <tr>
-                <th>Sprint</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for (let i = 0; i < sprints.length; i++) { %>
-                <tr>
-                    <td><%= sprints[i].name %></td>
-                    <td><%= sprints[i].startDate.toDateString() %></td>
-                    <td><%= sprints[i].endDate.toDateString() %></td>
-                    <td>
-                        <form action="/delete-sprint" method="POST">
-                          <input type="hidden" name="sprintId" value="<%= sprints[i]._id %>">
-                          <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            <% } %>
-        </tbody>
-    </table>
-  </div>
+              <th>#</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Duration In Days</th>
+              <th>Due Date</th>
+              <th>Team Member</th>
+              <th>Priority</th>
+              <th>Details</th>
+              <th>Archive</th>
+          </thead>
+          <tbody>
+            <% for(let i=0; i < tasks.length; i++ ){ %>
+              <tr>
+                <td>
+                  <%= (i+1) %>
+                </td>
+                <td>
+                  <%= tasks[i].name %>
+                </td>
+                <td>
+                  <%= tasks[i].status %>
+                </td>
+                <td>
+                  <%= tasks[i].startDate ? tasks[i].startDate : '-' %>
+                </td>
+                <td>
+                  <%= tasks[i].endDate ? tasks[i].endDate : '-' %>
+                </td>
+                <td>
+                  <%= tasks[i].duration %>
+                </td>
+                <td>
+                  <%= tasks[i].dueDate %>
+                </td>
+                <td>
+                  <%= tasks[i].teamMember %>
+                </td>
+                <td>
+                  <%= tasks[i].priority %>
+                </td>
+                <td>
+                  <a href="/task-detail/<%= tasks[i]._id %>">
+                    <button class="btn btn-dark">View</button>
+                  </a>
+                </td>
+                <td>
+                  <a href="/task-archive/<%= tasks[i]._id %>">
+                    <button class="btn btn-danger">Archive</button>
+                  </a>
+                </td>
+              </tr>
+              <% } %>
+          </tbody>
+        </table>
+      </div>
+</body>
+
+
+
+</html>

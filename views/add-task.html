@@ -54,9 +54,15 @@
                   </div>
 
                   <div class="mb-3">
-                    <label for="duration" class="form-label">Duration (in days)</label>
-                    <input type="text" name="duration" class="form-control" id="duration"
-                      placeholder="Enter duration in days start from task creation" />
+                    <label for="startDate" class="form-label">Start Date (default is current time)</label>
+                    <input type="datetime-local" name="startDate" class="form-control" id="startDate"
+                      value="2023-01-01T00:00" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="dueDate" class="form-label">Due Date</label>
+                    <input type="datetime-local" name="dueDate" class="form-control" id="dueDate"
+                      value="2023-01-01T00:00" />
                   </div>
 
                   <button class="btn btn-primary">Submit</button>
