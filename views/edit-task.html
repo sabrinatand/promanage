@@ -35,8 +35,7 @@
                   <form action="/edit-task/<%= task._id %>" method="POST">
                     <div class="mb-3">
                       <label for="name" class="form-label">Task Name</label>
-                      <input type="text" name="name" class="form-control" id="name" placeholder="Enter task name"
-                        required />
+                      <input type="text" name="name" class="form-control" id="name" placeholder="Enter task name" />
                     </div>
 
                     <div class="mb-3">
@@ -48,6 +47,7 @@
                     <div class="mb-3">
                       <label for="teamMember" class="form-label">Assigned Member</label>
                       <select name="teamMember" class="form-select" id="teamMember">
+                        <option value="" selected disabled hidden>Choose Member</option>
                         <% for(let i=0; i < members.length; i++ ){ %>
                           <option value="<%= members[i].name %>">
                             <%= members[i].name %>
@@ -59,6 +59,7 @@
                     <div class="mb-3">
                       <label for="priority" class="form-label">Priority</label>
                       <select name="priority" class="form-select" id="priority">
+                        <option value="" selected disabled hidden>Choose Priority</option>
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
@@ -68,23 +69,14 @@
 
                     <div class="mb-3">
                       <label for="startDate" class="form-label">Start Date (default is current time)</label>
-                      <input type="datetime-local" name="startDate" class="form-control" id="startDate" />
+                      <input type="datetime-local" name="startDate" class="form-control" id="startDate"
+                        value="2023-01-01T00:00" />
                     </div>
 
                     <div class="mb-3">
                       <label for="dueDate" class="form-label">Due Date</label>
-                      <input type="datetime-local" name="dueDate" class="form-control" id="dueDate" />
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="sprint" class="form-label">Sprint</label>
-                      <select name="sprint" class="form-select" id="sprint">
-                        <% for(let i=0; i < sprint.length; i++ ){ %>
-                          <option value="<%= sprint[i]._id %>">
-                            <%= sprint[i].name %>
-                          </option>
-                          <% } %>
-                      </select>
+                      <input type="datetime-local" name="dueDate" class="form-control" id="dueDate"
+                        value="2023-01-01T00:00" />
                     </div>
                 </div>
 
