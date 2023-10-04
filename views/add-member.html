@@ -13,8 +13,36 @@
                 <a type="button" class="btn btn-dark" href="/">Home</a>
                 <a type="button" class="btn btn-dark" href="/product-backlog">Product Backlog</a>
 
-                <h3 class="my-2">Add New Team Member</h3>
+                <div class="container mt-4 rounded">
+                    <table class="table table-sortable">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i=0; i < members.length; i++ ){ %>
+                                <tr>
+                                    <td>
+                                        <%= (i+1) %>
+                                    </td>
+                                    <td>
+                                        <%= members[i].name %>
+                                    </td>
+                                    <td>
+                                        <a href="delete-member/<%= members[i]._id %>">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </a>
+                                    </td>
+                                    <% } %>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
 
+                <h3 class="my-2">Add New Team Member</h3>
                 <div class="row row-cols-1 row-cols-sm-2 g-3">
                     <div class="col">
                         <div class="card shadow-sm">
