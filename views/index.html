@@ -28,6 +28,28 @@
   <footer>
     &copy; 2023 7uP
   </footer>
+  
 </body>
-
+<div class="container mt-4 rounded">
+  <table class="table table-sortable">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let i=0; i < sprints.length; i++) { %>
+        <tr>
+          <td>
+            <%= sprints[i].name %>
+          </td>
+          <td>
+            <%= sprints[i].startDate.toDateString() %>
+          </td>
+          <td>
+            <%= sprints[i].endDate.toDateString() %>
+          </td>
+      <% } %>
 </html>

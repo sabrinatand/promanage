@@ -31,8 +31,17 @@ app.set("view engine", "html");
 
 app.listen(8080);
 
-app.get("/", function (req, res) {
-  res.render("index");
+async function generateSprint() {
+  let sprintOp = await Sprint.countDocuments();
+  if (sprintOp == 0) {
+      let count = new Sprint();
+      count.save();
+  }
+}; generateSprint();
+
+app.get("/", async function (req, res) {
+  let sprint = await Sprint.find({});
+  res.render("index", {sprints: sprint});
 });
 
 app.get("/add-task", async function (req, res) {
@@ -257,6 +266,37 @@ app.get("/task-archive/:id", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
+
+app.get("/sprint", async function (req, res) {
+  let sprint = await Sprint.find({});
+  res.render("sprint-detail", { sprints: sprint });
+});
+
+app.get("/add-sprint", function (req, res) {
+  res.render("add-sprint");
+});
+
+app.post("/add-sprint", async function (req, res) {
+  try {
+    let aSprint = new Sprint({name: req.body.name, startDate: new Date(req.body.startDate), duration: parseInt(req.body.duration)});
+    await aSprint.save();
+    res.redirect('/sprint');
+  } catch(err) {
+    res.status(500).json({ message: err.message })
+  }
+});
+
+app.post('/delete-sprint', async function (req, res) {
+  try {
+    const sprintId = req.body.sprintId;
+    await Sprint.findByIdAndRemove(sprintId);
+    res.redirect('/sprint');
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 
 // app.post("/add-task", function (req, res) {
 //   let obj = req.body;
