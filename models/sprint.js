@@ -5,6 +5,10 @@ const sprintSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    default: "Not Started",
+  },
   duration: {
     type: Number,
     required: true,

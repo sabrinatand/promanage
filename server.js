@@ -310,12 +310,75 @@ app.get("/add-sprint", function (req, res) {
 
 app.post("/add-sprint", async function (req, res) {
   try {
+    const startDate = new Date(req.body.startDate);
+    let status = req.body.status;
+    const today = new Date();
+
+    if (startDate < today) {
+      status = "In Progress";
+    }
+
     let aSprint = new Sprint({
       name: req.body.name,
-      startDate: new Date(req.body.startDate),
+      status: status,
+      startDate: startDate,
       duration: parseInt(req.body.duration),
     });
     await aSprint.save();
+    res.redirect("/sprint");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/start-sprint/:sprintId", async function (req, res) {
+  try {
+    let sprintId = req.params.sprintId;
+    let sprint = await Sprint.findOne({ _id: sprintId });
+
+    if (!sprint) {
+      return res.status(404).json({ message: "Sprint not found" });
+    }
+
+    sprint.status = "In Progress";
+    await sprint.save();
+
+    res.redirect("/sprint");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/stop-sprint/:sprintId", async function (req, res) {
+  try {
+    let sprintId = req.params.sprintId;
+    let sprint = await Sprint.findOne({ _id: sprintId });
+
+    if (!sprint) {
+      return res.status(404).json({ message: "Sprint not found" });
+    }
+
+    sprint.status = "Not Started";
+    await sprint.save();
+
+    res.redirect("/sprint");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/finish-sprint/:sprintId", async function (req, res) {
+  try {
+    let sprintId = req.params.sprintId;
+    let sprint = await Sprint.findOne({ _id: sprintId });
+
+    if (!sprint) {
+      return res.status(404).json({ message: "Sprint not found" });
+    }
+
+    sprint.status = "Finished";
+    await sprint.save();
+
     res.redirect("/sprint");
   } catch (err) {
     res.status(500).json({ message: err.message });
