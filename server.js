@@ -276,7 +276,7 @@ app.post("/add-sprint", async function (req, res) {
       duration: parseInt(req.body.duration),
     });
     await aSprint.save();
-    res.redirect("/sprint");
+    res.redirect("/");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -286,7 +286,7 @@ app.post("/delete-sprint", async function (req, res) {
   try {
     const sprintId = req.body.sprintId;
     await Sprint.findByIdAndRemove(sprintId);
-    res.redirect("/sprint");
+    res.redirect("/");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -316,39 +316,6 @@ app.get("/task-archive/:id", async function (req, res) {
     await theSprint.save();
 
     res.redirect(`/sprint-detail/${theSprint._id}`);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-app.get("/sprint", async function (req, res) {
-  let sprint = await Sprint.find({});
-  res.render("sprint-detail", { sprints: sprint });
-});
-
-app.get("/add-sprint", function (req, res) {
-  res.render("add-sprint");
-});
-
-app.post("/add-sprint", async function (req, res) {
-  try {
-    let aSprint = new Sprint({
-      name: req.body.name,
-      startDate: new Date(req.body.startDate),
-      duration: parseInt(req.body.duration),
-    });
-    await aSprint.save();
-    res.redirect("/sprint");
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-app.post("/delete-sprint", async function (req, res) {
-  try {
-    const sprintId = req.body.sprintId;
-    await Sprint.findByIdAndRemove(sprintId);
-    res.redirect("/sprint");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
