@@ -34,14 +34,15 @@ app.listen(8080);
 async function generateSprint() {
   let sprintOp = await Sprint.countDocuments();
   if (sprintOp == 0) {
-      let count = new Sprint();
-      count.save();
+    let count = new Sprint();
+    count.save();
   }
-}; generateSprint();
+}
+generateSprint();
 
 app.get("/", async function (req, res) {
   let sprint = await Sprint.find({});
-  res.render("index", {sprints: sprint});
+  res.render("index", { sprints: sprint });
 });
 
 app.get("/add-task", async function (req, res) {
@@ -135,12 +136,33 @@ app.post("/edit-task/:taskId", async function (req, res) {
     let taskId = req.params.taskId;
     let obj = req.body;
     let task = await Task.findOne({ _id: taskId });
-    let theSprint = await Sprint.findOne({ _id: obj.sprint });
 
-    theSprint.taskList.push(task._id);
-    task.sprint.push(theSprint._id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
 
-    await theSprint.save();
+    if (obj.name === "") {
+      obj.name = task.name;
+    }
+    if (obj.description === "") {
+      obj.name = task.description;
+    }
+    if (obj.teamMember === "") {
+      obj.name = task.teamMember;
+    }
+    if (obj.priority === "") {
+      obj.name = task.priority;
+    }
+    if (obj.sprint === "") {
+      obj.name = task.sprint;
+    }
+
+    if (obj.sprint !== "") {
+      let theSprint = await Sprint.findOne({ _id: obj.sprint });
+      theSprint.taskList.push(task._id);
+      task.sprint.push(theSprint._id);
+      await theSprint.save();
+    }
 
     let startDate = new Date(obj.startDate);
     let dueDate = new Date(obj.dueDate);
@@ -154,10 +176,6 @@ app.post("/edit-task/:taskId", async function (req, res) {
     const today = new Date();
     if (startDate < today) {
       status = "In Progress";
-    }
-
-    if (!task) {
-      return res.status(404).json({ message: "Task not found" });
     }
 
     task.endDate = null;
@@ -278,25 +296,27 @@ app.get("/add-sprint", function (req, res) {
 
 app.post("/add-sprint", async function (req, res) {
   try {
-    let aSprint = new Sprint({name: req.body.name, startDate: new Date(req.body.startDate), duration: parseInt(req.body.duration)});
+    let aSprint = new Sprint({
+      name: req.body.name,
+      startDate: new Date(req.body.startDate),
+      duration: parseInt(req.body.duration),
+    });
     await aSprint.save();
-    res.redirect('/sprint');
-  } catch(err) {
-    res.status(500).json({ message: err.message })
-  }
-});
-
-app.post('/delete-sprint', async function (req, res) {
-  try {
-    const sprintId = req.body.sprintId;
-    await Sprint.findByIdAndRemove(sprintId);
-    res.redirect('/sprint');
+    res.redirect("/sprint");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-
+app.post("/delete-sprint", async function (req, res) {
+  try {
+    const sprintId = req.body.sprintId;
+    await Sprint.findByIdAndRemove(sprintId);
+    res.redirect("/sprint");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // app.post("/add-task", function (req, res) {
 //   let obj = req.body;

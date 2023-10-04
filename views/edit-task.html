@@ -35,8 +35,7 @@
                   <form action="/edit-task/<%= task._id %>" method="POST">
                     <div class="mb-3">
                       <label for="name" class="form-label">Task Name</label>
-                      <input type="text" name="name" class="form-control" id="name" placeholder="Enter task name"
-                        required />
+                      <input type="text" name="name" class="form-control" id="name" placeholder="Enter task name" />
                     </div>
 
                     <div class="mb-3">
@@ -48,6 +47,7 @@
                     <div class="mb-3">
                       <label for="teamMember" class="form-label">Assigned Member</label>
                       <select name="teamMember" class="form-select" id="teamMember">
+                        <option value="" selected disabled hidden>Choose Member</option>
                         <% for(let i=0; i < members.length; i++ ){ %>
                           <option value="<%= members[i].name %>">
                             <%= members[i].name %>
@@ -59,6 +59,7 @@
                     <div class="mb-3">
                       <label for="priority" class="form-label">Priority</label>
                       <select name="priority" class="form-select" id="priority">
+                        <option value="" selected disabled hidden>Choose Priority</option>
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
@@ -79,6 +80,7 @@
                     <div class="mb-3">
                       <label for="sprint" class="form-label">Sprint</label>
                       <select name="sprint" class="form-select" id="sprint">
+                        <option value="" selected disabled hidden>Choose Sprint</option>
                         <% for(let i=0; i < sprint.length; i++ ){ %>
                           <option value="<%= sprint[i]._id %>">
                             <%= sprint[i].name %>
