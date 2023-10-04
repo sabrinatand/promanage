@@ -5,6 +5,7 @@ const Member = require("./models/members");
 const Sprint = require("./models/sprint");
 const mongoose = require("mongoose");
 const taskRouter = require("./routes/task-route");
+const path = require("path");
 
 const url = "mongodb://127.0.0.1:27017/tasks";
 
@@ -24,20 +25,12 @@ app.use(express.json());
 // app.use("", taskRouter);
 
 app.use(express.static("node_modules/bootstrap/dist/css"));
-
+app.use('/image', express.static(path.join(__dirname, 'image')));
 app.use(express.urlencoded({ extended: true }));
 app.engine("html", ejs.renderFile);
 app.set("view engine", "html");
 
 app.listen(8080);
-
-async function generateSprint() {
-  let sprintOp = await Sprint.countDocuments();
-  if (sprintOp == 0) {
-      let count = new Sprint();
-      count.save();
-  }
-}; generateSprint();
 
 app.get("/", async function (req, res) {
   let sprint = await Sprint.find({});

@@ -8,10 +8,16 @@ const sprintSchema = mongoose.Schema ({
     duration: {
         type: Number,
         required: true,
+        min: 1,
       },
     startDate:{
         type: Date,
         required: true,
+        // validate: {
+        //     validator: function(value) {
+        //         return value > new Date();
+        //     },
+        // }
     },
     endDate: {
         type: Date,
