@@ -53,6 +53,20 @@ app.get("/add-task", async function (req, res) {
 app.post("/add-task", async function (req, res) {
   try {
     let obj = req.body;
+
+    if (obj.startDate === "2023-01-01T00:00") {
+      let startDate = new Date();
+      obj.startDate = startDate;
+    } else {
+      let startDate = new Date(obj.startDate);
+    }
+    if (obj.dueDate === "2023-01-01T00:00") {
+      let dueDate = new Date();
+      obj.dueDate = dueDate;
+    } else {
+      let dueDate = new Date(obj.startDate);
+    }
+
     const startDate = new Date(obj.startDate);
     const dueDate = new Date(obj.dueDate);
     const durationMiliseconds = dueDate.getTime() - startDate.getTime();
@@ -153,9 +167,19 @@ app.post("/edit-task/:taskId", async function (req, res) {
     if (obj.priority === "") {
       obj.priority = task.priority;
     }
+    if (obj.startDate === "2023-01-01T00:00") {
+      obj.startDate = task.startDate;
+      startDate = obj.startDate;
+    } else {
+      startDate = new Date(obj.startDate);
+    }
+    if (obj.dueDate === "2023-01-01T00:00") {
+      obj.dueDate = task.dueDate;
+      dueDate = obj.dueDate;
+    } else {
+      dueDate = new Date(obj.dueDate);
+    }
 
-    let startDate = new Date(obj.startDate);
-    let dueDate = new Date(obj.dueDate);
     const durationMiliseconds = dueDate.getTime() - startDate.getTime();
     const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
     const total_minutes = parseInt(Math.floor(total_seconds / 60));
