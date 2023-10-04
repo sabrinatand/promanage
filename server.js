@@ -31,14 +31,14 @@ app.set("view engine", "html");
 
 app.listen(8080);
 
-async function generateSprint() {
-  let sprintOp = await Sprint.countDocuments();
-  if (sprintOp == 0) {
-    let count = new Sprint();
-    count.save();
-  }
-}
-generateSprint();
+// async function generateSprint() {
+//   let sprintOp = await Sprint.countDocuments();
+//   if (sprintOp == 0) {
+//     let count = new Sprint();
+//     count.save();
+//   }
+// }
+// generateSprint();
 
 app.get("/", async function (req, res) {
   let sprint = await Sprint.find({});
@@ -145,23 +145,13 @@ app.post("/edit-task/:taskId", async function (req, res) {
       obj.name = task.name;
     }
     if (obj.description === "") {
-      obj.name = task.description;
+      obj.description = task.description;
     }
     if (obj.teamMember === "") {
-      obj.name = task.teamMember;
+      obj.teamMember = task.teamMember;
     }
     if (obj.priority === "") {
-      obj.name = task.priority;
-    }
-    if (obj.sprint === "") {
-      obj.name = task.sprint;
-    }
-
-    if (obj.sprint !== "") {
-      let theSprint = await Sprint.findOne({ _id: obj.sprint });
-      theSprint.taskList.push(task._id);
-      task.sprint.push(theSprint._id);
-      await theSprint.save();
+      obj.priority = task.priority;
     }
 
     let startDate = new Date(obj.startDate);

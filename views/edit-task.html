@@ -76,18 +76,6 @@
                       <label for="dueDate" class="form-label">Due Date</label>
                       <input type="datetime-local" name="dueDate" class="form-control" id="dueDate" />
                     </div>
-
-                    <div class="mb-3">
-                      <label for="sprint" class="form-label">Sprint</label>
-                      <select name="sprint" class="form-select" id="sprint">
-                        <option value="" selected disabled hidden>Choose Sprint</option>
-                        <% for(let i=0; i < sprint.length; i++ ){ %>
-                          <option value="<%= sprint[i]._id %>">
-                            <%= sprint[i].name %>
-                          </option>
-                          <% } %>
-                      </select>
-                    </div>
                 </div>
 
                 <button class="btn btn-primary">Save</button>
