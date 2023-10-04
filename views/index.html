@@ -4,64 +4,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/bootstrap.min.css" rel="stylesheet" />
+  <link href="bootstrap.min.css" rel="stylesheet" />
   <title>Project Manager</title>
 </head>
 
 <body>
-  <div class="container-fluid">
-    <div class="my-4 p-5 bg-dark text-white rounded text-center">
-      <h1>Project Manager</h1>
-      <p>7uP Project manager sever</p>
+  <style>
+    .banner {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(/image/image.jpg);
+    background-size: cover;
+    background-position: center;
+    }
+    .navbar {
+      width: 85%;
+      margin: auto;
+      padding: 35px 0;
+      display: flex;
+      align-items:center;
+      justify-content: space-between;
+    }
+    .logo {
+      width: 120px;
+      cursor: pointer;
+    }
+    .navbar ul li {
+      list-style: none;
+      display: inline-block;
+      margin: 0 20px;
+      position: relative;
+    }
+    .navbar ul li a {
+      text-decoration: none;
+      color: #fff;
+      text-transform: uppercase;
+    }
+    .navbar ul li::after {
+      content: '';
+      height: 3px;
+      width: 0;
+      background: #009688;
+      position: absolute;
+      left: 0;
+      bottom: 0px;
+      transition: 0.5s;
+    }
+    .navbar ul li:hover::after {
+      width: 100%;
+    }
+    .content {
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      color: #fff;
+    }
+    .content h1{
+      font-size: 70px;
+      margin-top: 80px;
+    }
+    .content p {
+      margin: 20px auto;
+      font-weight: 100;
+      line-height: 25px;
+    }
+    .container {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  </style>
+  <div class="banner">
+    <div class="navbar">
+      <img src="/image/logo.png" class="logo">
+      <ul>
+        <li><a href="/add-task">Add Tasks</a></li>
+        <li><a href="/product-backlog">Product Backlog</a></li>
+        <li><a href="/add-member">Add Member</a></li>
+        <li><a href="/sprint">Sprint</a></li>
+        <li><a href="/burndown-chart">Burndown Chart</a></li>
+      </ul>
+    
     </div>
-  </div>
-
-  <div class="container mb-3">
-    <h2>Product Backlog</h2>
-    <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
-    <a type="button" class="btn btn-dark" href="/product-backlog">See Product Backlog</a>
-    <a type="button" class="btn btn-dark" href="/add-member">Add Member</a>
-    <a type="button" class="btn btn-dark" href="/sprint">Sprint</a>
-    <a type="button" class="btn btn-dark" href="/burndown-chart">Burndown Chart</a>
-  </div>
-
-
-  <div class="container mt-4 rounded">
-    <table class="table table-sortable">
-      <thead class="table-dark">
-        <tr>
-          <th>Name</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>View</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for (let i=0; i < sprints.length; i++) { %>
-          <tr>
-            <td>
-              <%= sprints[i].name %>
-            </td>
-            <td>
-              <%= sprints[i].startDate.toDateString() %>
-            </td>
-            <td>
-              <%= sprints[i].endDate.toDateString() %>
-            </td>
-            <td>
-              <a href="/sprint-detail/<%= sprints[i]._id %>">
-                <button class="btn btn-dark">View</button>
-              </a>
-            </td>
-          </tr>
-          <% } %>
-      </tbody>
-    </table>
-  </div>
-
-  <footer>
-    &copy; 2023 7uP
-  </footer>
+    <div class="content">
+      <h1>PROJECT MANAGEMENT APP</h1>
+    </div>
+    <% if (sprints && sprints.length > 0) {%>
+      <div class="container mt-4 rounded">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>Sprint</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+              </tr>
+          </thead>
+          <tbody>
+              <% for (let i = 0; i < sprints.length; i++) { %>
+                  <tr>
+                      <td><%= sprints[i].name %></td>
+                      <td><%= sprints[i].startDate.toDateString() %></td>
+                      <td><%= sprints[i].endDate.toDateString() %></td>
+                  </tr>
+              <% } %>
+              <% } %>
+          </tbody>
+        </div>
+        </table>
+</div>
 </body>
-
 </html>
