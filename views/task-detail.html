@@ -59,14 +59,30 @@
             </div>
           </div>
         </div>
-
-      </div>
-
+        </form>
+      </div class="container pt-4">
+      <form action="/change-sprint/<%= task.id %>" method="POST">
+        <div class="input-group">
+          <select name="newSprint" class="form-select">
+            <option value="" selected disabled hidden>Move Sprint</option>
+            <% for(let i=0; i < sprint.length; i++ ){ %>
+              <option value="<%= sprint[i]._id %>">
+                <%= sprint[i].name %>
+              </option>
+              <% } %>
+          </select>
+          <button type="submit" class="btn btn-dark">Move Sprint</button>
+        </div>
+      </form>
     </div>
-    <div class="container pt-4">
-      <a type="button" class="btn btn-dark mr-2" href="/edit-task/<%= task.id %>">Edit Task</a>
-      <a type="button" class="btn btn-dark" href="/finish-task/<%= task.id %>">Finish Task</a>
-    </div>
+  </div>
+
+
+
+  <div class="container pt-4">
+    <a type="button" class="btn btn-dark mr-2" href="/edit-task/<%= task.id %>">Edit Task</a>
+    <a type="button" class="btn btn-dark" href="/finish-task/<%= task.id %>">Finish Task</a>
+  </div>
 </body>
 
 

@@ -5,6 +5,7 @@ const Member = require("./models/members");
 const Sprint = require("./models/sprint");
 const mongoose = require("mongoose");
 const taskRouter = require("./routes/task-route");
+const path = require("path");
 
 const url = "mongodb://127.0.0.1:27017/tasks";
 
@@ -24,21 +25,12 @@ app.use(express.json());
 // app.use("", taskRouter);
 
 app.use(express.static("node_modules/bootstrap/dist/css"));
-
+app.use("/image", express.static(path.join(__dirname, "image")));
 app.use(express.urlencoded({ extended: true }));
 app.engine("html", ejs.renderFile);
 app.set("view engine", "html");
 
 app.listen(8080);
-
-// async function generateSprint() {
-//   let sprintOp = await Sprint.countDocuments();
-//   if (sprintOp == 0) {
-//     let count = new Sprint();
-//     count.save();
-//   }
-// }
-// generateSprint();
 
 app.get("/", async function (req, res) {
   let sprint = await Sprint.find({});
@@ -123,7 +115,8 @@ app.get("/task-detail/:taskId", async function (req, res) {
   try {
     let taskId = req.params.taskId;
     let theTask = await Task.findOne({ _id: taskId });
-    res.render("task-detail", { task: theTask });
+    let sprints = await Sprint.find({});
+    res.render("task-detail", { task: theTask, sprint: sprints });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -203,8 +196,31 @@ app.post("/edit-task/:taskId", async function (req, res) {
   }
 });
 
-app.get("/add-member", function (req, res) {
-  res.render("add-member");
+app.post("/change-sprint/:id", async function (req, res) {
+  const taskId = req.params.id;
+  const sprintId = req.body.newSprint;
+  let theTask = await Task.findOne({ _id: taskId });
+  let theSprint = await Sprint.findOne({ _id: sprintId });
+  theTask.sprint.push(theSprint._id);
+  theSprint.taskList.push(theTask._id);
+
+  console.log(theTask.sprint[0]);
+  if (theTask.sprint[0] !== theSprint._id) {
+    let oldSprint = await Sprint.findOne({ _id: theTask.sprint[0] });
+    oldSprint.taskList.pull({ _id: theTask._id });
+    theTask.sprint.pull({ _id: oldSprint._id });
+    await oldSprint.save();
+  }
+
+  await theTask.save();
+  await theSprint.save();
+
+  res.redirect(`/sprint-detail/${sprintId}`);
+});
+
+app.get("/add-member", async function (req, res) {
+  let memebers = await Member.find({});
+  res.render("add-member", { members: memebers });
 });
 
 app.post("/add-member", async function (req, res) {
@@ -212,7 +228,13 @@ app.post("/add-member", async function (req, res) {
     name: req.body.name,
   });
   await newMember.save();
-  res.redirect("/");
+  res.redirect("/add-member");
+});
+
+app.get("/delete-member/:id", async function (req, res) {
+  let id = req.params.id;
+  await Member.deleteOne({ _id: id });
+  res.redirect("/add-member");
 });
 
 app.get("/finish-task/:taskId", async function (req, res) {
@@ -254,7 +276,7 @@ app.post("/add-sprint", async function (req, res) {
       duration: parseInt(req.body.duration),
     });
     await aSprint.save();
-    res.redirect("/sprint");
+    res.redirect("/");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -264,7 +286,7 @@ app.post("/delete-sprint", async function (req, res) {
   try {
     const sprintId = req.body.sprintId;
     await Sprint.findByIdAndRemove(sprintId);
-    res.redirect("/sprint");
+    res.redirect("/");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
