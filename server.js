@@ -32,7 +32,19 @@ app.set("view engine", "html");
 
 app.listen(8080);
 
-app.get("/", async function (req, res) {
+app.get("/", function (req, res) {
+  res.render("login-home");
+});
+
+app.get('/login', (req, res) => {
+  res.render("login-page");
+});
+
+app.post('/login', (req, res) => {
+  res.redirect("/home")
+})
+
+app.get("/home", async function (req, res) {
   let sprint = await Sprint.find({});
   res.render("index", { sprints: sprint });
 });

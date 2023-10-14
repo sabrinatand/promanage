@@ -102,12 +102,13 @@
 
     .container {
       position: relative;
-      top: 50%;
+      top: 20%;
       transform: translateY(-50%);
+      border-radius: 20px;
     }
   </style>
   <div class="banner">
-    <div class="navbar">
+    <div class="navbar"> 
       <img src="/image/logo.png" class="logo">
       <ul>
         <li><a href="/add-task">Add Tasks</a></li>
@@ -117,46 +118,31 @@
         <li><a href="/burndown-chart">Burndown Chart</a></li>
       </ul>
       <img src="image/moon.png" id="icon">
-
+    
     </div>
-    <div class="content">
-      <h1>PROJECT MANAGEMENT APP</h1>
-    </div>
-    <% if (sprints && sprints.length> 0) {%>
+    <% if (sprints && sprints.length > 0) {%>
       <div class="container mt-4 rounded">
         <table class="table">
           <thead>
-            <tr>
-              <th>Sprint</th>
-              <th>Status</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>View</th>
-            </tr>
+              <tr>
+                  <th>Sprint</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Action</th>
+              </tr>
           </thead>
           <tbody>
-            <% for (let i=0; i < sprints.length; i++) { %>
-              <tr>
-                <td>
-                  <%= sprints[i].name %>
-                </td>
-                <td>
-                  <%= sprints[i].status %>
-                </td>
-                <td>
-                  <%= sprints[i].startDate.toDateString() %>
-                </td>
-                <td>
-                  <%= sprints[i].endDate.toDateString() %>
-                </td>
-                <td>
-                  <a href="/sprint-detail/<%= sprints[i]._id %>">
-                    <button class="btn btn-dark">View</button>
-                  </a>
-                </td>
-              </tr>
+              <% for (let i = 0; i < sprints.length; i++) { %>
+                  <tr>
+                      <td><%= sprints[i].name %></td>
+                      <td><%= sprints[i].startDate.toDateString() %></td>
+                      <td><%= sprints[i].endDate.toDateString() %></td>
+                      <td><a href="/sprint-detail/<%= sprints[i]._id %>">
+                        <button class="btn btn-dark">View</button>
+                      </a></td>
+                  </tr>
               <% } %>
-                <% } %>
+              <% } %>
           </tbody>
       </div>
       </table>
