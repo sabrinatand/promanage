@@ -57,13 +57,11 @@
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
       </div>
-
       <div class="container pt-4">
         <a type="button" class="btn btn-dark" href="/start-sprint/<%= sprint.id %>">Start Sprint</a>
-        <a type="button" class="btn btn-dark" href="/stop-sprint/<%= sprint.id %>">Not Started</a>
+        <a type="button" class="btn btn-dark" href="/stop-sprint/<%= sprint.id %>">Stop Sprint</a>
         <a type="button" class="btn btn-dark" href="/finish-sprint/<%= sprint.id %>">Finish Sprint</a>
       </div>
-
       <label for="sortPriority" class="form-label">Sort by Priority:</label>
       <select id="sortPriority" class="form-select">
         <option value="asc">Ascending</option>
