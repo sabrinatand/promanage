@@ -9,7 +9,7 @@
 </head>
 
 <div class="container pt-4">
-  <a type="button" class="btn btn-dark" href="/home">Home</a>
+  <a type="button" class="btn btn-dark" href="/home-user">Home</a>
   <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
 </div>
 
@@ -37,7 +37,6 @@
           <th>Team Member</th>
           <th>Priority</th>
           <th>Details</th>
-          <th>Delete</th>
       </thead>
       <tbody>
         <% for(let i=0; i < tasks.length; i++ ){ %>
@@ -70,13 +69,8 @@
               <%= tasks[i].priority %>
             </td>
             <td>
-              <a href="task-detail/<%= tasks[i]._id %>">
+              <a href="task-detail-user/<%= tasks[i]._id %>">
                 <button class="btn btn-dark">View</button>
-              </a>
-            </td>
-            <td>
-              <a href="delete-task/<%= tasks[i]._id %>">
-                <button class="btn btn-danger">Delete</button>
               </a>
             </td>
           </tr>

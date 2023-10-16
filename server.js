@@ -3,6 +3,8 @@ const ejs = require("ejs");
 const Task = require("./models/task");
 const Member = require("./models/members");
 const Sprint = require("./models/sprint");
+const Admin = require("./models/admin");
+const User = require("./models/user");
 const mongoose = require("mongoose");
 const taskRouter = require("./routes/task-route");
 const path = require("path");
@@ -36,17 +38,114 @@ app.get("/", function (req, res) {
   res.render("login-home");
 });
 
+app.get('/admin', (req, res) => {
+  res.render("admin-home");
+});
+
+app.get('/account-not-found', (req, res) => {
+  res.render("account-not-found");
+});
+
+app.get('/wrong-password', (req, res) => {
+  res.render("wrong-password");
+});
+
+app.get('/signup-admin', (req, res) => {
+  res.render("signup-page-admin");
+});
+
+app.post('/signup-admin', (req, res) => {
+  const { usernameAdmin, passwordAdmin } = req.body;
+  const newAdmin = new Admin({
+    usernameAdmin,
+    passwordAdmin
+  });
+  newAdmin.save()
+    .then(() => {
+      res.redirect("/home");
+    })
+    .catch((error) => {
+      console.error('Error signing up admin:', error);
+      res.status(500).send('Error signing up admin');
+    });
+});
+
+app.get('/login-admin', (req, res) => {
+  res.render("login-page-admin");
+});
+
+app.post('/login-admin', (req, res) => {
+  const { usernameAdmin, passwordAdmin } = req.body;
+  Admin.findOne({ usernameAdmin })
+    .then((admin) => {
+      if (admin) {
+        if (admin.passwordAdmin === passwordAdmin) {
+          res.redirect("/home");
+        } else {
+          res.redirect("/wrong-password");
+        }
+      } else {
+        res.redirect("/account-not-found");
+      }
+    })
+    .catch((error) => {
+      console.error('Error logging in admin:', error);
+      res.status(500).send('Error logging in admin');
+    });
+});
+
+app.get('/signup', (req, res) => {
+  res.render("signup-page");
+});
+
+app.post('/signup', (req, res) => {
+  const { usernameUser, passwordUser } = req.body;
+  const newUser = new User({
+    usernameUser,
+    passwordUser
+  });
+  newUser.save()
+    .then(() => {
+      res.redirect("/home-user");
+    })
+    .catch((error) => {
+      console.error('Error signing up user:', error);
+      res.status(500).send('Error signing up user');
+    });
+});
+
 app.get('/login', (req, res) => {
   res.render("login-page");
 });
 
 app.post('/login', (req, res) => {
-  res.redirect("/home")
-})
+  const { usernameUser, passwordUser } = req.body;
+  User.findOne({ usernameUser })
+    .then((user) => {
+      if (user) {
+        if (user.passwordUser === passwordUser) {
+          res.redirect("/home-user");
+        } else {
+          res.redirect("/wrong-password");
+        }
+      } else {
+        res.redirect("/account-not-found");
+      }
+    })
+    .catch((error) => {
+      console.error('Error logging in user:', error);
+      res.status(500).send('Error logging in user');
+    });
+});
 
 app.get("/home", async function (req, res) {
   let sprint = await Sprint.find({});
   res.render("index", { sprints: sprint });
+});
+
+app.get("/home-user", async function (req, res) {
+  let sprint = await Sprint.find({});
+  res.render("index-user", { sprints: sprint });
 });
 
 app.get("/add-task", async function (req, res) {
@@ -104,10 +203,74 @@ app.post("/add-task", async function (req, res) {
   }
 });
 
+app.get("/add-task-user", async function (req, res) {
+  let members = await Member.find({});
+  res.render("add-task-user", { members: members });
+});
+
+app.post("/add-task-user", async function (req, res) {
+  try {
+    let obj = req.body;
+
+    if (obj.startDate === "2023-01-01T00:00") {
+      let startDate = new Date();
+      obj.startDate = startDate;
+    } else {
+      let startDate = new Date(obj.startDate);
+    }
+    if (obj.dueDate === "2023-01-01T00:00") {
+      let dueDate = new Date();
+      obj.dueDate = dueDate;
+    } else {
+      let dueDate = new Date(obj.startDate);
+    }
+
+    const startDate = new Date(obj.startDate);
+    const dueDate = new Date(obj.dueDate);
+    const durationMiliseconds = dueDate.getTime() - startDate.getTime();
+    const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
+    const total_minutes = parseInt(Math.floor(total_seconds / 60));
+    const total_hours = parseInt(Math.floor(total_minutes / 60));
+    const duration = parseInt(Math.floor(total_hours / 24)) + 1;
+    let status = obj.status;
+    const today = new Date();
+    if (startDate < today) {
+      status = "In Progress";
+    }
+
+    let theTask = new Task({
+      name: obj.name,
+      status: status,
+      description: obj.description,
+      startDateTime: obj.startDateTime,
+      teamMember: obj.teamMember,
+      priority: obj.priority,
+      startDate: startDate,
+      endDate: obj.endDate,
+      duration: duration,
+      dueDate: dueDate,
+    });
+
+    await theTask.save();
+    res.redirect("/product-backlog-user");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 app.get("/product-backlog", async function (req, res) {
   try {
     let tasks = await Task.find({});
     res.render("product-backlog", { tasks: tasks });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/product-backlog-user", async function (req, res) {
+  try {
+    let tasks = await Task.find({});
+    res.render("product-backlog-user", { tasks: tasks });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -129,6 +292,17 @@ app.get("/task-detail/:taskId", async function (req, res) {
     let theTask = await Task.findOne({ _id: taskId });
     let sprints = await Sprint.find({});
     res.render("task-detail", { task: theTask, sprint: sprints });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/task-detail-user/:taskId", async function (req, res) {
+  try {
+    let taskId = req.params.taskId;
+    let theTask = await Task.findOne({ _id: taskId });
+    let sprints = await Sprint.find({});
+    res.render("task-detail-user", { task: theTask, sprint: sprints });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -230,9 +404,44 @@ app.post("/change-sprint/:id", async function (req, res) {
   res.redirect(`/sprint-detail/${sprintId}`);
 });
 
+app.post("/change-sprint-user/:id", async function (req, res) {
+  const taskId = req.params.id;
+  const sprintId = req.body.newSprint;
+  let theTask = await Task.findOne({ _id: taskId });
+  let theSprint = await Sprint.findOne({ _id: sprintId });
+  theTask.sprint.push(theSprint._id);
+  theSprint.taskList.push(theTask._id);
+
+  console.log(theTask.sprint[0]);
+  if (theTask.sprint[0] !== theSprint._id) {
+    let oldSprint = await Sprint.findOne({ _id: theTask.sprint[0] });
+    oldSprint.taskList.pull({ _id: theTask._id });
+    theTask.sprint.pull({ _id: oldSprint._id });
+    await oldSprint.save();
+  }
+
+  await theTask.save();
+  await theSprint.save();
+
+  res.redirect(`/sprint-detail-user/${sprintId}`);
+});
+
 app.get("/add-member", async function (req, res) {
   let memebers = await Member.find({});
   res.render("add-member", { members: memebers });
+});
+
+app.get("/add-member-user", async function (req, res) {
+  let memebers = await Member.find({});
+  res.render("add-member-user", { members: memebers });
+});
+
+app.post("/add-member-user", async function (req, res) {
+  let newMember = new Member({
+    name: req.body.name,
+  });
+  await newMember.save();
+  res.redirect("/add-member-user");
 });
 
 app.post("/add-member", async function (req, res) {
@@ -271,9 +480,18 @@ app.get("/burndown-chart", function (req, res) {
   res.render("burndown-chart");
 });
 
+app.get("/burndown-chart-user", function (req, res) {
+  res.render("burndown-chart-user");
+});
+
 app.get("/sprint", async function (req, res) {
   let sprint = await Sprint.find({});
   res.render("sprint", { sprints: sprint });
+});
+
+app.get("/sprint-user", async function (req, res) {
+  let sprint = await Sprint.find({});
+  res.render("sprint-user", { sprints: sprint });
 });
 
 app.get("/add-sprint", function (req, res) {
@@ -288,7 +506,25 @@ app.post("/add-sprint", async function (req, res) {
       duration: parseInt(req.body.duration),
     });
     await aSprint.save();
-    res.redirect("/");
+    res.redirect("/home");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/add-sprint-user", function (req, res) {
+  res.render("add-sprint-user");
+});
+
+app.post("/add-sprint-user", async function (req, res) {
+  try {
+    let aSprint = new Sprint({
+      name: req.body.name,
+      startDate: new Date(req.body.startDate),
+      duration: parseInt(req.body.duration),
+    });
+    await aSprint.save();
+    res.redirect("/home-user");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -298,7 +534,7 @@ app.post("/delete-sprint", async function (req, res) {
   try {
     const sprintId = req.body.sprintId;
     await Sprint.findByIdAndRemove(sprintId);
-    res.redirect("/");
+    res.redirect("/home");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -310,6 +546,17 @@ app.get("/sprint-detail/:sprintId", async function (req, res) {
     let sprint = await Sprint.findOne({ _id: sprintId });
     let tasks = await Task.find({ _id: sprint.taskList });
     if (sprint) res.render("sprint-detail", { sprint: sprint, tasks: tasks });
+  } catch {
+    res.status(404).send("Sprint not found");
+  }
+});
+
+app.get("/sprint-detail-user/:sprintId", async function (req, res) {
+  try {
+    let sprintId = req.params.sprintId;
+    let sprint = await Sprint.findOne({ _id: sprintId });
+    let tasks = await Task.find({ _id: sprint.taskList });
+    if (sprint) res.render("sprint-detail-user", { sprint: sprint, tasks: tasks });
   } catch {
     res.status(404).send("Sprint not found");
   }
@@ -345,7 +592,7 @@ app.get("/start-sprint/:sprintId", async function (req, res) {
     sprint.status = "In Progress";
     await sprint.save();
 
-    res.redirect("/");
+    res.redirect("/home");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -363,7 +610,7 @@ app.get("/stop-sprint/:sprintId", async function (req, res) {
     sprint.status = "Not Started";
     await sprint.save();
 
-    res.redirect("/");
+    res.redirect("/home");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -381,7 +628,7 @@ app.get("/finish-sprint/:sprintId", async function (req, res) {
     sprint.status = "Finished";
     await sprint.save();
 
-    res.redirect("/");
+    res.redirect("/home");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

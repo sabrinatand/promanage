@@ -8,8 +8,8 @@
 </head>
 
 <div class="container pt-4">
-  <a type="button" class="btn btn-dark" href="/home">Home</a>
-  <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
+  <a type="button" class="btn btn-dark" href="/home-user">Home</a>
+  <a type="button" class="btn btn-dark" href="/add-task-user">Add Tasks</a>
 </div>
 
 <body>
@@ -61,7 +61,7 @@
         </div>
         </form>
       </div class="container pt-4">
-      <form action="/change-sprint/<%= task.id %>" method="POST">
+      <form action="/change-sprint-user/<%= task.id %>" method="POST">
         <div class="input-group">
           <select name="newSprint" class="form-select">
             <option value="" selected disabled hidden>Move Sprint</option>
@@ -76,15 +76,5 @@
       </form>
     </div>
   </div>
-
-
-
-  <div class="container pt-4">
-    <a type="button" class="btn btn-dark mr-2" href="/edit-task/<%= task.id %>">Edit Task</a>
-    <a type="button" class="btn btn-dark" href="/finish-task/<%= task.id %>">Finish Task</a>
-  </div>
 </body>
-
-
-
 </html>

@@ -9,8 +9,8 @@
 </head>
 
 <div class="container pt-4">
-  <a type="button" class="btn btn-dark" href="/home">Home</a>
-  <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
+  <a type="button" class="btn btn-dark" href="/home-user">Home</a>
+  <a type="button" class="btn btn-dark" href="/add-task-user">Add Tasks</a>
 </div>
 
 <div class="container">
@@ -23,7 +23,7 @@
     <div class="container mt-4 rounded">
       <div class="row">
         <div class="col-auto">
-          <a type="button" class="btn btn-dark" href="/add-sprint">Add Sprint</a>
+          <a type="button" class="btn btn-dark" href="/add-sprint-user">Add Sprint</a>
         </div>
       </div>
 
@@ -36,7 +36,6 @@
               <th>Start Date</th>
               <th>End Date</th>
               <th>View</th>
-              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -55,15 +54,9 @@
                   <%= sprints[i].endDate.toDateString() %>
                 </td>
                 <td>
-                  <a href="/sprint-detail/<%= sprints[i]._id %>">
+                  <a href="/sprint-detail-user/<%= sprints[i]._id %>">
                     <button class="btn btn-dark">View</button>
                   </a>
-                </td>
-                <td>
-                  <form action="/delete-sprint" method="POST">
-                    <input type="hidden" name="sprintId" value="<%= sprints[i]._id %>">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
                 </td>
               </tr>
               <% } %>
