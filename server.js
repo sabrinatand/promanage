@@ -8,7 +8,6 @@ const User = require("./models/user");
 const mongoose = require("mongoose");
 const taskRouter = require("./routes/task-route");
 const path = require("path");
-
 const url = "mongodb://127.0.0.1:27017/tasks";
 
 async function connect(url) {
