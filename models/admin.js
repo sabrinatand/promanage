@@ -11,6 +11,10 @@ const adminSchema = mongoose.Schema({
     required: true,
     match: /^[a-zA-Z0-9]+$/,
   },
+  UserID : {
+    type : Number,
+    required: true
+  }
 });
 
 module.exports = mongoose.model("Admin", adminSchema);

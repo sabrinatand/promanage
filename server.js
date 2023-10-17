@@ -54,21 +54,26 @@ app.get('/signup-admin', (req, res) => {
   res.render("signup-page-admin");
 });
 
-app.post('/signup-admin', (req, res) => {
+app.post('/signup-admin', async (req, res) => {
   const { usernameAdmin, passwordAdmin } = req.body;
-  const newAdmin = new Admin({
-    usernameAdmin,
-    passwordAdmin
-  });
-  newAdmin.save()
-    .then(() => {
-      res.redirect("/home");
-    })
-    .catch((error) => {
-      console.error('Error signing up admin:', error);
-      res.status(500).send('Error signing up admin');
+  try {
+    const existingAdmin = await Admin.findOne({ usernameAdmin });
+    if (existingAdmin) {
+      return res.redirect('/username-exists.html');
+    }
+
+    const newAdmin = new Admin({
+      usernameAdmin,
+      passwordAdmin
     });
+    await newAdmin.save();
+    res.redirect("/home");
+  } catch (error) {
+    console.error('Error signing up admin:', error);
+    res.status(500).send('Error signing up admin');
+  }
 });
+
 
 app.get('/login-admin', (req, res) => {
   res.render("login-page-admin");
@@ -98,20 +103,24 @@ app.get('/signup', (req, res) => {
   res.render("signup-page");
 });
 
-app.post('/signup', (req, res) => {
+app.post('/signup', async (req, res) => {
   const { usernameUser, passwordUser } = req.body;
-  const newUser = new User({
-    usernameUser,
-    passwordUser
-  });
-  newUser.save()
-    .then(() => {
-      res.redirect("/home-user");
-    })
-    .catch((error) => {
-      console.error('Error signing up user:', error);
-      res.status(500).send('Error signing up user');
+
+  try {
+    const existingUser = await User.findOne({ usernameUser });
+    if (existingUser) {
+      return res.redirect('/username-exists');
+    }
+    const newUser = new User({
+      usernameUser,
+      passwordUser,
     });
+    await newUser.save();
+    res.redirect("/home");
+  } catch (error) {
+    console.error('Error signing up user:', error);
+    res.status(500).send('Error signing up user');
+  }
 });
 
 app.get('/login', (req, res) => {
@@ -633,6 +642,17 @@ app.get("/finish-sprint/:sprintId", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
+function generateUserID() {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const randomAlphabets = Array.from({ length: 3 }, () =>
+      alphabet[Math.floor(Math.random() * alphabet.length)]
+  ).join('');
+
+  const randomNumbers = Math.floor(1000 + Math.random() * 9000); // Random 4-digit number
+
+  const userID = `${randomAlphabets}-${randomNumbers}`;
+  return userID;
+}
 
 // app.post("/add-task", function (req, res) {
 //   let obj = req.body;
