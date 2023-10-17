@@ -736,6 +736,20 @@ app.get("/finish-sprint/:sprintId", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
+app.get('/change-user-password', (req, res) => {
+  res.render("change-user-password");
+});
+app.post("/change-user-password", async function (req, res) {
+  try {
+    let aSprint = new Sprint({
+      name: req.body.changeuserPassword,
+    });
+    await aSprint.save();
+    res.redirect("/home-user");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 function generateUserID() {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const randomAlphabets = Array.from({ length: 3 }, () =>
