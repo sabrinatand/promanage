@@ -741,14 +741,20 @@ app.get('/change-user-password', (req, res) => {
 });
 app.post("/change-user-password", async function (req, res) {
   try {
-    let aSprint = new Sprint({
-      name: req.body.changeuserPassword,
-    });
-    await aSprint.save();
-    res.redirect("/home-user");
+    const newPassword = req.body.changeuserPassword;
+    const username = req.body.username;
+    const updatedUser = await User.findOneAndUpdate(
+      { usernameUser: username },
+      { passwordUser: newPassword },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.redirect("/home");
   } catch (err) {
     res.status(500).json({ message: err.message });
-  }
+   }
 });
 function generateUserID() {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
