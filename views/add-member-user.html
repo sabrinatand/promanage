@@ -10,8 +10,8 @@
     <main>
         <div class="album py-5">
             <div class="container">
-                <a type="button" class="btn btn-dark" href="/home">Home</a>
-                <a type="button" class="btn btn-dark" href="/product-backlog">Product Backlog</a>
+                <a type="button" class="btn btn-dark" href="/home-user">Home</a>
+                <a type="button" class="btn btn-dark" href="/product-backlog-user">Product Backlog</a>
 
                 <div class="container mt-4 rounded">
                     <table class="table table-sortable">
@@ -19,7 +19,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,11 +29,6 @@
                                     </td>
                                     <td>
                                         <%= members[i].name %>
-                                    </td>
-                                    <td>
-                                        <a href="delete-member/<%= members[i]._id %>">
-                                            <button class="btn btn-danger">Delete</button>
-                                        </a>
                                     </td>
                                     <% } %>
                                 </tr>
@@ -47,7 +41,7 @@
                     <div class="col">
                         <div class="card shadow-sm">
                             <div class="card-body">
-                                <form action="/add-member" method="POST">
+                                <form action="/add-member-user" method="POST">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Member Name</label>
                                         <input type="text" name="name" class="form-control" id="name"
