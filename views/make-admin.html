@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <title>Login Form</title>
+        <title>Sign Up Form</title>
     </head>
     <body>
         <style>
@@ -19,7 +19,7 @@
                justify-content: center;
                align-items: center;
                min-height: 100vh;
-               background: url(/image/background2.jpg) no-repeat;
+               background: url(./image/background2.jpg) no-repeat;
                background-size: cover;
                background-position: center;
             }
@@ -79,32 +79,24 @@
 
         </style>
         <div class="wrapper">
-            <form action="/login" method="POST">
-                <h1>Login</h1>
-                <div class="input-box">
-                    <input type="text" name="username" placeholder="Username" id="username" required>
-                    <i class='bx bxs-user'></i>
+            <form action="/make-admin" method="POST">
+                <h1>Make Admin Account</h1>
+                <div>
+                    <a href="/admin-created" class="button-link">
+                        <button type="submit" class="btn">Submit</button>
+                    </a>
                 </div>
-            <div class="input-box">
-                <input type="password" name="password" placeholder="Password" id="password" required>
-                <i class='bx bxs-lock-alt' ></i>
-            </div>
-            <div>
-                <a>
-                <button type="submit" class="btn">Submit</button>
-                </a>
-            </div>
             </form>
             <br>
             <div>
-                <a href="/make-account" class="button-link">
-                <button class="btn">Create Account</button>
+                <a href="/login" class="button-link" type="button">
+                    <button class="btn">Already Have an Account?</button>
                 </a>
             </div>
             <br>
             <div>
-                <a href="/" class="button-link">
-                <button class="btn">Go Back</button>
+                <a href="/" class="button-link" type="button">
+                    <button class="btn">Go Back</button>
                 </a>
             </div>
         </div>

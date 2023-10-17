@@ -49,7 +49,7 @@ app.get('/account-not-found', (req, res) => {
 app.get('/wrong-password', (req, res) => {
   res.render("wrong-password");
 });
-
+/*
 app.get('/signup-admin', (req, res) => {
   res.render("signup-page-admin");
 });
@@ -146,6 +146,100 @@ app.post('/login', (req, res) => {
       res.status(500).send('Error logging in user');
     });
 });
+*/
+
+app.get('/login', (req, res) => {
+  res.render("login-page");
+});
+
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const foundUser = await User.findOne({ usernameUser: username });
+  const foundAdmin = await Admin.findOne({ usernameAdmin: username });
+  try {
+    if (foundUser) {
+      if (foundUser.passwordUser === password) {
+        res.redirect("/home-user");
+      }
+      else {
+        res.redirect("/wrong-password")
+      }
+    } 
+    else if (foundAdmin) {
+      if (foundAdmin.passwordAdmin === password) {
+        res.redirect("/home");
+      }
+      else {
+        res.redirect("/wrong-password")
+      }
+      } 
+    else {
+        res.redirect("/account-not-found");
+      }
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).send('Error logging in');
+}
+});
+
+app.get("/make-account", (req, res) => {
+  res.render("make-account");
+});
+
+app.post("/make-account", async (req, res) => {
+  const UsernameDef = "user1";
+  const PasswordDef = "User1";
+  const accountExist = await User.find({});
+  try {
+  if (accountExist.length === 0) {
+    const newUser = new User({
+      usernameUser: UsernameDef,
+      passwordUser: PasswordDef,
+    });
+    await newUser.save();
+    res.redirect("/account-created");
+  } else {
+    res.redirect("/account-created")
+  }
+  } catch (error) {
+    console.error('Error signing up user:', error);
+    res.status(500).send('Error signing up user');
+  }
+});
+
+app.get("/account-created", async (req, res) => {
+  const account = await User.find({})
+  res.render("account-created", { records: account });
+});
+
+app.get("/make-admin", (req, res) => {
+  res.render("make-admin");
+});
+
+app.post("/make-admin", async (req, res) => {
+  const UsernameDef = "admin1";
+  const PasswordDef = "Admin1";
+  const accountExist = await Admin.find({});
+  try {
+  if (accountExist.length === 0) {
+    const newAdmin = new Admin({
+      usernameAdmin: UsernameDef,
+      passwordAdmin: PasswordDef,
+    });
+    await newAdmin.save();
+    res.redirect("/admin-created");
+  } else {
+    res.redirect("/admin-created")
+  }
+  } catch (error) {
+    console.error('Error signing up admin:', error);
+    res.status(500).send('Error signing up admin');
+  }
+});
+
+app.get("/admin-created", async (req, res) => {
+  res.render("admin-created");
+})
 
 app.get("/home", async function (req, res) {
   let sprint = await Sprint.find({});
