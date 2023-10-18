@@ -9,7 +9,6 @@
 
 <div class="container pt-4">
   <a type="button" class="btn btn-dark" href="/home-user">Home</a>
-  <a type="button" class="btn btn-dark" href="/add-task-user">Add Tasks</a>
 </div>
 
 <body>
@@ -61,17 +60,11 @@
         </div>
         </form>
       </div class="container pt-4">
-      <form action="/change-sprint-user/<%= task.id %>" method="POST">
+      <form action="/finish-task/<%= task.id %>" method="POST">
+        <label for="date">Finished Date</label>
         <div class="input-group">
-          <select name="newSprint" class="form-select">
-            <option value="" selected disabled hidden>Move Sprint</option>
-            <% for(let i=0; i < sprint.length; i++ ){ %>
-              <option value="<%= sprint[i]._id %>">
-                <%= sprint[i].name %>
-              </option>
-              <% } %>
-          </select>
-          <button type="submit" class="btn btn-dark">Move Sprint</button>
+          <input type="datetime-local" name="date" class="form-control" id="date" required>
+          <button type="submit" class="btn btn-dark">Finish Task</button>
         </div>
       </form>
     </div>
