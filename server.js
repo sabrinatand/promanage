@@ -641,7 +641,7 @@ app.get("/burndown-chart/:sprintId", async function (req, res) {
 
     let linearCount = 0;
     for (let i = 0; i < theSprint.duration; i++) {
-      linearData[i] = linearCount;
+      linearData[i] = linearCount + 1;
       linearCount += 1;
     }
 

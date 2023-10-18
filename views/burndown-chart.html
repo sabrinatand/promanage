@@ -60,22 +60,45 @@
 
     <script type="text/javascript">
 
-      const xValues = [<%= linearData %>]
+      const xValues = [<%= linearData %>];
+      const data = [<%= taskData %>];
+      const yValues = []
+
+      generateData("x * 2 + 7", 0, xValues.length, 1);
 
       new Chart("burndownChart", {
         type: "line",
         data: {
           labels: xValues,
           datasets: [{
-            data: [<%= taskData %>],
+            label: "Actual Progression",
+            data: data,
             borderColor: "red",
             fill: false
-          }]
+          },
+          {
+            label: "Expected Progression",
+            data: yValues,
+            borderColor: "rgba(0,0,255,0.1)",
+            fill: false
+          }
+          ]
         },
         options: {
-          legend: { display: false }
+          legend: { display: false },
+          title: {
+            display: true,
+            text: "Progress of Sprint"
+          }
         }
       });
+
+      function generateData(value, i1, i2, step = 1) {
+        for (let x = i1; x < i2; x += step) {
+          yValues.push(-x * (data[0] / (xValues.length - 1)) + data[0]);
+        }
+      }
+
     </script>
   </body>
 
