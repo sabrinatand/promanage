@@ -545,20 +545,12 @@ app.get("/add-member", async function (req, res) {
   let memebers = await Member.find({});
   res.render("add-member", { members: memebers });
 });
-/*
+
 app.get("/add-member-user", async function (req, res) {
   let memebers = await Member.find({});
   res.render("add-member-user", { members: memebers });
 });
 
-app.post("/add-member-user", async function (req, res) {
-  let newMember = new Member({
-    name: req.body.name,
-  });
-  await newMember.save();
-  res.redirect("/add-member-user");
-});
-*/
 app.post("/add-member", async function (req, res) {
   let newMember = new Member({
     name: req.body.name,
