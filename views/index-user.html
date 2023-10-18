@@ -5,110 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="bootstrap.min.css" rel="stylesheet" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <title>Project Manager</title>
 </head>
 
 <body>
-  <style>
-    :root {
-      --primary-color: rgba(206, 202, 202, 0.75);
-      --secondary-color: #212121;
-    }
 
-    .dark-theme {
-      --primary-color: rgba(70, 64, 64, 0.75);
-      --secondary-color: #eee1e1;
-    }
-
-    .banner {
-      width: 100%;
-      height: 100vh;
-      background-image: linear-gradient(var(--primary-color), var(--primary-color)), url(/image/image.jpg);
-      background-size: cover;
-      background-position: center;
-    }
-
-    .navbar {
-      width: 85%;
-      margin: auto;
-      padding: 35px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      width: 120px;
-      cursor: pointer;
-    }
-
-    #icon {
-      width: 30px;
-      cursor: pointer;
-    }
-
-    .navbar ul {
-      flex: 1;
-      text-align: right;
-    }
-
-    .navbar ul li {
-      list-style: none;
-      display: inline-block;
-      margin: 0 20px;
-      position: relative;
-    }
-
-    .navbar ul li a {
-      text-decoration: none;
-      color: var(--secondary-color);
-      text-transform: uppercase;
-    }
-
-    .navbar ul li::after {
-      content: '';
-      height: 3px;
-      width: 0;
-      background: #009688;
-      position: absolute;
-      left: 0;
-      bottom: 0px;
-      transition: 0.5s;
-    }
-
-    .navbar ul li:hover::after {
-      width: 100%;
-    }
-
-    .content {
-      width: 100%;
-      position: absolute;
-      top: 40%;
-      transform: translateY(-50%);
-      text-align: center;
-      color: var(--secondary-color);
-    }
-
-    .content h1 {
-      font-size: 70px;
-      margin-top: 80px;
-    }
-
-    .content p {
-      margin: 20px auto;
-      font-weight: 100;
-      line-height: 25px;
-    }
-
-    .container {
-      position: relative;
-      top: 20%;
-      transform: translateY(-50%);
-      border-radius: 20px;
-    }
-  </style>
   <div class="banner">
-    <div class="navbar"> 
+    <nav>
       <img src="/image/logo.png" class="logo">
       <ul>
         <li><a href="/add-task-user">Add Tasks</a></li>
@@ -116,20 +20,51 @@
         <li><a href="/add-member-user">Team Members</a></li>
         <li><a href="/add-sprint-user">Add Sprint</a></li>
         <li><a href="/burndown-chart-user">Burndown Chart</a></li>
-        <li><a href="/">Sign Out</a></li>
       </ul>
-      <img src="image/moon.png" id="icon">
+      
+      <img src="image/user.png" class="user" onclick="toggleMenu()">
+
+      <div class="sub-menu-wrap" id="subMenu">
+        <div class="sub-menu">
+          <div class="user-info">
+            <img src="image/user.png" class="user">
+            <h4>User's name</h4>
+          </div>
+
+          <hr>
+          <a href="" class="sub-menu-link">
+            <div class="dark-mode-wrapper">
+            <i class='bx bx-moon' id="dark-icon"></i>
+            <p>Dark Mode</p>   
+          </div>
+          <div class="switch-wrapper">
+            <span><label class="switch">
+              <input type="checkbox" id="icon">
+              <span class="slider"></span>
+            </label></span>
+          </a>
+        </div>
     
-    </div>
+          <a href="/" class="sub-menu-link">
+            <i class='bx bx-log-out' id='dark-icon'></i>
+            <img src="">
+            <p>Sign Out</p>
+            <span>></span>
+          </a>
+        </div>
+      </div>
+      </nav>
+  
+    
     <% if (sprints && sprints.length > 0) {%>
-      <div class="container mt-4 rounded">
-        <table class="table">
+      <div class="container">
+        <table class="content-table">
           <thead>
               <tr>
-                  <th>Sprint</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Action</th>
+                  <td>Sprint</td>
+                  <td>Start Date</td>
+                  <td>End Date</td>
+                  <td>Action</td>
               </tr>
           </thead>
           <tbody>
@@ -139,15 +74,15 @@
                       <td><%= sprints[i].startDate.toDateString() %></td>
                       <td><%= sprints[i].endDate.toDateString() %></td>
                       <td><a href="/sprint-detail-user/<%= sprints[i]._id %>">
-                        <button class="btn btn-dark">View</button>
+                        <button type="button"><span></span>View</button>
                       </a></td>
                   </tr>
               <% } %>
               <% } %>
           </tbody>
-      </div>
       </table>
   </div>
+</div>
   <script>
     var icon = document.getElementById("icon");
 
@@ -162,5 +97,254 @@
     }
   </script>
 </body>
+<style>
+  :root{
+    --primary-color: rgba(206, 202, 202, 0.75);
+    --secondary-color: #212121;
+  }
 
+  .dark-theme{
+    --primary-color: rgba(70, 64, 64, 0.75);
+    --secondary-color: #eee1e1;
+  }
+  .banner{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(var(--primary-color), var(--primary-color)), url(/image/image.jpg);
+    background-size:cover;
+    background-position: center;
+  }
+  nav{
+    background: var(--primary-color);
+    width: 100%;
+    padding: 20px 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .logo{
+    width: 120px;
+    cursor: pointer;
+  }
+  .user{
+    width: 40px;
+    cursor: pointer;
+    margin-left: 30px;
+  }
+  nav ul{
+    flex: 1;
+    text-align: right;
+  }
+
+  nav ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+  }
+
+  nav ul li a{
+    text-decoration: none;
+    color: var(--secondary-color);
+    /* text-transform: uppercase; */
+  }
+
+  nav ul li::after{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #009688;
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    transition: 0.5s;
+  }
+
+  nav ul li:hover::after{
+    width: 100%;
+  }
+
+  .sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 10%;
+    width: 320px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+  }
+  .sub-menu-wrap.open-menu{
+    max-height: 400px;
+  }
+  .dark-mode-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 3px; 
+  }
+  .sub-menu{
+    background: #fff;
+    padding: 20px;
+    margin: 10px;
+  }
+  .user-info{
+    display: flex;
+    align-items: center;
+  }
+  .user-info h4{
+    font-weight: 500;
+  }
+  .user-info img{
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 16px;
+  }
+  .sub-menu hr{
+    border: 0;
+    height: 1px;
+    width: 100%;
+    background: #ccc;
+    margin: 15px 0 10px;
+  }
+  .sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+  }
+  .sub-menu-link p{
+    transform: translateY(25%); 
+    width: 100%;
+  }
+  .sub-menu-link i{
+    /* transform: translateY(-20%);  */
+    margin-right: 16px;
+    width: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 8px;
+  }
+
+  .sub-menu-link span{
+    font-size: 20px;
+    transition: transform 0.5s;
+  }
+  .sub-menu-link:hover span {
+    transform: translateX(5px);
+  }
+  .sub-menu-link:hover p{
+    font-weight: 600;
+  }
+  .switch {
+      /* transform: translateY(60%); */
+      position: relative;
+      display: inline-block;
+      width: 64px;
+      height: 33px;
+      margin: 0 10px;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .switch input{display: none;}
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 23px;
+      width: 23px;
+      left: 5px;
+      bottom: 5px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    input:checked + .slider {
+      background-color: #2f3846;
+    }
+    input:checked + .slider:before {
+      transform: translateX(32px);
+    }
+  .content-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 25px 0;
+        font-size: 100%;
+        min-width: 400px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .content-table thead tr {
+        background-color: #2d2928;
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .content-table td {
+        padding: 12px 15px;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .content-table tbody tr {
+        background-color: #f3f3f3;
+    }
+
+    .content-table tbody tr:last-of-type {
+        border-bottom: 2px solid #262221;
+    }
+
+    .content-table tbody tr.active-row {
+        font-weight: bold;
+        color: #3a3330;
+    }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+  button {
+      width: 100px;
+      padding: 5px 0;
+      text-align: center;
+      margin: 8px 4px;
+      border-radius: 23px;
+      font-weight: bold;
+      border: 2px solid #3a3a3a;
+      background: #bbb7b4;
+      color: #272525;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    button:hover {
+      border: none;
+    }
+</style>
+<script>
+  let subMenu = document.getElementById("subMenu");
+
+  function toggleMenu() {
+    subMenu.classList.toggle("open-menu");
+  }
+
+  var icon = document.getElementById("icon");
+
+  icon.onclick = function () {
+  document.body.classList.toggle("dark-theme");}
+</script>
 </html>
