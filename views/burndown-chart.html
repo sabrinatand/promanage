@@ -37,46 +37,46 @@
     }
   </style>
 </head>
-<body>
-<div class="btn-group">
-  <a type="button" class="btn btn-primary" href="/home">Home</a>
-</div>
 
 <body>
+
   <div class="btn-group">
-    <a type="button" class="btn btn-primary" href="/">Home</a>
+    <a type="button" class="btn btn-primary" href="/home">Home</a>
   </div>
 
-  <div>
-    <h2>Actual Remaining Work for Each Day</h2>
-  </div>
+  <body>
+    <div class="btn-group">
+      <a type="button" class="btn btn-primary" href="/">Home</a>
+    </div>
 
-  <div class="chart-container p-4">
-    <canvas id="burndownChart" width="400" height="200"></canvas>
-  </div>
+    <div>
+      <h2>Actual Remaining Work for Each Day</h2>
+    </div>
+
+    <div class="chart-container p-4">
+      <canvas id="burndownChart" width="400" height="200"></canvas>
+    </div>
 
 
-  <script>
-    const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+    <script type="text/javascript">
 
-    data = localStorage.getItem("data")
-    xValues = localStorage.getItem("value")
+      const xValues = [<%= linearData %>]
 
-    new Chart("burndownChart", {
-      type: "line",
-      data: {
-        labels: xValues,
-        datasets: [{
-          data: data,
-          borderColor: "red",
-          fill: false
-        }]
-      },
-      options: {
-        legend: { display: false }
-      }
-    });
-  </script>
-</body>
+      new Chart("burndownChart", {
+        type: "line",
+        data: {
+          labels: xValues,
+          datasets: [{
+            data: [<%= taskData %>],
+            borderColor: "red",
+            fill: false
+          }]
+        },
+        options: {
+          legend: { display: false }
+        }
+      });
+    </script>
+  </body>
 
 </html>
