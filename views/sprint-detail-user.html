@@ -8,7 +8,7 @@
 </head>
 
 <div class="container pt-4">
-  <a type="button" class="btn btn-dark" href="/home">Home</a>
+  <a type="button" class="btn btn-dark" href="/home-user">Home</a>
 </div>
 
 <body>
@@ -49,19 +49,7 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="container pt-4">
-        <form action="/delete-sprint" method="POST">
-          <input type="hidden" name="sprintId" value="<%= sprint._id %>">
-          <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-      </div>
-      <div class="container pt-4">
-        <a type="button" class="btn btn-dark" href="/start-sprint/<%= sprint.id %>">Start Sprint</a>
-        <a type="button" class="btn btn-dark" href="/stop-sprint/<%= sprint.id %>">Stop Sprint</a>
-        <a type="button" class="btn btn-dark" href="/finish-sprint/<%= sprint.id %>">Finish Sprint</a>
-      </div>
       <label for="sortPriority" class="form-label">Sort by Priority:</label>
       <select id="sortPriority" class="form-select">
         <option value="asc">Ascending</option>
@@ -90,7 +78,6 @@
               <th>Team Member</th>
               <th>Priority</th>
               <th>Details</th>
-              <th>Archive</th>
           </thead>
           <tbody>
             <% for(let i=0; i < tasks.length; i++ ){ %>
@@ -123,13 +110,8 @@
                   <%= tasks[i].priority %>
                 </td>
                 <td>
-                  <a href="/task-detail/<%= tasks[i]._id %>">
+                  <a href="/task-detail-user/<%= tasks[i]._id %>">
                     <button class="btn btn-dark">View</button>
-                  </a>
-                </td>
-                <td>
-                  <a href="/task-archive/<%= tasks[i]._id %>">
-                    <button class="btn btn-danger">Archive</button>
                   </a>
                 </td>
               </tr>

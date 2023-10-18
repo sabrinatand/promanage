@@ -2,86 +2,108 @@
 <html lang="en">
 
 <head>
+  <style>
+    body {
+      min-height: 100vh;
+      background: url('/image/background8.jpg') no-repeat;
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .container.pt-4 {
+      padding-top: 4rem;
+    }
+    .submit{
+      border-radius: 50px;
+      width: 100px;
+    }
+    .container.mt-4 {
+      margin-top: 4rem;
+    }
+    MainTable {
+      width: 100%;
+      background-color: #D8F0DA;
+      border: 1px;
+      min-width: 100%;
+      position: relative;
+      opacity: 0.6;
+      background: transparent;
+    }
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/bootstrap.min.css" rel="stylesheet" />
   <title>Product Backlog</title>
 </head>
 
+<body>
 <div class="container pt-4">
-  <a type="button" class="btn btn-dark" href="/">Home</a>
-  <a type="button" class="btn btn-dark" href="/add-task">Add Tasks</a>
+  <a type="button" class="btn btn-light" href="/home">Home</a>
+  <a type="button" class="btn btn-light" href="/add-task">Add Tasks</a>
 </div>
 
 <div class="container">
-  <div class="my-4 p-5 bg-dark text-white rounded">
+  <div class="my-4 p-5  text-white rounded">
     <h1>Product Backlog</h1>
     <p>List of Tasks</p>
   </div>
-
-</div>
 </div>
 
-<body>
-  <div class="container mt-4 rounded">
-    <table class="table table-sortable">
-      <thead class="table-dark">
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Duration In Days</th>
-          <th>Due Date</th>
-          <th>Team Member</th>
-          <th>Priority</th>
-          <th>Details</th>
-          <th>Delete</th>
-      </thead>
-      <tbody>
-        <% for(let i=0; i < tasks.length; i++ ){ %>
-          <tr>
-            <td>
-              <%= (i+1) %>
-            </td>
-            <td>
-              <%= tasks[i].name %>
-            </td>
-            <td>
-              <%= tasks[i].status %>
-            </td>
-            <td>
-              <%= tasks[i].startDate ? tasks[i].startDate : '-' %>
-            </td>
-            <td>
-              <%= tasks[i].endDate ? tasks[i].endDate : '-' %>
-            </td>
-            <td>
-              <%= tasks[i].duration %>
-            </td>
-            <td>
-              <%= tasks[i].dueDate %>
-            </td>
-            <td>
-              <%= tasks[i].teamMember %>
-            </td>
-            <td>
-              <%= tasks[i].priority %>
-            </td>
-            <td>
-              <a href="task-detail/<%= tasks[i]._id %>">
-                <button class="btn btn-dark">View</button>
-              </a>
-            </td>
-            <td>
-              <a href="delete-task/<%= tasks[i]._id %>">
-                <button class="btn btn-danger">Delete</button>
-              </a>
-            </td>
-          </tr>
-          <% } %>
-      </tbody>
-    </table>
-  </div>
+<div class="container mt-4 rounded">
+  <table class = "table-sortable" id="Main table" style="background-color:rgba(0, 0, 0, 0);">
+    <thead class="table-dark">
+    <tr>
+      <th style="color: white;">#</th>
+      <th style="color: white;">Name</th>
+      <th style="color: white;">Status</th>
+      <th style="color: white;">Start Date</th>
+      <th style="color: white;">End Date</th>
+      <th style="color: white;">Duration In Days</th>
+      <th style="color: white;">Due Date</th>
+      <th style="color: white;">Team Member</th>
+      <th style="color: white;">Priority</th>
+      <th style="color: white;">Details</th>
+      <th style="color: white;">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for(let i=0; i < tasks.length; i++ ){ %>
+    <tr>
+      <td style="color: white;"><%= (i+1) %></td>
+      <td style="color: white;"><%= tasks[i].name %></td>
+      <td style="color: white;"><%= tasks[i].status %></td>
+      <td style="color: white;"><%= tasks[i].startDate ? tasks[i].startDate : '-' %></td>
+      <td style="color: white;"><%= tasks[i].endDate ? tasks[i].endDate : '-' %></td>
+      <td style="color: white;"><%= tasks[i].duration %></td>
+      <td style="color: white;"><%= tasks[i].dueDate %></td>
+      <td style="color: white;"><%= tasks[i].teamMember %></td>
+      <td style="color: white;"><%= tasks[i].priority %></td>
+      <td>
+        <a href="task-detail/<%= tasks[i]._id %>">
+          <button class="btn btn-dark submit">View</button>
+        </a>
+      </td>
+      <td>
+        <a href="delete-task/<%= tasks[i]._id %>">
+          <button class="btn btn-danger submit">Delete</button>
+        </a>
+      </td>
+    </tr>
 
+    <% } %>
+    </tbody>
+  </table>
+</div>
+</body>
+
+</html>

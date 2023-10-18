@@ -4,65 +4,102 @@
 <head>
     <title>Add Team Member Page</title>
     <link href="/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('/image/background8.jpg') no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        MainTable {
+            width: 100%;
+            background-color: #D8F0DA;
+            border: 1px;
+            position: relative;
+            opacity: 0.6;
+            background: transparent;
+        }
+        .container {
+            padding: 20px;
+            background-color: transparent; /* Change to white background */
+            border-radius: 10px; /* Optional: Add some border-radius for rounded corners */
+        }
+        .card{
+            background:linear-gradient(
+                    rgba(0,0,0,0),
+                    rgba(0,0,0,0)
+            );}
+        .submit{
+            border-radius: 50px;
+            width: 100px;
+        }
+        .input-style {
+            border-radius: 50px;
+            width: 500px;
+            padding: 10px;
+        }
+
+    </style>
 </head>
 
 <body>
-    <main>
-        <div class="album py-5">
-            <div class="container">
-                <a type="button" class="btn btn-dark" href="/">Home</a>
-                <a type="button" class="btn btn-dark" href="/product-backlog">Product Backlog</a>
+<main>
+    <div class="album py-5">
+        <div class="container">
+            <a type="button" class="btn btn-dark" href="/home">Home</a>
+            <a type="button" class="btn btn-dark" href="/product-backlog">Product Backlog</a>
 
-                <div class="container mt-4 rounded">
-                    <table class="table table-sortable">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for(let i=0; i < members.length; i++ ){ %>
-                                <tr>
-                                    <td>
-                                        <%= (i+1) %>
-                                    </td>
-                                    <td>
-                                        <%= members[i].name %>
-                                    </td>
-                                    <td>
-                                        <a href="delete-member/<%= members[i]._id %>">
-                                            <button class="btn btn-danger">Delete</button>
-                                        </a>
-                                    </td>
-                                    <% } %>
-                                </tr>
-                        </tbody>
-                    </table>
-                </div>
 
-                <h3 class="my-2">Add New Team Member</h3>
-                <div class="row row-cols-1 row-cols-sm-2 g-3">
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <form action="/add-member" method="POST">
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Member Name</label>
-                                        <input type="text" name="name" class="form-control" id="name"
-                                            placeholder="Enter member name" required />
-                                    </div>
 
-                                    <button class="btn btn-dark">Submit</button>
-                                </form>
-                            </div>
+            <h3 class="my-2 text-white">Add New Team Member</h3>
+            <div class="row row-cols-1 row-cols-sm-2 g-3">
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <form action="/add-member" method="POST">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label text-white">Member Name</label>
+                                    <input type="text" name="name" class="form-control input-style" id="name"
+                                           placeholder="Enter member name" required />
+                                </div>
+
+                                <button class="btn btn-outline-light submit">Submit</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
+<div class="container mt-4 rounded">
+    <table class = "table-sortable" id="Main table" style="background-color:rgba(0, 0, 0, 0);">
+        <thead class="table-dark">
+        <tr>
+            <th style="color: white;">#</th>
+            <th style="color: white;">Name</th>
+            <th style="color: white;">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for(let i=0; i < members.length; i++ ){ %>
+        <tr>
+            <td style="color: white;"><%= (i+1) %></td>
+            <td style="color: white;"><%= members[i].name %></td>
+            <td>
+                <a href="delete-member/<%= members[i]._id %>">
+                    <button class="btn btn-danger submit">Delete</button>
+                </a>
+            </td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>
 </body>
 
 </html>

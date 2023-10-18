@@ -2,18 +2,58 @@
 <html lang="en" data-bs-theme="auto">
 
 <head>
-  <title>Add Book Page</title>
+  <title>Add Sprint Page</title>
   <link href="/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .bg-image {
+      min-height: 100vh;
+      background: url('/image/background8.jpg') no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    .input-style {
+      border-radius: 50px;
+      width: 500px;
+      padding: 10px;
+    }
+    .input-style-for {
+      border-radius: 50px;
+      width: 90px;
+      padding: 10px;
+    }
+    .container {
+      padding: 20px;
+    }
+
+    .submit {
+      border-radius: 50px;
+      width: 100px;
+    }
+
+    .card {
+      background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+    }
+
+    h3 {
+      opacity: 0.7;
+    }
+  </style>
 </head>
 
 <body>
+<div class="bg-image">
   <main>
     <div class="album py-5">
       <div class="container">
-        <a type="button" class="btn btn-primary" href="/">Home</a>
-        <a type="button" class="btn btn-primary" href="/sprint-detail">Sprint</a>
+        <a type="button" class="btn btn-light text-dark" href="/home">Home</a>
 
-        <h3 class="my-2">Add Sprint</h3>
+        <h3 class="my-2 text-white">Add Sprint</h3>
 
         <div class="row row-cols-1 row-cols-sm-2 g-3">
           <div class="col">
@@ -21,26 +61,26 @@
               <div class="card-body">
                 <form action="/add-sprint" method="POST">
                   <div class="mb-3">
-                    <label for="name" class="form-label">Name of the Sprint</label>
-                    <input type="name" name="name" class="form-control" id="name" placeholder="Enter sprint name"
-                      required />
+                    <label for="name" class="form-label" style="color: white;">Name of the Sprint</label>
+                    <input type="text" name="name" class="form-control input-style" id="name" placeholder="Enter sprint name"
+                           required />
                   </div>
 
                   <div class="mb-3">
-                    <label for="startDate" class="form-label">Start Date</label>
-                    <input type="datetime-local" name="startDate" class="form-control" id="startDate"
-                      placeholder="Enter Start Date" value="2023-01-01T00:00" required/>
+                    <label for="startDate" class="form-label" style="color: white;">Start Date</label>
+                    <input type="datetime-local" name="startDate" class="form-control input-style" id="startDate"
+                           placeholder="Enter Start Date" value="2023-01-01T00:00" required />
                   </div>
 
                   <div>
-                    <label for="duration">Sprint Duration</label>
+                    <label for="duration" style="color: white;">Sprint Duration</label>
                     <div>
-                        <input type="number" name="duration" id="duration" min="0" required>
-                        <span>days</span>
+                      <input type="number" name="duration" id="duration" class='form-control input-style-for'min="0" required>
+                      <span style="color: white;">days</span>
                     </div>
                   </div>
 
-                  <button class="btn btn-primary">Submit</button>
+                  <button class="btn btn-outline-light submit">Submit</button>
                 </form>
               </div>
             </div>
@@ -49,6 +89,7 @@
       </div>
     </div>
   </main>
+</div>
 </body>
 
 </html>
