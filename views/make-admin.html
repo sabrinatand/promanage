@@ -79,50 +79,27 @@
 
         </style>
         <div class="wrapper">
-            <form action="/signup" method="POST" onsubmit="return validateForm()">
-                <h1>Sign Up</h1>
-                <div class="input-box">
-                    <input type="text" name="usernameUser" placeholder="Username" required>
-                    <i class='bx bxs-user'></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" id="password" name="passwordUser" placeholder="Password" required>
-                    <i class='bx bxs-lock-alt'></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" id="reenterPassword" placeholder="Re-enter Password" required>
-                    <i class='bx bxs-lock-alt'></i>
-                </div>
+            <form action="/make-admin" method="POST">
+                <h1>Make Admin Account</h1>
+                <br>
                 <div>
-                    <a href="/home-user" class="button-link">
+                    <a href="/admin-created" class="button-link">
                         <button type="submit" class="btn">Submit</button>
                     </a>
                 </div>
             </form>
             <br>
             <div>
-                <a href="/login" class="button-link">
+                <a href="/login" class="button-link" type="button">
                     <button class="btn">Already Have an Account?</button>
                 </a>
             </div>
             <br>
             <div>
-                <a href="/" class="button-link">
+                <a href="/" class="button-link" type="button">
                     <button class="btn">Go Back</button>
                 </a>
             </div>
         </div>
-        <script>
-            function validateForm() {
-                const password = document.getElementById("password").value;
-                const reenterPassword = document.getElementById("reenterPassword").value;
-
-                if (password !== reenterPassword) {
-                    alert("Passwords do not match. Please re-enter your password.");
-                    return false;
-                }
-                return true;
-            }
-        </script>
     </body>
 </html>

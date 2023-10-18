@@ -16,14 +16,18 @@
     }
 
     .dark-theme {
-      --primary-color: rgba(70, 64, 64, 0.75);
-      --secondary-color: #eee1e1;
+        --primary-color: rgba(70, 64, 64, 0.75);
+        --secondary-color: #eee1e1;
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        height: 100%;
+        margin: 0;
     }
 
     .banner {
       width: 100%;
       height: 100vh;
-      background-image: linear-gradient(var(--primary-color), var(--primary-color)), url(/image/image.jpg);
+      background-image: linear-gradient(var(--primary-color), var(--primary-color)), url(/image/background8.jpg);
       background-size: cover;
       background-position: center;
     }
@@ -99,16 +103,30 @@
       font-weight: 100;
       line-height: 25px;
     }
-
+    MainTable {
+        background-color: #D8F0DA;
+        border: 1px;
+        position: relative;
+        opacity: 0.6;
+        background: transparent;
+    }
     .container {
       position: relative;
       top: 20%;
       transform: translateY(-50%);
       border-radius: 20px;
     }
+    form {
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+        linear-gradient(to right, #ffffff, #ffffff); /* Gradient with transparency */
+        background-blend-mode: normal, normal; /* Ensure transparency applies */
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px; /* Add margin to create space between forms */
+    }
   </style>
   <div class="banner">
-    <div class="navbar"> 
+    <div class="navbar">
       <img src="/image/logo.png" class="logo">
       <ul>
         <li><a href="/add-task">Add Tasks</a></li>
@@ -116,14 +134,15 @@
         <li><a href="/add-member">Team Members</a></li>
         <li><a href="/add-sprint">Add Sprint</a></li>
         <li><a href="/burndown-chart">Burndown Chart</a></li>
+          <li><a href="/change-user-password">Change User Password</a></li>
         <li><a href="/">Sign Out</a></li>
       </ul>
       <img src="image/moon.png" id="icon">
-    
+
     </div>
     <% if (sprints && sprints.length > 0) {%>
       <div class="container mt-4 rounded">
-        <table class="table">
+        <table class="Maintable">
           <thead>
               <tr>
                   <th>Sprint</th>
@@ -146,7 +165,6 @@
               <% } %>
           </tbody>
       </div>
-      </table>
   </div>
   <script>
     var icon = document.getElementById("icon");

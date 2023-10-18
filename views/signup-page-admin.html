@@ -79,34 +79,53 @@
 
         </style>
         <div class="wrapper">
-            <form action="/signup-admin" method="POST">
+            <form action="/signup-admin" method="POST" onsubmit="return validateForm()">
                 <h1>Admin Sign Up</h1>
                 <div class="input-box">
                     <input type="text" name="usernameAdmin" placeholder="Username" required>
                     <i class='bx bxs-user'></i>
                 </div>
-            <div class="input-box">
-                <input type="password" name="passwordAdmin" placeholder="Password" required>
-                <i class='bx bxs-lock-alt' ></i>
-            </div>
-            <div>
-                <a href="/home" class="button-link">
-                <button type="submit" class="btn">Submit</button>
-                </a>
-            </div>
+                <div class="input-box">
+                    <input type="password" name="passwordAdmin" id="passwordAdmin" placeholder="Password" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" id="reenterPassword" placeholder="Re-enter Password" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div>
+                    <a href="/home" class="button-link">
+                        <button type="submit" class="btn">Submit</button>
+                    </a>
+                </div>
             </form>
             <br>
             <div>
                 <a href="/login-admin" class="button-link">
-                <button class="btn">Already Have an Account?</button>
+                    <button class="btn">Already Have an Account?</button>
                 </a>
             </div>
             <br>
             <div>
                 <a href="/admin" class="button-link">
-                <button class="btn">Go Back</button>
+                    <button class="btn">Go Back</button>
                 </a>
             </div>
         </div>
-    </body>
-</html>
+        <script>
+            function validateForm() {
+                const password = document.getElementById("passwordAdmin").value;
+                const reenterPassword = document.getElementById("reenterPassword").value;
+
+                if (password !== reenterPassword) {
+                    alert("Passwords do not match. Please re-enter your password.");
+                    return false;
+                } else if (password === "") {
+                    alert("Field cannot be empty");
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+
