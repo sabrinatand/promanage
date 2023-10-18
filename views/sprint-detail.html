@@ -4,14 +4,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link href="/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<div class="container pt-4">
-  <a type="button" class="btn btn-dark" href="/home">Home</a>
-</div>
-
 <body>
+  <div class="banner">
+    <nav>
+      <img src="/image/logo-light.png" class="logo">
+      <ul>
+        <li><a href="/add-task">Add Tasks</a></li>
+        <li><a href="/product-backlog">Product Backlog</a></li>
+        <li><a href="/add-member">Team Members</a></li>
+        <li><a href="/add-sprint">Add Sprint</a></li>
+        <li><a href="/home"><i class='bx bxs-home'></i></a></li>
+      </ul>
+      
+      <img src="/image/user.png" class="user" onclick="toggleMenu()">
+
+      <div class="sub-menu-wrap" id="subMenu">
+        <div class="sub-menu">
+          <div class="user-info">
+            <img src="image/user.png" class="user">
+            <h4>Admin</h4>
+          </div>
+
+          <hr>
+          <a href="" class="sub-menu-link">
+            <div class="dark-mode-wrapper">
+            <i class='bx bx-moon' id="dark-icon"></i>
+            <p>Dark Mode</p>   
+          </div>
+          <div class="switch-wrapper">
+            <span><label class="switch">
+              <input type="checkbox" id="icon">
+              <span class="slider"></span>
+            </label></span>
+          </a>
+        </div>
+    
+          <a href="/" class="sub-menu-link">
+            <i class='bx bx-log-out' id='dark-icon'></i>
+            <img src="">
+            <p>Sign Out</p>
+            <span>></span>
+          </a>
+        </div>
+      </div>
+      </nav>
 
   <div class="album py-4">
     <div class="container">
@@ -19,7 +59,7 @@
       <div class="row">
 
 
-        <div class="my-2 p-5 bg-dark text-white rounded">
+        <div class="header">
           <h1>
             <%= sprint.name %>
           </h1>
@@ -56,26 +96,28 @@
           <input type="hidden" name="sprintId" value="<%= sprint._id %>">
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
-      </div>
       <div class="container pt-4">
         <a type="button" class="btn btn-dark" href="/start-sprint/<%= sprint.id %>">Start Sprint</a>
         <a type="button" class="btn btn-dark" href="/stop-sprint/<%= sprint.id %>">Stop Sprint</a>
         <a type="button" class="btn btn-dark" href="/finish-sprint/<%= sprint.id %>">Finish Sprint</a>
       </div>
+      </div>
+  
+      <div class="container pt-4 sort">
       <label for="sortPriority" class="form-label">Sort by Priority:</label>
-      <select id="sortPriority" class="form-select">
+      <select id="sortPriority" class="form-select sorting">
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>
-      <button id="sortButton">Sort</button>
+      <button id="sortButton" class="sort-button">Sort</button>
       <br>
       <label for="sortStatus" class="form-label">Sort by Status:</label>
-      <select id="sortStatus" class="form-select">
+      <select id="sortStatus" class="form-select sorting">
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>
-      <button id="sortButton1">Sort</button>
-
+      <button id="sortButton1" class="sort-button">Sort</button>
+    </div>
       <div class="container mt-4 rounded">
         <table class="table table-sortable">
           <thead class="table-dark">
@@ -137,266 +179,501 @@
           </tbody>
         </table>
       </div>
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const table = document.querySelector("table");
-          const tbody = table.querySelector("tbody");
+<style>
+ :root{
+    --grad-white : rgba(255, 255, 255, 0.75);
+    --primary-color: #fff;
+    --secondary-color: #ddd9d9;
+    --tertiary-color: #747473;
+    --quarternary-color: #2d2928;
+    --quinary-color:#212121;
+  }
 
-          const sortButton = document.getElementById("sortButton");
+  .dark-theme{
+    --primary-color: #212121;
+    --secondary-color: #2d2928;
+    --tertiary-color: #747473;
+    --quarternary-color: #ddd9d9;
+    --quinary-color: #fff;
+    --grad-white: rgba(80, 79, 79, 0.75);
+  }
+  .dark-theme .user-info img {
+    filter: brightness(0) invert(1);
+  } 
+  .dark-theme .user-info {
+    color: white; /* Set the text color to white */
+  }
+  .dark-theme .banner img {
+    filter: brightness(0) invert(1);
+  }
+  .banner{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(var(--grad-white), var(--primary-color)), url(/image/image.jpg);
+    background-size:cover;
+    background-position: center;
+  }
+  i.bx {
+  font-size: 24px; 
+  }
+  nav{
+    background: var(--secondary-color);
+    width: 100%;
+    padding: 20px 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .logo{
+    width: 120px;
+    cursor: pointer;
+    /* transform: translateY(-16%); */
+  }
+  .user{
+    width: 50px;
+    cursor: pointer;
+    margin-left: 30px;
+  }
+  nav ul{
+    flex: 1;
+    text-align: right;
+  }
 
-          sortButton.addEventListener("click", function () {
-            sortPriorityTable();
-          });
-        });
+  nav ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+  }
 
-        document.addEventListener("DOMContentLoaded", function () {
-          const table = document.querySelector("table");
-          const tbody = table.querySelector("tbody");
+  nav ul li a{
+    text-decoration: none;
+    color: var(--quarternary-color);
+    /* text-transform: uppercase; */
+  }
 
-          const sortButton = document.getElementById("sortButton1");
+  nav ul li::after{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: var(--primary-color);
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    transition: 0.5s;
+  }
 
-          sortButton.addEventListener("click", function () {
-            sortStatusTable();
-          });
-        });
+  nav ul li:hover::after{
+    width: 100%;
+  }
 
-        function sortPriorityTable() {
-          const sortBy = document.getElementById("sortPriority").value;
+  .sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 10%;
+    width: 320px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+    z-index: 2;
+  }
+  .sub-menu-wrap.open-menu{
+    max-height: 400px;
+  }
+  .dark-mode-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 3px; 
+  }
+  .sub-menu{
+    background: var(--secondary-color);
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid var(--quarternary-color);
+  }
+  .user-info{
+    display: flex;
+    align-items: center;
+  }
+  .user-info h4{
+    font-weight: 500;
+  }
+  .user-info img{
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 16px;
+  }
+  .sub-menu hr{
+    border: 0;
+    height: 1px;
+    width: 100%;
+    background: var(--tertiary-color);
+    margin: 15px 0 10px;
+  }
+  .sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--quarternary-color);
+    margin: 12px 0;
+  }
+  .sub-menu-link p{
+    transform: translateY(25%); 
+    width: 100%;
+  }
+  .sub-menu-link i{
+    /* transform: translateY(-20%);  */
+    margin-right: 16px;
+    width: 40px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    padding: 8px;
+  }
 
-          const table = document.querySelector("table");
-          const tbody = table.querySelector("tbody");
+  .sub-menu-link span{
+    font-size: 20px;
+    color: var(--quarternary-color);
+    transition: transform 0.5s;
+  }
+  .sub-menu-link:hover span {
+    transform: translateX(5px);
+  }
+  .sub-menu-link:hover p{
+    font-weight: 600;
+  }
+  .switch {
+    transform: translateX(60%);
+    position: relative;
+    display: inline-block;
+    width: 64px;
+    height: 33px;
+    margin: 0 10px;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--tertiary-color);
+    transition: .4s;
+    border-radius: 34px;
+  }
+  .switch input{display: none;}
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 23px;
+    width: 23px;
+    left: 5px;
+    bottom: 5px;
+    background-color: var(--primary-color);
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  input:checked + .slider {
+    background-color: var(--primary-color);
+  }
+  input:checked + .slider:before {
+    transform: translateX(32px);
+  }
+  .sorting {
+    width: 10%; 
+    text-align: right;
+    justify-content: right;
+  }
+  .sort-button {
+    margin-top: 5px;
+  }
+  /* .sort {
+    text-align: right;
+  } */
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const table = document.querySelector("table");
+    const tbody = table.querySelector("tbody");
 
-          const rows = Array.from(tbody.querySelectorAll("tr"));
+    const sortButton = document.getElementById("sortButton");
 
-          const priorityOrder = ["low", "medium", "high", "urgent"];
+    sortButton.addEventListener("click", function () {
+      sortPriorityTable();
+    });
+  });
 
-          const asc = (a, b) => {
-            tempA = a.querySelector('td:nth-child(9)').textContent.toLowerCase();
-            frontidx = -1;
-            for (let i = 0; i < tempA.length; i++) {
-              if ('a' <= tempA[i] && tempA[i] <= 'z') {
-                frontidx = i;
-                break;
-              }
-            }
-            backidx = -1;
-            for (let i = tempA.length - 1; i >= 0; i--) {
-              if ('a' <= tempA[i] && tempA[i] <= 'z') {
-                backidx = i;
-                break;
-              }
-            }
-            temA = "";
-            for (let i = frontidx; i <= backidx; i++) {
-              temA += tempA[i];
-            }
+  document.addEventListener("DOMContentLoaded", function () {
+    const table = document.querySelector("table");
+    const tbody = table.querySelector("tbody");
 
-            tempB = b.querySelector('td:nth-child(9)').textContent.toLowerCase();
-            frontidx = -1;
-            for (let i = 0; i < tempB.length; i++) {
-              if ('a' <= tempB[i] && tempB[i] <= 'z') {
-                frontidx = i;
-                break;
-              }
-            }
-            backidx = -1;
-            for (let i = tempB.length - 1; i >= 0; i--) {
-              if ('a' <= tempB[i] && tempB[i] <= 'z') {
-                backidx = i;
-                break;
-              }
-            }
-            temB = "";
-            for (let i = frontidx; i <= backidx; i++) {
-              temB += tempB[i];
-            }
+    const sortButton = document.getElementById("sortButton1");
 
-            idxA = -1, idxB = -1;
-            for (let i = 0; i < priorityOrder.length; i++) {
-              if (temA == priorityOrder[i]) idxA = i;
-              if (temB == priorityOrder[i]) idxB = i;
-            }
-            return idxA - idxB;
-          }
+    sortButton.addEventListener("click", function () {
+      sortStatusTable();
+    });
+  });
 
-          const dsc = (a, b) => {
-            tempA = a.querySelector('td:nth-child(9)').textContent.toLowerCase();
-            frontidx = -1;
-            for (let i = 0; i < tempA.length; i++) {
-              if ('a' <= tempA[i] && tempA[i] <= 'z') {
-                frontidx = i;
-                break;
-              }
-            }
-            backidx = -1;
-            for (let i = tempA.length - 1; i >= 0; i--) {
-              if ('a' <= tempA[i] && tempA[i] <= 'z') {
-                backidx = i;
-                break;
-              }
-            }
-            temA = "";
-            for (let i = frontidx; i <= backidx; i++) {
-              temA += tempA[i];
-            }
+  function sortPriorityTable() {
+    const sortBy = document.getElementById("sortPriority").value;
 
-            tempB = b.querySelector('td:nth-child(9)').textContent.toLowerCase();
-            frontidx = -1;
-            for (let i = 0; i < tempB.length; i++) {
-              if ('a' <= tempB[i] && tempB[i] <= 'z') {
-                frontidx = i;
-                break;
-              }
-            }
-            backidx = -1;
-            for (let i = tempB.length - 1; i >= 0; i--) {
-              if ('a' <= tempB[i] && tempB[i] <= 'z') {
-                backidx = i;
-                break;
-              }
-            }
-            temB = "";
-            for (let i = frontidx; i <= backidx; i++) {
-              temB += tempB[i];
-            }
+    const table = document.querySelector("table");
+    const tbody = table.querySelector("tbody");
 
-            idxA = -1, idxB = -1;
-            for (let i = 0; i < priorityOrder.length; i++) {
-              if (temA == priorityOrder[i]) idxA = i;
-              if (temB == priorityOrder[i]) idxB = i;
-            }
-            return idxB - idxA;
-          }
+    const rows = Array.from(tbody.querySelectorAll("tr"));
 
-          if (sortBy == "asc") rows.sort(asc);
-          if (sortBy == "desc") rows.sort(dsc);
+    const priorityOrder = ["low", "medium", "high", "urgent"];
 
-          tbody.innerHTML = "";
-
-          rows.forEach((row) => {
-            tbody.appendChild(row);
-          });
+    const asc = (a, b) => {
+      tempA = a.querySelector('td:nth-child(9)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempA.length; i++) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          frontidx = i;
+          break;
         }
-
-        function sortStatusTable() {
-          const sortBy = document.getElementById("sortStatus").value;
-
-          const table = document.querySelector("table");
-          const tbody = table.querySelector("tbody");
-
-          const rows = Array.from(tbody.querySelectorAll("tr"));
-
-          const priorityOrder = ["not started", "in progress", "finished"];
-
-          const asc = (a, b) => {
-            tempA = a.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            frontidx = -1;
-            for (let i = 0; i < tempA.length; i++) {
-              if ('a' <= tempA[i] && tempA[i] <= 'z') {
-                frontidx = i;
-                break;
-              }
-            }
-            backidx = -1;
-            for (let i = tempA.length - 1; i >= 0; i--) {
-              if ('a' <= tempA[i] && tempA[i] <= 'z') {
-                backidx = i;
-                break;
-              }
-            }
-            temA = "";
-            for (let i = frontidx; i <= backidx; i++) {
-              temA += tempA[i];
-            }
-
-            tempB = b.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            frontidx = -1;
-            for (let i = 0; i < tempB.length; i++) {
-              if ('a' <= tempB[i] && tempB[i] <= 'z') {
-                frontidx = i;
-                break;
-              }
-            }
-            backidx = -1;
-            for (let i = tempB.length - 1; i >= 0; i--) {
-              if ('a' <= tempB[i] && tempB[i] <= 'z') {
-                backidx = i;
-                break;
-              }
-            }
-            temB = "";
-            for (let i = frontidx; i <= backidx; i++) {
-              temB += tempB[i];
-            }
-
-            idxA = -1, idxB = -1;
-            for (let i = 0; i < priorityOrder.length; i++) {
-              if (temA == priorityOrder[i]) idxA = i;
-              if (temB == priorityOrder[i]) idxB = i;
-            }
-            return idxA - idxB;
-          }
-
-          const dsc = (a, b) => {
-            tempA = a.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            frontidx = -1;
-            for (let i = 0; i < tempA.length; i++) {
-              if ('a' <= tempA[i] && tempA[i] <= 'z') {
-                frontidx = i;
-                break;
-              }
-            }
-            backidx = -1;
-            for (let i = tempA.length - 1; i >= 0; i--) {
-              if ('a' <= tempA[i] && tempA[i] <= 'z') {
-                backidx = i;
-                break;
-              }
-            }
-            temA = "";
-            for (let i = frontidx; i <= backidx; i++) {
-              temA += tempA[i];
-            }
-
-            tempB = b.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            frontidx = -1;
-            for (let i = 0; i < tempB.length; i++) {
-              if ('a' <= tempB[i] && tempB[i] <= 'z') {
-                frontidx = i;
-                break;
-              }
-            }
-            backidx = -1;
-            for (let i = tempB.length - 1; i >= 0; i--) {
-              if ('a' <= tempB[i] && tempB[i] <= 'z') {
-                backidx = i;
-                break;
-              }
-            }
-            temB = "";
-            for (let i = frontidx; i <= backidx; i++) {
-              temB += tempB[i];
-            }
-
-            idxA = -1, idxB = -1;
-            for (let i = 0; i < priorityOrder.length; i++) {
-              if (temA == priorityOrder[i]) idxA = i;
-              if (temB == priorityOrder[i]) idxB = i;
-            }
-            return idxB - idxA;
-          }
-
-          if (sortBy == "asc") rows.sort(asc);
-          if (sortBy == "desc") rows.sort(dsc);
-
-          tbody.innerHTML = "";
-
-          rows.forEach((row) => {
-            tbody.appendChild(row);
-          });
+      }
+      backidx = -1;
+      for (let i = tempA.length - 1; i >= 0; i--) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          backidx = i;
+          break;
         }
+      }
+      temA = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temA += tempA[i];
+      }
 
-      </script>
+      tempB = b.querySelector('td:nth-child(9)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempB.length; i++) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempB.length - 1; i >= 0; i--) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temB = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temB += tempB[i];
+      }
+
+      idxA = -1, idxB = -1;
+      for (let i = 0; i < priorityOrder.length; i++) {
+        if (temA == priorityOrder[i]) idxA = i;
+        if (temB == priorityOrder[i]) idxB = i;
+      }
+      return idxA - idxB;
+    }
+
+    const dsc = (a, b) => {
+      tempA = a.querySelector('td:nth-child(9)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempA.length; i++) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempA.length - 1; i >= 0; i--) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temA = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temA += tempA[i];
+      }
+
+      tempB = b.querySelector('td:nth-child(9)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempB.length; i++) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempB.length - 1; i >= 0; i--) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temB = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temB += tempB[i];
+      }
+
+      idxA = -1, idxB = -1;
+      for (let i = 0; i < priorityOrder.length; i++) {
+        if (temA == priorityOrder[i]) idxA = i;
+        if (temB == priorityOrder[i]) idxB = i;
+      }
+      return idxB - idxA;
+    }
+
+    if (sortBy == "asc") rows.sort(asc);
+    if (sortBy == "desc") rows.sort(dsc);
+
+    tbody.innerHTML = "";
+
+    rows.forEach((row) => {
+      tbody.appendChild(row);
+    });
+  }
+
+  function sortStatusTable() {
+    const sortBy = document.getElementById("sortStatus").value;
+
+    const table = document.querySelector("table");
+    const tbody = table.querySelector("tbody");
+
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    const priorityOrder = ["not started", "in progress", "finished"];
+
+    const asc = (a, b) => {
+      tempA = a.querySelector('td:nth-child(3)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempA.length; i++) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempA.length - 1; i >= 0; i--) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temA = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temA += tempA[i];
+      }
+
+      tempB = b.querySelector('td:nth-child(3)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempB.length; i++) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempB.length - 1; i >= 0; i--) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temB = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temB += tempB[i];
+      }
+
+      idxA = -1, idxB = -1;
+      for (let i = 0; i < priorityOrder.length; i++) {
+        if (temA == priorityOrder[i]) idxA = i;
+        if (temB == priorityOrder[i]) idxB = i;
+      }
+      return idxA - idxB;
+    }
+
+    const dsc = (a, b) => {
+      tempA = a.querySelector('td:nth-child(3)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempA.length; i++) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempA.length - 1; i >= 0; i--) {
+        if ('a' <= tempA[i] && tempA[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temA = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temA += tempA[i];
+      }
+
+      tempB = b.querySelector('td:nth-child(3)').textContent.toLowerCase();
+      frontidx = -1;
+      for (let i = 0; i < tempB.length; i++) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          frontidx = i;
+          break;
+        }
+      }
+      backidx = -1;
+      for (let i = tempB.length - 1; i >= 0; i--) {
+        if ('a' <= tempB[i] && tempB[i] <= 'z') {
+          backidx = i;
+          break;
+        }
+      }
+      temB = "";
+      for (let i = frontidx; i <= backidx; i++) {
+        temB += tempB[i];
+      }
+
+      idxA = -1, idxB = -1;
+      for (let i = 0; i < priorityOrder.length; i++) {
+        if (temA == priorityOrder[i]) idxA = i;
+        if (temB == priorityOrder[i]) idxB = i;
+      }
+      return idxB - idxA;
+    }
+
+    if (sortBy == "asc") rows.sort(asc);
+    if (sortBy == "desc") rows.sort(dsc);
+
+    tbody.innerHTML = "";
+
+    rows.forEach((row) => {
+      tbody.appendChild(row);
+    });
+  }
+</script>
+<script>
+  let subMenu = document.getElementById("subMenu");
+  let logoImage = document.getElementById("logoImage");
+  let darkModeIcon = document.getElementById("dark-icon");
+
+  function toggleMenu() {
+    subMenu.classList.toggle("open-menu");
+  }
+
+  var icon = document.getElementById("icon");
+
+  icon.onclick = function () {
+  document.body.classList.toggle("dark-theme");
+
+  if (document.body.classList.contains("dark-theme")) {
+      logoImage.src = "/image/logo-dark.png"; 
+    } else {
+      logoImage.src = "/image/logo-light.png"; 
+    }
+  }
+
+
+darkModeIcon.onclick = toggleDarkMode;
+</script>
 </body>
 
 </html>
