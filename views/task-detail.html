@@ -59,11 +59,27 @@
             </div>
           </div>
         </div>
-        </form>
-      </div class="container pt-4">
-      <form action="/change-sprint/<%= task.id %>" method="POST">
+      </div>
+    </div>
+  </div>
+
+  <div class="container pt-4">
+    <a type="button" class="btn btn-dark mr-2" href="/edit-task/<%= task.id %>">Edit Task</a>
+    <div class="container pt-4">
+      <form action="/finish-task/<%= task.id %>" method="POST">
+        <label for="date">Finished Date</label>
         <div class="input-group">
-          <select name="newSprint" class="form-select">
+          <input type="datetime-local" name="date" class="form-control" id="date" required>
+          <button type="submit" class="btn btn-dark">Finish Task</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="container pt-4">
+      <form action="/change-sprint/<%= task.id %>" method="POST">
+        <label for="select">Move Sprint</label>
+        <div class="input-group">
+          <select name="newSprint" class="form-select" id="select">
             <option value="" selected disabled hidden>Move Sprint</option>
             <% for(let i=0; i < sprint.length; i++ ){ %>
               <option value="<%= sprint[i]._id %>">
@@ -78,11 +94,6 @@
   </div>
 
 
-
-  <div class="container pt-4">
-    <a type="button" class="btn btn-dark mr-2" href="/edit-task/<%= task.id %>">Edit Task</a>
-    <a type="button" class="btn btn-dark" href="/finish-task/<%= task.id %>">Finish Task</a>
-  </div>
 </body>
 
 

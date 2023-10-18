@@ -29,6 +29,11 @@ const sprintSchema = mongoose.Schema({
       ref: "Task",
     },
   ],
+  taskNumber: {
+    type: Number,
+    default: 0,
+  },
+  taskFinished: [{ type: Number, default: 0 }],
 });
 
 sprintSchema.methods.calculateEndDate = function () {

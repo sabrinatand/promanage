@@ -6,6 +6,7 @@ const Sprint = require("./models/sprint");
 const mongoose = require("mongoose");
 const taskRouter = require("./routes/task-route");
 const path = require("path");
+const task = require("./models/task");
 
 const url = "mongodb://127.0.0.1:27017/tasks";
 
@@ -36,13 +37,13 @@ app.get("/", function (req, res) {
   res.render("login-home");
 });
 
-app.get('/login', (req, res) => {
+app.get("/login", (req, res) => {
   res.render("login-page");
 });
 
-app.post('/login', (req, res) => {
-  res.redirect("/home")
-})
+app.post("/login", (req, res) => {
+  res.redirect("/home");
+});
 
 app.get("/home", async function (req, res) {
   let sprint = await Sprint.find({});
@@ -88,7 +89,6 @@ app.post("/add-task", async function (req, res) {
       name: obj.name,
       status: status,
       description: obj.description,
-      startDateTime: obj.startDateTime,
       teamMember: obj.teamMember,
       priority: obj.priority,
       startDate: startDate,
@@ -193,11 +193,15 @@ app.post("/edit-task/:taskId", async function (req, res) {
     obj.duration = duration;
     let status = obj.status;
     const today = new Date();
-    if (startDate < today) {
-      status = "In Progress";
-    }
 
-    task.endDate = null;
+    if (task.status === "Finished") {
+      status = "Finished";
+    } else {
+      if (startDate < today) {
+        status = "In Progress";
+      }
+      task.endDate = null;
+    }
     task.status = status;
     await task.save();
 
@@ -215,15 +219,29 @@ app.post("/change-sprint/:id", async function (req, res) {
   let theSprint = await Sprint.findOne({ _id: sprintId });
   theTask.sprint.push(theSprint._id);
   theSprint.taskList.push(theTask._id);
+  theSprint.taskNumber += 1;
 
-  console.log(theTask.sprint[0]);
   if (theTask.sprint[0] !== theSprint._id) {
     let oldSprint = await Sprint.findOne({ _id: theTask.sprint[0] });
     oldSprint.taskList.pull({ _id: theTask._id });
-    theTask.sprint.pull({ _id: oldSprint._id });
-    await oldSprint.save();
-  }
+    oldSprint.taskNumber -= 1;
 
+    if (theTask.status === "Finished") {
+      let taskDate = new Date(theTask.endDate);
+      let sprintDate = new Date(oldSprint.startDate);
+
+      const durationMiliseconds = taskDate.getTime() - sprintDate.getTime();
+      const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
+      const total_minutes = parseInt(Math.floor(total_seconds / 60));
+      const total_hours = parseInt(Math.floor(total_minutes / 60));
+      const duration = parseInt(Math.floor(total_hours / 24)) + 1;
+
+      theSprint.taskFinished.push(duration + 0.1);
+
+      theTask.sprint.pull({ _id: oldSprint._id });
+      await oldSprint.save();
+    }
+  }
   await theTask.save();
   await theSprint.save();
 
@@ -249,16 +267,37 @@ app.get("/delete-member/:id", async function (req, res) {
   res.redirect("/add-member");
 });
 
-app.get("/finish-task/:taskId", async function (req, res) {
+app.post("/finish-task/:taskId", async function (req, res) {
   try {
     let taskId = req.params.taskId;
+    let date = req.body.date;
     let task = await Task.findOne({ _id: taskId });
 
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    task.endDate = new Date();
+    if (task.status === "Finished") {
+      res.status(404).json({ message: "Task is already finished" });
+    }
+
+    task.endDate = new Date(date);
+
+    if (task.sprint.length !== 0) {
+      let theSprint = await Sprint.findOne({ _id: task.sprint[0] });
+
+      let startDate = new Date(theSprint.startDate);
+      console.log(task.endDate.getTime());
+      console.log(startDate);
+      const durationMiliseconds = task.endDate.getTime() - startDate.getTime();
+      const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
+      const total_minutes = parseInt(Math.floor(total_seconds / 60));
+      const total_hours = parseInt(Math.floor(total_minutes / 60));
+      const duration = parseInt(Math.floor(total_hours / 24)) + 1;
+      theSprint.taskFinished.push(duration);
+      await theSprint.save();
+    }
+
     task.status = "Finished";
     await task.save();
 
@@ -267,8 +306,50 @@ app.get("/finish-task/:taskId", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
-app.get("/burndown-chart", function (req, res) {
-  res.render("burndown-chart");
+
+app.get("/burndown-chart/:sprintId", async function (req, res) {
+  try {
+    let taskData = [];
+    let linear = [];
+    let sprintId = req.params.sprintId;
+    let theSprint = await Sprint.findOne({ _id: sprintId });
+    let taskArray = theSprint.taskFinished;
+    let taskNumber = theSprint.taskNumber;
+    taskArray.sort(function (a, b) {
+      return a - b;
+    });
+
+    let tasks = taskNumber;
+    let counter = 0;
+    for (let i = 0; i < theSprint.duration; i++) {
+      while (i === Math.round(taskArray[counter])) {
+        if (taskArray[counter] % 1 === 0) {
+          tasks -= 1;
+        } else {
+          tasks += 1;
+        }
+        counter += 1;
+      }
+      taskData[i] = tasks;
+    }
+
+    let linearCount = 0;
+    for (let i = 0; i < theSprint.duration; i++) {
+      linear[i] = linearCount;
+      linearCount += 1;
+    }
+
+    const xValues = linear;
+
+    localStorage.setItem("data", taskData);
+    localStorage.setItem("value", xValues);
+
+    console.log(taskData);
+
+    res.render("burndown-chart");
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.get("/sprint", async function (req, res) {
@@ -323,6 +404,20 @@ app.get("/task-archive/:id", async function (req, res) {
 
     theTask.sprint.pull({ _id: theSprint._id });
     theSprint.taskList.pull({ _id: theTask._id });
+    theSprint.taskNumber -= 1;
+
+    if (theTask.status === "Finished") {
+      let taskDate = new Date(theTask.endDate);
+      let sprintDate = new Date(theSprint.startDate);
+
+      const durationMiliseconds = taskDate.getTime() - sprintDate.getTime();
+      const total_seconds = parseInt(Math.floor(durationMiliseconds / 1000));
+      const total_minutes = parseInt(Math.floor(total_seconds / 60));
+      const total_hours = parseInt(Math.floor(total_minutes / 60));
+      const duration = parseInt(Math.floor(total_hours / 24)) + 1;
+
+      theSprint.taskFinished.push(duration + 0.1);
+    }
 
     await theTask.save();
     await theSprint.save();
