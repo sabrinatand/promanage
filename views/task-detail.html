@@ -105,6 +105,7 @@
 
   <div class="container pt-4">
     <a type="button" class="button" href="/edit-task/<%= task.id %>">Edit Task</a>
+    <a type="button" class="button" href="/delete-task/<%= task.id %>">Delete Task</a>
     <div class="container pt-4">
       <form action="/finish-task/<%= task.id %>" method="POST">
         <label for="date">Finished Date</label>
