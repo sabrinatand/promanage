@@ -37,15 +37,15 @@ app.get("/", function (req, res) {
   res.render("login-home");
 });
 
-app.get('/admin', (req, res) => {
+app.get("/admin", (req, res) => {
   res.render("admin-home");
 });
 
-app.get('/account-not-found', (req, res) => {
+app.get("/account-not-found", (req, res) => {
   res.render("account-not-found");
 });
 
-app.get('/wrong-password', (req, res) => {
+app.get("/wrong-password", (req, res) => {
   res.render("wrong-password");
 });
 /*
@@ -147,11 +147,11 @@ app.post('/login', (req, res) => {
 });
 */
 
-app.get('/login', (req, res) => {
+app.get("/login", (req, res) => {
   res.render("login-page");
 });
 
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const foundUser = await User.findOne({ usernameUser: username });
   const foundAdmin = await Admin.findOne({ usernameAdmin: username });
@@ -159,26 +159,22 @@ app.post('/login', async (req, res) => {
     if (foundUser) {
       if (foundUser.passwordUser === password) {
         res.redirect("/home-user");
+      } else {
+        res.redirect("/wrong-password");
       }
-      else {
-        res.redirect("/wrong-password")
-      }
-    } 
-    else if (foundAdmin) {
+    } else if (foundAdmin) {
       if (foundAdmin.passwordAdmin === password) {
         res.redirect("/home");
+      } else {
+        res.redirect("/wrong-password");
       }
-      else {
-        res.redirect("/wrong-password")
-      }
-      } 
-    else {
-        res.redirect("/account-not-found");
-      }
+    } else {
+      res.redirect("/account-not-found");
+    }
   } catch (error) {
-    console.error('Error logging in:', error);
-    res.status(500).send('Error logging in');
-}
+    console.error("Error logging in:", error);
+    res.status(500).send("Error logging in");
+  }
 });
 
 app.get("/make-account", (req, res) => {
@@ -190,24 +186,24 @@ app.post("/make-account", async (req, res) => {
   const PasswordDef = "User1";
   const accountExist = await User.find({});
   try {
-  if (accountExist.length === 0) {
-    const newUser = new User({
-      usernameUser: UsernameDef,
-      passwordUser: PasswordDef,
-    });
-    await newUser.save();
-    res.redirect("/account-created");
-  } else {
-    res.redirect("/account-created")
-  }
+    if (accountExist.length === 0) {
+      const newUser = new User({
+        usernameUser: UsernameDef,
+        passwordUser: PasswordDef,
+      });
+      await newUser.save();
+      res.redirect("/account-created");
+    } else {
+      res.redirect("/account-created");
+    }
   } catch (error) {
-    console.error('Error signing up user:', error);
-    res.status(500).send('Error signing up user');
+    console.error("Error signing up user:", error);
+    res.status(500).send("Error signing up user");
   }
 });
 
 app.get("/account-created", async (req, res) => {
-  const account = await User.find({})
+  const account = await User.find({});
   res.render("account-created", { records: account });
 });
 
@@ -220,25 +216,25 @@ app.post("/make-admin", async (req, res) => {
   const PasswordDef = "Admin1";
   const accountExist = await Admin.find({});
   try {
-  if (accountExist.length === 0) {
-    const newAdmin = new Admin({
-      usernameAdmin: UsernameDef,
-      passwordAdmin: PasswordDef,
-    });
-    await newAdmin.save();
-    res.redirect("/admin-created");
-  } else {
-    res.redirect("/admin-created")
-  }
+    if (accountExist.length === 0) {
+      const newAdmin = new Admin({
+        usernameAdmin: UsernameDef,
+        passwordAdmin: PasswordDef,
+      });
+      await newAdmin.save();
+      res.redirect("/admin-created");
+    } else {
+      res.redirect("/admin-created");
+    }
   } catch (error) {
-    console.error('Error signing up admin:', error);
-    res.status(500).send('Error signing up admin');
+    console.error("Error signing up admin:", error);
+    res.status(500).send("Error signing up admin");
   }
 });
 
 app.get("/admin-created", async (req, res) => {
   res.render("admin-created");
-})
+});
 
 app.get("/home", async function (req, res) {
   let sprint = await Sprint.find({});
@@ -620,7 +616,7 @@ app.post("/finish-task/:taskId", async function (req, res) {
 app.get("/burndown-chart/:sprintId", async function (req, res) {
   try {
     let taskData = [];
-    let linear = [];
+    let linearData = [];
     let sprintId = req.params.sprintId;
     let theSprint = await Sprint.findOne({ _id: sprintId });
     let taskArray = theSprint.taskFinished;
@@ -645,18 +641,16 @@ app.get("/burndown-chart/:sprintId", async function (req, res) {
 
     let linearCount = 0;
     for (let i = 0; i < theSprint.duration; i++) {
-      linear[i] = linearCount;
+      linearData[i] = linearCount;
       linearCount += 1;
     }
 
-    const xValues = linear;
-
-    localStorage.setItem("data", taskData);
-    localStorage.setItem("value", xValues);
-
     console.log(taskData);
 
-    res.render("burndown-chart");
+    res.render("burndown-chart", {
+      taskData: taskData,
+      linearData: linearData,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -738,7 +732,8 @@ app.get("/sprint-detail-user/:sprintId", async function (req, res) {
     let sprintId = req.params.sprintId;
     let sprint = await Sprint.findOne({ _id: sprintId });
     let tasks = await Task.find({ _id: sprint.taskList });
-    if (sprint) res.render("sprint-detail-user", { sprint: sprint, tasks: tasks });
+    if (sprint)
+      res.render("sprint-detail-user", { sprint: sprint, tasks: tasks });
   } catch {
     res.status(404).send("Sprint not found");
   }
@@ -829,7 +824,7 @@ app.get("/finish-sprint/:sprintId", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
-app.get('/change-user-password', (req, res) => {
+app.get("/change-user-password", (req, res) => {
   res.render("change-user-password");
 });
 app.post("/change-user-password", async function (req, res) {
@@ -842,18 +837,19 @@ app.post("/change-user-password", async function (req, res) {
       { new: true }
     );
     if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.redirect("/home");
   } catch (err) {
     res.status(500).json({ message: err.message });
-   }
+  }
 });
 function generateUserID() {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const randomAlphabets = Array.from({ length: 3 }, () =>
-      alphabet[Math.floor(Math.random() * alphabet.length)]
-  ).join('');
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const randomAlphabets = Array.from(
+    { length: 3 },
+    () => alphabet[Math.floor(Math.random() * alphabet.length)]
+  ).join("");
 
   const randomNumbers = Math.floor(1000 + Math.random() * 9000); // Random 4-digit number
 
