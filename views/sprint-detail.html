@@ -17,6 +17,7 @@
         <li><a href="/product-backlog">Product Backlog</a></li>
         <li><a href="/add-member">Team Members</a></li>
         <li><a href="/add-sprint">Add Sprint</a></li>
+        <li><a href="/change-user-password">Change User Password</a></li>
         <li><a href="/home"><i class='bx bxs-home'></i></a></li>
       </ul>
       
@@ -91,19 +92,16 @@
         </div>
       </div>
 
-      <div class="container pt-4">
         <form action="/delete-sprint" method="POST">
           <input type="hidden" name="sprintId" value="<%= sprint._id %>">
-          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="submit" class="button-delete right-align">Delete</button>
         </form>
-      <div class="container pt-4">
-        <a type="button" class="btn btn-dark" href="/start-sprint/<%= sprint.id %>">Start Sprint</a>
-        <a type="button" class="btn btn-dark" href="/stop-sprint/<%= sprint.id %>">Stop Sprint</a>
-        <a type="button" class="btn btn-dark" href="/finish-sprint/<%= sprint.id %>">Finish Sprint</a>
-      </div>
-      </div>
-  
-      <div class="container pt-4 sort">
+        <a type="button" class="button-sprint right-align" href="/start-sprint/<%= sprint.id %>">Start Sprint</a>
+        <a type="button" class="button-sprint right-align" href="/stop-sprint/<%= sprint.id %>">Stop Sprint</a>
+        <a type="button" class="button-sprint right-align" href="/finish-sprint/<%= sprint.id %>">Finish Sprint</a>
+      
+  <div class="sort-container">
+  <div class="sort-table">
       <label for="sortPriority" class="form-label">Sort by Priority:</label>
       <select id="sortPriority" class="form-select sorting">
         <option value="asc">Ascending</option>
@@ -111,13 +109,15 @@
       </select>
       <button id="sortButton" class="sort-button">Sort</button>
       <br>
-      <label for="sortStatus" class="form-label">Sort by Status:</label>
+      <label for="sortStatus" class="form-label sorting">Sort by Status:</label>
       <select id="sortStatus" class="form-select sorting">
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>
       <button id="sortButton1" class="sort-button">Sort</button>
     </div>
+  </div>
+  
       <div class="container mt-4 rounded">
         <table class="table table-sortable">
           <thead class="table-dark">
@@ -211,6 +211,7 @@
     height: 100vh;
     background-image: linear-gradient(var(--grad-white), var(--primary-color)), url(/image/image.jpg);
     background-size:cover;
+    background-attachment: fixed;
     background-position: center;
   }
   i.bx {
@@ -386,10 +387,80 @@
   }
   .sort-button {
     margin-top: 5px;
+    margin: 7px 0;
+    border-radius: 19px;
+    font-weight: 500;
+    border: 0;
+    background: var(--quarternary-color);
+    color: var(--primary-color);
+    cursor: pointer;
+    overflow: hidden;
+    width: 70px; 
+    padding: 4px; 
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
   }
-  /* .sort {
-    text-align: right;
-  } */
+  .button-delete {
+    margin: 7px 0;
+    border-radius: 19px;
+    font-weight: 500;
+    border: 0;
+    background: var(--quarternary-color);
+    color: var(--primary-color);
+    cursor: pointer;
+    overflow: hidden;
+    width: 80px; 
+    padding: 6px; 
+    display: inline-block;
+    text-align: center;
+  }
+  .button-sprint {
+    margin: 7px 0;
+    border-radius: 19px;
+    font-weight: 500;
+    border: 0;
+    background: var(--quarternary-color);
+    color: var(--primary-color);
+    cursor: pointer;
+    overflow: hidden;
+    width: 120px; 
+    padding: 6px; 
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+  }
+  .sort-container {
+    text-align: left; 
+  }
+  .right-align{
+    float: right;
+    margin-left: 10px;
+    transform: translateY(500%);
+  }
+  .table-dark th {
+    background-color: var(--quinary-color);
+    color: var(--primary-color);
+    text-align: center;
+  }
+
+  .table.table-sortable tbody tr td {
+    background-color: var(--primary-color);
+    color: var(--quarternary-color)
+  }
+  .row header h1 {
+    color: var(--quinary-color)
+  }
+  .header h1 {
+    color: var(--quinary-color); /* Example: color: red; */
+  }
+
+/* Change the color of the "Sort by Priority" and "Sort by Status" labels */
+  .form-label {
+    color: var(--quinary-color); /* Example: color: blue; */
+  }
+
+  
 </style>
 <script>
   document.addEventListener("DOMContentLoaded", function () {

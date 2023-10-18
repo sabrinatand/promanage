@@ -100,7 +100,7 @@
                 </td>
                 <td>
                   <a href="delete-member/<%= members[i]._id %>">
-                    <button class="btn-danger">Delete</button>
+                    <button class="button-del">Delete</button>
                   </a>
                 </td>
                 <% } %>
@@ -157,6 +157,7 @@
     height: 100vh;
     background-image: linear-gradient(var(--grad-white), var(--primary-color)), url(/image/image.jpg);
     background-size: cover;
+    background-attachment: fixed;
     background-position: center;
   }
 
@@ -432,7 +433,20 @@
     text-align: center;
     display: inline-block;
   }
-
+  .button-del {
+    margin: 5px 0;
+    border-radius: 19px;
+    font-weight: 500;
+    border: 0;
+    background: var(--tertiary-color);
+    color: var(--primary-color);
+    cursor: pointer;
+    overflow: hidden;
+    width: 80px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+  }
   .card-body form {
     text-align: center;
   }
