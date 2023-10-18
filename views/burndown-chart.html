@@ -5,51 +5,57 @@
   <title>Burndown Chart</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js"></script>
-
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
-  <style>
-    /* Additional CSS styles */
-    body {
-      padding: 20px;
-    }
-
-    .btn-primary {
-      background-color: black;
-      color: white;
-      border: none;
-    }
-
-    .btn-primary:hover {
-      background-color: darkgray;
-    }
-
-    .btn-group {
-      margin-bottom: 20px;
-    }
-
-    .btn-group button {
-      margin-right: 5px;
-    }
-
-    .chart-container {
-      margin-top: 20px;
-    }
-  </style>
 </head>
 
 <body>
+  <div class="banner">
+    <nav>
+      <img src="/image/logo-light.png" class="logo">
+      <ul>
+        <li><a href="/add-task">Add Tasks</a></li>
+        <li><a href="/product-backlog">Product Backlog</a></li>
+        <li><a href="/add-member">Team Members</a></li>
+        <li><a href="/add-sprint">Add Sprint</a></li>
+        <li><a href="/change-user-password">Change User Password</a></li>
+        <li><a href="/home"><i class='bx bxs-home'></i></a></li>
+      </ul>
+      
+      <img src="/image/user.png" class="user" onclick="toggleMenu()">
 
-  <div class="btn-group">
-    <a type="button" class="btn btn-primary" href="/home">Home</a>
-  </div>
+      <div class="sub-menu-wrap" id="subMenu">
+        <div class="sub-menu">
+          <div class="user-info">
+            <img src="/image/user.png" class="user">
+            <h4>Admin</h4>
+          </div>
 
-  <body>
-    <div class="btn-group">
-      <a type="button" class="btn btn-primary" href="/">Home</a>
-    </div>
+          <hr>
+          <a href="" class="sub-menu-link">
+            <div class="dark-mode-wrapper">
+            <i class='bx bx-moon' id="dark-icon"></i>
+            <p>Dark Mode</p>   
+          </div>
+          <div class="switch-wrapper">
+            <span><label class="switch">
+              <input type="checkbox" id="icon">
+              <span class="slider"></span>
+            </label></span>
+          </a>
+        </div>
+    
+          <a href="/" class="sub-menu-link">
+            <i class='bx bx-log-out' id='dark-icon'></i>
+            <img src="">
+            <p>Sign Out</p>
+            <span>></span>
+          </a>
+        </div>
+      </div>
+      </nav>
 
-    <div>
+    <div class="header">
       <h2>Actual Remaining Work for Each Day</h2>
     </div>
 
@@ -101,5 +107,248 @@
 
     </script>
   </body>
+<style>
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
 
+  html {
+    height: 100%;
+    overflow: hidden;
+  }
+  :root{
+    --grad-white : rgba(255, 255, 255, 0.75);
+    --primary-color: #fff;
+    --secondary-color: #ddd9d9;
+    --tertiary-color: #747473;
+    --quarternary-color: #2d2928;
+    --quinary-color:#212121;
+  }
+
+  .dark-theme{
+    --primary-color: #212121;
+    --secondary-color: #2d2928;
+    --tertiary-color: #747473;
+    --quarternary-color: #ddd9d9;
+    --quinary-color: #fff;
+    --grad-white: rgba(80, 79, 79, 0.75);
+  }
+  .dark-theme .user-info img {
+    filter: brightness(0) invert(1);
+  } 
+  .dark-theme .user-info {
+    color: white; /* Set the text color to white */
+  }
+  .dark-theme .banner img {
+    filter: brightness(0) invert(1);
+  }
+  .banner{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(var(--grad-white), var(--primary-color)), url(/image/image.jpg);
+    background-size:cover;
+    background-attachment: fixed;
+    background-position: center;
+  }
+  i.bx {
+  font-size: 24px; 
+  }
+  nav{
+    background: var(--secondary-color);
+    width: 100%;
+    padding: 20px 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .logo{
+    width: 120px;
+    cursor: pointer;
+    /* transform: translateY(-16%); */
+  }
+  .user{
+    width: 50px;
+    cursor: pointer;
+    margin-left: 30px;
+  }
+  nav ul{
+    flex: 1;
+    text-align: right;
+  }
+
+  nav ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+  }
+
+  nav ul li a{
+    text-decoration: none;
+    color: var(--quarternary-color);
+    /* text-transform: uppercase; */
+  }
+
+  nav ul li::after{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: var(--primary-color);
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    transition: 0.5s;
+  }
+
+  nav ul li:hover::after{
+    width: 100%;
+  }
+
+  .sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 10%;
+    width: 320px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+    z-index: 2;
+  }
+  .sub-menu-wrap.open-menu{
+    max-height: 400px;
+  }
+  .dark-mode-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 3px; 
+  }
+  .sub-menu{
+    background: var(--secondary-color);
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid var(--quarternary-color);
+  }
+  .user-info{
+    display: flex;
+    align-items: center;
+  }
+  .user-info h4{
+    font-weight: 500;
+  }
+  .user-info img{
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 16px;
+  }
+  .sub-menu hr{
+    border: 0;
+    height: 1px;
+    width: 100%;
+    background: var(--tertiary-color);
+    margin: 15px 0 10px;
+  }
+  .sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--quarternary-color);
+    margin: 12px 0;
+  }
+  .sub-menu-link p{
+    transform: translateY(25%); 
+    width: 100%;
+  }
+  .sub-menu-link i{
+    /* transform: translateY(-20%);  */
+    margin-right: 16px;
+    width: 40px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    padding: 8px;
+  }
+
+  .sub-menu-link span{
+    font-size: 20px;
+    color: var(--quarternary-color);
+    transition: transform 0.5s;
+  }
+  .sub-menu-link:hover span {
+    transform: translateX(5px);
+  }
+  .sub-menu-link:hover p{
+    font-weight: 600;
+  }
+  .switch {
+    transform: translateX(60%);
+    position: relative;
+    display: inline-block;
+    width: 64px;
+    height: 33px;
+    margin: 0 10px;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--tertiary-color);
+    transition: .4s;
+    border-radius: 34px;
+  }
+  .switch input{display: none;}
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 23px;
+    width: 23px;
+    left: 5px;
+    bottom: 5px;
+    background-color: var(--primary-color);
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  input:checked + .slider {
+    background-color: var(--primary-color);
+  }
+  input:checked + .slider:before {
+    transform: translateX(32px);
+  }
+  .chart-container {
+      margin-top: 20px;
+      width: 1200px;
+      height: 3500px;
+      transform: translateX(12%);
+    }
+  .header h2 {
+    font-size: 30px;
+    text-align: center;
+  }
+
+</style>
+<script>
+  let subMenu = document.getElementById("subMenu");
+  let logoImage = document.getElementById("logoImage");
+  let darkModeIcon = document.getElementById("dark-icon");
+
+  function toggleMenu() {
+    subMenu.classList.toggle("open-menu");
+  }
+
+  var icon = document.getElementById("icon");
+
+  icon.onclick = function () {
+  document.body.classList.toggle("dark-theme");
+
+  if (document.body.classList.contains("dark-theme")) {
+      logoImage.src = "/image/logo-dark.png"; 
+    } else {
+      logoImage.src = "/image/logo-light.png"; 
+    }
+  }
+
+</script>
 </html>

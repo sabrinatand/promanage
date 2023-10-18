@@ -20,9 +20,10 @@
         <li><a href="/product-backlog">Product Backlog</a></li>
         <li><a href="/add-member">Team Members</a></li>
         <li><a href="/add-sprint">Add Sprint</a></li>
+        <li><a href="/change-user-password">Change User Password</a></li>
         <li><a href="/home"><i class='bx bxs-home'></i></a></li>
       </ul>
-      
+
       <img src="image/user.png" id="userImage" class="user" onclick="toggleMenu()">
 
       <div class="sub-menu-wrap" id="subMenu">
@@ -35,99 +36,100 @@
           <hr>
           <a href="" class="sub-menu-link">
             <div class="dark-mode-wrapper">
-            <i class='bx bx-moon' id="dark-icon"></i>
-            <p>Dark Mode</p>   
-          </div>
-          <div class="switch-wrapper">
-            <span><label class="switch">
-              <input type="checkbox" id="icon">
-              <span class="slider"></span>
-            </label></span>
+              <i class='bx bx-moon' id="dark-icon"></i>
+              <p>Dark Mode</p>
+            </div>
+            <div class="switch-wrapper">
+              <span><label class="switch">
+                  <input type="checkbox" id="icon">
+                  <span class="slider"></span>
+                </label></span>
           </a>
         </div>
-    
-          <a href="/" class="sub-menu-link">
-            <i class='bx bx-log-out' id='dark-icon'></i>
-            <img src="">
-            <p>Sign Out</p>
-            <span>></span>
-          </a>
-        </div>
+
+        <a href="/" class="sub-menu-link">
+          <i class='bx bx-log-out' id='dark-icon'></i>
+          <img src="">
+          <p>Sign Out</p>
+          <span>></span>
+        </a>
       </div>
-      </nav>
+  </div>
+  </nav>
 
   <main>
-  
 
-      <div class="task-heading">
-        <h3>Add New Task</h3>
-      </div>
-        <div class="row row-cols-1 row-cols-sm-2 g-3" >
-          <div class="col mx-auto">
-            <div class="card shadow-sm">
-                <div class="card-body"> 
-                <form action="/add-task" method="POST">
-                  <div class="mb-3">
-                    <label for="name" class="form-label">Task Name</label>
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Enter task name"
-                      required />
-                  </div>
 
-                  <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <input type="text" name="description" class="form-control" id="description"
-                      placeholder="Enter description" />
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="teamMember" class="form-label">Assigned Member</label>
-                        <select name="teamMember" class="form-select" id="teamMember">
-                          <% for(let i=0; i < members.length; i++ ){ %>
-                            <option value="<%= members[i].name %>">
-                              <%= members[i].name %>
-                            </option>
-                            <% } %>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="priority" class="form-label">Priority</label>
-                        <select name="priority" class="form-select" id="priority">
-                          <option value="Low">Low</option>
-                          <option value="Medium">Medium</option>
-                          <option value="High">High</option>
-                          <option value="Urgent">Urgent</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="startDate" class="form-label">Start Date (default is current time)</label>
-                        <input type="datetime-local" name="startDate" class="form-control smaller" id="startDate" value="2023-01-01T00:00" />
-                      </div>
-                    </div>
-                  
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="dueDate" class="form-label">Due Date</label>
-                        <input type="datetime-local" name="dueDate" class="form-control smaller" id="dueDate" value="2023-01-01T00:00" />
-                      </div>
-                    </div>
-                  </div>
-                
-                  <button class="btn-submit">Submit</button>
-                </form>
+    <div class="task-heading">
+      <h3>Add New Task</h3>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 g-3">
+      <div class="col mx-auto">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <form action="/add-task" method="POST">
+              <div class="mb-3">
+                <label for="name" class="form-label">Task Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Enter task name" required />
               </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" name="description" class="form-control" id="description"
+                  placeholder="Enter description" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="teamMember" class="form-label">Assigned Member</label>
+                    <select name="teamMember" class="form-select" id="teamMember">
+                      <% for(let i=0; i < members.length; i++ ){ %>
+                        <option value="<%= members[i].name %>">
+                          <%= members[i].name %>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="priority" class="form-label">Priority</label>
+                    <select name="priority" class="form-select" id="priority">
+                      <option value="Low">Low</option>
+                      <option value="Medium">Medium</option>
+                      <option value="High">High</option>
+                      <option value="Urgent">Urgent</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="startDate" class="form-label">Start Date (default is current time)</label>
+                    <input type="datetime-local" name="startDate" class="form-control smaller" id="startDate"
+                      value="2023-01-01T00:00" />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="dueDate" class="form-label">Due Date</label>
+                    <input type="datetime-local" name="dueDate" class="form-control smaller" id="dueDate"
+                      value="2023-01-01T00:00" />
+                  </div>
+                </div>
+              </div>
+
+              <button class="btn-submit">Submit</button>
+            </form>
+          </div>
         </div>
       </div>
-      </div>
+    </div>
     </div>
   </main>
 </body>
@@ -142,20 +144,21 @@
   var icon = document.getElementById("icon");
 
   icon.onclick = function () {
-  document.body.classList.toggle("dark-theme");}
+    document.body.classList.toggle("dark-theme");
+  }
 </script>
 
 <style>
-  :root{
-    --grad-white : rgba(255, 255, 255, 0.75);
+  :root {
+    --grad-white: rgba(255, 255, 255, 0.75);
     --primary-color: #fff;
     --secondary-color: #ddd9d9;
     --tertiary-color: #747473;
     --quarternary-color: #2d2928;
-    --quinary-color:#212121;
+    --quinary-color: #212121;
   }
 
-  .dark-theme{
+  .dark-theme {
     --primary-color: #212121;
     --secondary-color: #2d2928;
     --tertiary-color: #747473;
@@ -163,26 +166,34 @@
     --quinary-color: #fff;
     --grad-white: rgba(80, 79, 79, 0.75);
   }
+
   .dark-theme .user-info img {
     filter: brightness(0) invert(1);
-  } 
-  .dark-theme .user-info {
-    color: white; /* Set the text color to white */
   }
+
+  .dark-theme .user-info {
+    color: white;
+    /* Set the text color to white */
+  }
+
   .dark-theme .banner img {
     filter: brightness(0) invert(1);
   }
-  .banner{
+
+  .banner {
     width: 100%;
     height: 100vh;
     background-image: linear-gradient(var(--grad-white), var(--primary-color)), url(/image/image.jpg);
-    background-size:cover;
+    background-size: cover;
+    background-attachment: fixed;
     background-position: center;
   }
+
   i.bx {
-  font-size: 24px; 
+    font-size: 24px;
   }
-  nav{
+
+  nav {
     background: var(--secondary-color);
     width: 100%;
     padding: 20px 10%;
@@ -191,35 +202,38 @@
     justify-content: space-between;
     position: relative;
   }
-  .logo{
+
+  .logo {
     width: 120px;
     cursor: pointer;
     /* transform: translateY(-16%); */
   }
-  .user{
+
+  .user {
     width: 50px;
     cursor: pointer;
     margin-left: 30px;
   }
-  nav ul{
+
+  nav ul {
     flex: 1;
     text-align: right;
   }
 
-  nav ul li{
+  nav ul li {
     list-style: none;
     display: inline-block;
     margin: 0 20px;
     position: relative;
   }
 
-  nav ul li a{
+  nav ul li a {
     text-decoration: none;
     color: var(--quarternary-color);
     /* text-transform: uppercase; */
   }
 
-  nav ul li::after{
+  nav ul li::after {
     content: '';
     height: 3px;
     width: 0;
@@ -230,11 +244,11 @@
     transition: 0.5s;
   }
 
-  nav ul li:hover::after{
+  nav ul li:hover::after {
     width: 100%;
   }
 
-  .sub-menu-wrap{
+  .sub-menu-wrap {
     position: absolute;
     top: 100%;
     right: 10%;
@@ -244,51 +258,61 @@
     transition: max-height 0.5s;
     z-index: 2;
   }
-  .sub-menu-wrap.open-menu{
+
+  .sub-menu-wrap.open-menu {
     max-height: 400px;
   }
+
   .dark-mode-wrapper {
     display: flex;
     align-items: center;
-    margin-right: 3px; 
+    margin-right: 3px;
   }
-  .sub-menu{
+
+  .sub-menu {
     background: var(--secondary-color);
     padding: 20px;
     margin: 10px;
     border: 1px solid var(--quarternary-color);
   }
-  .user-info{
+
+  .user-info {
     display: flex;
     align-items: center;
   }
-  .user-info h4{
+
+  .user-info h4 {
     font-weight: 500;
   }
-  .user-info img{
+
+  .user-info img {
     width: 60px;
     border-radius: 50%;
     margin-right: 16px;
   }
-  .sub-menu hr{
+
+  .sub-menu hr {
     border: 0;
     height: 1px;
     width: 100%;
     background: var(--tertiary-color);
     margin: 15px 0 10px;
   }
-  .sub-menu-link{
+
+  .sub-menu-link {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: var(--quarternary-color);
     margin: 12px 0;
   }
-  .sub-menu-link p{
-    transform: translateY(25%); 
+
+  .sub-menu-link p {
+    transform: translateY(25%);
     width: 100%;
   }
-  .sub-menu-link i{
+
+  .sub-menu-link i {
     /* transform: translateY(-20%);  */
     margin-right: 16px;
     width: 40px;
@@ -297,17 +321,20 @@
     padding: 8px;
   }
 
-  .sub-menu-link span{
+  .sub-menu-link span {
     font-size: 20px;
     color: var(--quarternary-color);
     transition: transform 0.5s;
   }
+
   .sub-menu-link:hover span {
     transform: translateX(5px);
   }
-  .sub-menu-link:hover p{
+
+  .sub-menu-link:hover p {
     font-weight: 600;
   }
+
   .switch {
     transform: translateX(60%);
     position: relative;
@@ -316,6 +343,7 @@
     height: 33px;
     margin: 0 10px;
   }
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -327,7 +355,11 @@
     transition: .4s;
     border-radius: 34px;
   }
-  .switch input{display: none;}
+
+  .switch input {
+    display: none;
+  }
+
   .slider:before {
     position: absolute;
     content: "";
@@ -339,20 +371,25 @@
     transition: 0.4s;
     border-radius: 50px;
   }
-  input:checked + .slider {
+
+  input:checked+.slider {
     background-color: var(--primary-color);
   }
-  input:checked + .slider:before {
+
+  input:checked+.slider:before {
     transform: translateX(32px);
   }
-  .card{
+
+  .card {
     background-color: var(--primary-color);
   }
+
   .card label {
     color: var(--quarternary-color);
   }
-  .btn-submit{
-    transform: translateX(275%); 
+
+  .btn-submit {
+    transform: translateX(275%);
     margin: 10px 0;
     border-radius: 19px;
     font-weight: 500;
@@ -361,25 +398,28 @@
     color: var(--primary-color);
     cursor: pointer;
     overflow: hidden;
-    width: 100px; 
-    padding: 10px; 
+    width: 100px;
+    padding: 10px;
     text-align: center;
     display: inline-block;
-    }
+  }
+
   .task-heading {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px; 
+    height: 100px;
   }
+
   .task-heading h3 {
     margin: 0;
     font-family: "Lora", sans-serif;
-    font-size: 3em; 
-    color: var(--quarternary-color); 
-    text-transform: uppercase; 
-    font-weight: bold; 
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+    font-size: 3em;
+    color: var(--quarternary-color);
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   }
 </style>
+
 </html>

@@ -19,7 +19,7 @@
         <li><a href="/add-member-user">Team Members</a></li>
         <li><a href="/home-user"><i class='bx bxs-home'></i></a></li>
       </ul>
-      
+
       <img src="image/user.png" id="userImage" class="user" onclick="toggleMenu()">
 
       <div class="sub-menu-wrap" id="subMenu">
@@ -32,31 +32,31 @@
           <hr>
           <a href="" class="sub-menu-link">
             <div class="dark-mode-wrapper">
-            <i class='bx bx-moon' id="dark-icon"></i>
-            <p>Dark Mode</p>   
-          </div>
-          <div class="switch-wrapper">
-            <span><label class="switch">
-              <input type="checkbox" id="icon">
-              <span class="slider"></span>
-            </label></span>
+              <i class='bx bx-moon' id="dark-icon"></i>
+              <p>Dark Mode</p>
+            </div>
+            <div class="switch-wrapper">
+              <span><label class="switch">
+                  <input type="checkbox" id="icon">
+                  <span class="slider"></span>
+                </label></span>
           </a>
         </div>
-    
-          <a href="/" class="sub-menu-link">
-            <i class='bx bx-log-out' id='dark-icon'></i>
-            <img src="">
-            <p>Sign Out</p>
-            <span>></span>
-          </a>
-        </div>
-      </div>
-      </nav>
 
-    <div class="header">
-      <h1>Product Backlog</h1>
-    </div>
-      
+        <a href="/" class="sub-menu-link">
+          <i class='bx bx-log-out' id='dark-icon'></i>
+          <img src="">
+          <p>Sign Out</p>
+          <span>></span>
+        </a>
+      </div>
+  </div>
+  </nav>
+
+  <div class="header">
+    <h1>Product Backlog</h1>
+  </div>
+
   <div class="container mt-4 rounded">
     <table class="table table-sortable">
       <thead class="table-dark">
@@ -114,31 +114,33 @@
   </div>
   </div>
 </body>
+
 </html>
-  <script>
-    let subMenu = document.getElementById("subMenu");
-  
-    function toggleMenu() {
-      subMenu.classList.toggle("open-menu");
-    }
-  
-    var icon = document.getElementById("icon");
-  
-    icon.onclick = function () {
-    document.body.classList.toggle("dark-theme");}
-  </script>
-  
+<script>
+  let subMenu = document.getElementById("subMenu");
+
+  function toggleMenu() {
+    subMenu.classList.toggle("open-menu");
+  }
+
+  var icon = document.getElementById("icon");
+
+  icon.onclick = function () {
+    document.body.classList.toggle("dark-theme");
+  }
+</script>
+
 <style>
-  :root{
-    --grad-white : rgba(255, 255, 255, 0.75);
+  :root {
+    --grad-white: rgba(255, 255, 255, 0.75);
     --primary-color: #fff;
     --secondary-color: #ddd9d9;
     --tertiary-color: #747473;
     --quarternary-color: #2d2928;
-    --quinary-color:#212121;
+    --quinary-color: #212121;
   }
 
-  .dark-theme{
+  .dark-theme {
     --primary-color: #212121;
     --secondary-color: #2d2928;
     --tertiary-color: #747473;
@@ -146,26 +148,34 @@
     --quinary-color: #fff;
     --grad-white: rgba(80, 79, 79, 0.75);
   }
+
   .dark-theme .user-info img {
     filter: brightness(0) invert(1);
-  } 
-  .dark-theme .user-info {
-    color: white; /* Set the text color to white */
   }
+
+  .dark-theme .user-info {
+    color: white;
+    /* Set the text color to white */
+  }
+
   .dark-theme .banner img {
     filter: brightness(0) invert(1);
   }
-  .banner{
+
+  .banner {
     width: 100%;
     height: 100vh;
     background-image: linear-gradient(var(--grad-white), var(--primary-color)), url(/image/image.jpg);
-    background-size:cover;
+    background-size: cover;
     background-position: center;
+    background-attachment: fixed;
   }
+
   i.bx {
-  font-size: 24px; 
+    font-size: 24px;
   }
-  nav{
+
+  nav {
     background: var(--secondary-color);
     width: 100%;
     padding: 20px 10%;
@@ -174,35 +184,38 @@
     justify-content: space-between;
     position: relative;
   }
-  .logo{
+
+  .logo {
     width: 120px;
     cursor: pointer;
     /* transform: translateY(-16%); */
   }
-  .user{
+
+  .user {
     width: 50px;
     cursor: pointer;
     margin-left: 30px;
   }
-  nav ul{
+
+  nav ul {
     flex: 1;
     text-align: right;
   }
 
-  nav ul li{
+  nav ul li {
     list-style: none;
     display: inline-block;
     margin: 0 20px;
     position: relative;
   }
 
-  nav ul li a{
+  nav ul li a {
     text-decoration: none;
     color: var(--quarternary-color);
     /* text-transform: uppercase; */
   }
 
-  nav ul li::after{
+  nav ul li::after {
     content: '';
     height: 3px;
     width: 0;
@@ -213,11 +226,11 @@
     transition: 0.5s;
   }
 
-  nav ul li:hover::after{
+  nav ul li:hover::after {
     width: 100%;
   }
 
-  .sub-menu-wrap{
+  .sub-menu-wrap {
     position: absolute;
     top: 100%;
     right: 10%;
@@ -227,51 +240,61 @@
     transition: max-height 0.5s;
     z-index: 2;
   }
-  .sub-menu-wrap.open-menu{
+
+  .sub-menu-wrap.open-menu {
     max-height: 400px;
   }
+
   .dark-mode-wrapper {
     display: flex;
     align-items: center;
-    margin-right: 3px; 
+    margin-right: 3px;
   }
-  .sub-menu{
+
+  .sub-menu {
     background: var(--secondary-color);
     padding: 20px;
     margin: 10px;
     border: 1px solid var(--quarternary-color);
   }
-  .user-info{
+
+  .user-info {
     display: flex;
     align-items: center;
   }
-  .user-info h4{
+
+  .user-info h4 {
     font-weight: 500;
   }
-  .user-info img{
+
+  .user-info img {
     width: 60px;
     border-radius: 50%;
     margin-right: 16px;
   }
-  .sub-menu hr{
+
+  .sub-menu hr {
     border: 0;
     height: 1px;
     width: 100%;
     background: var(--tertiary-color);
     margin: 15px 0 10px;
   }
-  .sub-menu-link{
+
+  .sub-menu-link {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: var(--quarternary-color);
     margin: 12px 0;
   }
-  .sub-menu-link p{
-    transform: translateY(25%); 
+
+  .sub-menu-link p {
+    transform: translateY(25%);
     width: 100%;
   }
-  .sub-menu-link i{
+
+  .sub-menu-link i {
     /* transform: translateY(-20%);  */
     margin-right: 16px;
     width: 40px;
@@ -280,17 +303,20 @@
     padding: 8px;
   }
 
-  .sub-menu-link span{
+  .sub-menu-link span {
     font-size: 20px;
     color: var(--quarternary-color);
     transition: transform 0.5s;
   }
+
   .sub-menu-link:hover span {
     transform: translateX(5px);
   }
-  .sub-menu-link:hover p{
+
+  .sub-menu-link:hover p {
     font-weight: 600;
   }
+
   .switch {
     transform: translateX(60%);
     position: relative;
@@ -299,6 +325,7 @@
     height: 33px;
     margin: 0 10px;
   }
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -310,7 +337,11 @@
     transition: .4s;
     border-radius: 34px;
   }
-  .switch input{display: none;}
+
+  .switch input {
+    display: none;
+  }
+
   .slider:before {
     position: absolute;
     content: "";
@@ -322,31 +353,35 @@
     transition: 0.4s;
     border-radius: 50px;
   }
-  input:checked + .slider {
+
+  input:checked+.slider {
     background-color: var(--primary-color);
   }
-  input:checked + .slider:before {
+
+  input:checked+.slider:before {
     transform: translateX(32px);
   }
+
   .header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px; 
+    height: 100px;
   }
+
   .header h1 {
     margin: 0;
     font-family: "Lora", sans-serif;
-    font-size: 2em; 
-    color: var(--quarternary-color); 
-    text-transform: uppercase; 
-    font-weight: bold; 
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+    font-size: 2em;
+    color: var(--quarternary-color);
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   }
- 
+
   .table-dark th {
-    background-color: #333; 
-    color: #fff; 
+    background-color: #333;
+    color: #fff;
   }
 
   .table-sortable tbody tr:nth-child(odd) {
@@ -354,13 +389,13 @@
   }
 
   .btn.btn-dark {
-    background-color: #007bff; 
-    color: #fff; 
-    border-color: #007bff; 
-  }
-  .btn.btn-dark:hover {
-    background-color: #0056b3; 
-    border-color: #0056b3; 
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
   }
 
+  .btn.btn-dark:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
 </style>
