@@ -299,7 +299,7 @@ app.post("/add-task", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
-
+/*
 app.get("/add-task-user", async function (req, res) {
   let members = await Member.find({});
   res.render("add-task-user", { members: members });
@@ -354,7 +354,7 @@ app.post("/add-task-user", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
-
+*/
 app.get("/product-backlog", async function (req, res) {
   try {
     let tasks = await Task.find({});
@@ -518,7 +518,7 @@ app.post("/change-sprint/:id", async function (req, res) {
 
   res.redirect(`/sprint-detail/${sprintId}`);
 });
-
+/*
 app.post("/change-sprint-user/:id", async function (req, res) {
   const taskId = req.params.id;
   const sprintId = req.body.newSprint;
@@ -540,12 +540,12 @@ app.post("/change-sprint-user/:id", async function (req, res) {
 
   res.redirect(`/sprint-detail-user/${sprintId}`);
 });
-
+*/
 app.get("/add-member", async function (req, res) {
   let memebers = await Member.find({});
   res.render("add-member", { members: memebers });
 });
-
+/*
 app.get("/add-member-user", async function (req, res) {
   let memebers = await Member.find({});
   res.render("add-member-user", { members: memebers });
@@ -558,7 +558,7 @@ app.post("/add-member-user", async function (req, res) {
   await newMember.save();
   res.redirect("/add-member-user");
 });
-
+*/
 app.post("/add-member", async function (req, res) {
   let newMember = new Member({
     name: req.body.name,
@@ -687,7 +687,7 @@ app.post("/add-sprint", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
-
+/*
 app.get("/add-sprint-user", function (req, res) {
   res.render("add-sprint-user");
 });
@@ -705,6 +705,7 @@ app.post("/add-sprint-user", async function (req, res) {
     res.status(500).json({ message: err.message });
   }
 });
+*/
 
 app.post("/delete-sprint", async function (req, res) {
   try {
