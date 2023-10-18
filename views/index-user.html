@@ -61,6 +61,7 @@
             <td>Start Date</td>
             <td>End Date</td>
             <td>Status</td>
+            <td>Progress</td>
             <td class="action">Action</td>
           </tr>
         </thead>
@@ -78,6 +79,11 @@
               </td>
               <td>
                 <%= sprints[i].status %>
+              </td>
+              <td>
+                <a href="/burndown-chart/<%= sprints[i]._id %>">
+                  <button type="button"><span></span>Progress</button>
+                </a>
               </td>
               <td><a href="/sprint-detail-user/<%= sprints[i]._id %>">
                   <button type="button"><span></span>View</button>
