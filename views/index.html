@@ -140,29 +140,39 @@
       <img src="image/moon.png" id="icon">
 
     </div>
-    <% if (sprints && sprints.length > 0) {%>
+    <% if (sprints && sprints.length> 0) {%>
       <div class="container mt-4 rounded">
         <table class="Maintable">
           <thead>
-              <tr>
-                  <th>Sprint</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Action</th>
-              </tr>
+            <tr>
+              <th>Sprint</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Progress</th>
+              <th>Details</th>
+            </tr>
           </thead>
           <tbody>
-              <% for (let i = 0; i < sprints.length; i++) { %>
-                  <tr>
-                      <td><%= sprints[i].name %></td>
-                      <td><%= sprints[i].startDate.toDateString() %></td>
-                      <td><%= sprints[i].endDate.toDateString() %></td>
-                      <td><a href="/sprint-detail/<%= sprints[i]._id %>">
-                        <button class="btn btn-dark">View</button>
-                      </a></td>
-                  </tr>
+            <% for (let i=0; i < sprints.length; i++) { %>
+              <tr>
+                <td>
+                  <%= sprints[i].name %>
+                </td>
+                <td>
+                  <%= sprints[i].startDate.toDateString() %>
+                </td>
+                <td>
+                  <%= sprints[i].endDate.toDateString() %>
+                </td>
+                <td><a href="/burndown-chart/<%= sprints[i]._id %>">
+                    <button class="btn btn-dark">Progress</button>
+                  </a></td>
+                <td><a href="/sprint-detail/<%= sprints[i]._id %>">
+                    <button class="btn btn-dark">View</button>
+                  </a></td>
+              </tr>
               <% } %>
-              <% } %>
+                <% } %>
           </tbody>
       </div>
   </div>
