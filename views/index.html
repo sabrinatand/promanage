@@ -12,15 +12,16 @@
 <body>
   <div class="banner">
     <nav>
-      <img src="/image/logo-light.png" id="logoImage"class="logo">
+      <img src="/image/logo-light.png" id="logoImage" class="logo">
       <ul>
         <li><a href="/add-task">Add Tasks</a></li>
         <li><a href="/product-backlog">Product Backlog</a></li>
         <li><a href="/add-member">Team Members</a></li>
         <li><a href="/add-sprint">Add Sprint</a></li>
         <li><a href="/change-user-password">Change User Password</a></li>
+        <li><a href="/home"><i class='bx bxs-home'></i></a></li>
       </ul>
-      
+
       <img src="image/user.png" id="userImage" class="user" onclick="toggleMenu()">
 
       <div class="sub-menu-wrap" id="subMenu">
@@ -33,69 +34,77 @@
           <hr>
           <a href="" class="sub-menu-link">
             <div class="dark-mode-wrapper">
-            <i class='bx bx-moon' id="dark-icon"></i>
-            <p>Dark Mode</p>   
-          </div>
-          <div class="switch-wrapper">
-            <span><label class="switch">
-              <input type="checkbox" id="icon">
-              <span class="slider"></span>
-            </label></span>
+              <i class='bx bx-moon' id="dark-icon"></i>
+              <p>Dark Mode</p>
+            </div>
+            <div class="switch-wrapper">
+              <span><label class="switch">
+                  <input type="checkbox" id="icon">
+                  <span class="slider"></span>
+                </label></span>
           </a>
         </div>
-    
-          <a href="/" class="sub-menu-link">
-            <i class='bx bx-log-out' id='dark-icon'></i>
-            <img src="">
-            <p>Sign Out</p>
-            <span>></span>
-          </a>
-        </div>
+
+        <a href="/" class="sub-menu-link">
+          <i class='bx bx-log-out' id='dark-icon'></i>
+          <img src="">
+          <p>Sign Out</p>
+          <span>></span>
+        </a>
       </div>
-      </nav>
-  
-    
-    <% if (sprints && sprints.length > 0) {%>
-      <div class="container">
-        <table class="content-table">
-          <thead>
-              <tr>
-                  <td>Sprint</td>
-                  <td>Start Date</td>
-                  <td>End Date</td>
-                  <td>Status</td>
-                  <td class="action">Action</td>
-              </tr>
-          </thead>
-          <tbody>
-              <% for (let i = 0; i < sprints.length; i++) { %>
-                  <tr>
-                      <td><%= sprints[i].name %></td>
-                      <td><%= sprints[i].startDate.toDateString() %></td>
-                      <td><%= sprints[i].endDate.toDateString() %></td>
-                      <td><%= sprints[i].status %></td>
-                      <td><a href="/sprint-detail/<%= sprints[i]._id %>">
-                        <button type="button"><span></span>View</button>
-                      </a></td>
-                  </tr>
-              <% } %>
-              <% } %>
-          </tbody>
-      </table>
   </div>
-</div>
+  </nav>
+
+
+  <% if (sprints && sprints.length> 0) {%>
+    <div class="container">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <td>Sprint</td>
+            <td>Start Date</td>
+            <td>End Date</td>
+            <td>Status</td>
+            <td class="action">Action</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let i=0; i < sprints.length; i++) { %>
+            <tr>
+              <td>
+                <%= sprints[i].name %>
+              </td>
+              <td>
+                <%= sprints[i].startDate.toDateString() %>
+              </td>
+              <td>
+                <%= sprints[i].endDate.toDateString() %>
+              </td>
+              <td>
+                <%= sprints[i].status %>
+              </td>
+              <td><a href="/sprint-detail/<%= sprints[i]._id %>">
+                  <button type="button"><span></span>View</button>
+                </a></td>
+            </tr>
+            <% } %>
+              <% } %>
+        </tbody>
+      </table>
+    </div>
+    </div>
 </body>
 <style>
-  :root{
-    --grad-white : rgba(255, 255, 255, 0.75);
+  :root {
+    --grad-white: rgba(255, 255, 255, 0.75);
     --primary-color: #fff;
     --secondary-color: #ddd9d9;
     --tertiary-color: #747473;
     --quarternary-color: #2d2928;
-    --quinary-color:#212121;
+    --quinary-color: #212121;
   }
 
-  .dark-theme{
+  .dark-theme {
     --primary-color: #212121;
     --secondary-color: #2d2928;
     --tertiary-color: #747473;
@@ -103,26 +112,33 @@
     --quinary-color: #fff;
     --grad-white: rgba(80, 79, 79, 0.75);
   }
+
   .dark-theme .user-info img {
     filter: brightness(0) invert(1);
-  } 
-  .dark-theme .user-info {
-    color: white; /* Set the text color to white */
   }
+
+  .dark-theme .user-info {
+    color: white;
+    /* Set the text color to white */
+  }
+
   .dark-theme .banner img {
     filter: brightness(0) invert(1);
   }
+
   i.bx {
-    font-size: 24px; 
+    font-size: 24px;
   }
-  .banner{
+
+  .banner {
     width: 100%;
     height: 100vh;
     background-image: linear-gradient(var(--grad-white), var(--primary-color)), url(/image/image.jpg);
-    background-size:cover;
+    background-size: cover;
     background-position: center;
   }
-  nav{
+
+  nav {
     background: var(--secondary-color);
     width: 100%;
     padding: 20px 10%;
@@ -131,35 +147,38 @@
     justify-content: space-between;
     position: relative;
   }
-  .logo{
+
+  .logo {
     width: 120px;
     cursor: pointer;
     /* transform: translateY(-16%); */
   }
-  .user{
+
+  .user {
     width: 50px;
     cursor: pointer;
     margin-left: 30px;
   }
-  nav ul{
+
+  nav ul {
     flex: 1;
     text-align: right;
   }
 
-  nav ul li{
+  nav ul li {
     list-style: none;
     display: inline-block;
     margin: 0 20px;
     position: relative;
   }
 
-  nav ul li a{
+  nav ul li a {
     text-decoration: none;
     color: var(--quarternary-color);
     /* text-transform: uppercase; */
   }
 
-  nav ul li::after{
+  nav ul li::after {
     content: '';
     height: 3px;
     width: 0;
@@ -170,11 +189,11 @@
     transition: 0.5s;
   }
 
-  nav ul li:hover::after{
+  nav ul li:hover::after {
     width: 100%;
   }
 
-  .sub-menu-wrap{
+  .sub-menu-wrap {
     position: absolute;
     top: 100%;
     right: 10%;
@@ -184,51 +203,61 @@
     transition: max-height 0.5s;
     z-index: 2;
   }
-  .sub-menu-wrap.open-menu{
+
+  .sub-menu-wrap.open-menu {
     max-height: 400px;
   }
+
   .dark-mode-wrapper {
     display: flex;
     align-items: center;
-    margin-right: 3px; 
+    margin-right: 3px;
   }
-  .sub-menu{
+
+  .sub-menu {
     background: var(--secondary-color);
     padding: 20px;
     margin: 10px;
     border: 1px solid var(--quarternary-color);
   }
-  .user-info{
+
+  .user-info {
     display: flex;
     align-items: center;
   }
-  .user-info h4{
+
+  .user-info h4 {
     font-weight: 500;
   }
-  .user-info img{
+
+  .user-info img {
     width: 60px;
     border-radius: 50%;
     margin-right: 16px;
   }
-  .sub-menu hr{
+
+  .sub-menu hr {
     border: 0;
     height: 1px;
     width: 100%;
     background: var(--tertiary-color);
     margin: 15px 0 10px;
   }
-  .sub-menu-link{
+
+  .sub-menu-link {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: var(--quarternary-color);
     margin: 12px 0;
   }
-  .sub-menu-link p{
-    transform: translateY(25%); 
+
+  .sub-menu-link p {
+    transform: translateY(25%);
     width: 100%;
   }
-  .sub-menu-link i{
+
+  .sub-menu-link i {
     /* transform: translateY(-20%);  */
     margin-right: 16px;
     width: 40px;
@@ -237,17 +266,20 @@
     padding: 8px;
   }
 
-  .sub-menu-link span{
+  .sub-menu-link span {
     font-size: 20px;
     color: var(--quarternary-color);
     transition: transform 0.5s;
   }
+
   .sub-menu-link:hover span {
     transform: translateX(5px);
   }
-  .sub-menu-link:hover p{
+
+  .sub-menu-link:hover p {
     font-weight: 600;
   }
+
   .switch {
     transform: translateX(60%);
     position: relative;
@@ -256,6 +288,7 @@
     height: 33px;
     margin: 0 10px;
   }
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -267,7 +300,11 @@
     transition: .4s;
     border-radius: 34px;
   }
-  .switch input{display: none;}
+
+  .switch input {
+    display: none;
+  }
+
   .slider:before {
     position: absolute;
     content: "";
@@ -279,12 +316,15 @@
     transition: 0.4s;
     border-radius: 50px;
   }
-  input:checked + .slider {
+
+  input:checked+.slider {
     background-color: var(--primary-color);
   }
-  input:checked + .slider:before {
+
+  input:checked+.slider:before {
     transform: translateX(32px);
   }
+
   .content-table {
     border-collapse: collapse;
     width: 100%;
@@ -323,12 +363,14 @@
     font-weight: bold;
     color: var(--quarternary-color);
   }
+
   .container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 80vh;
   }
+
   button {
     width: 100px;
     padding: 5px 0;
@@ -343,9 +385,11 @@
     position: relative;
     overflow: hidden;
   }
+
   button:hover {
     border: none;
   }
+
   .action {
     transform: translateX(10%);
   }
@@ -362,16 +406,17 @@
   var icon = document.getElementById("icon");
 
   icon.onclick = function () {
-  document.body.classList.toggle("dark-theme");
+    document.body.classList.toggle("dark-theme");
 
-  if (document.body.classList.contains("dark-theme")) {
-      logoImage.src = "/image/logo-dark.png"; 
+    if (document.body.classList.contains("dark-theme")) {
+      logoImage.src = "/image/logo-dark.png";
     } else {
-      logoImage.src = "/image/logo-light.png"; 
+      logoImage.src = "/image/logo-light.png";
     }
   }
 
 
-darkModeIcon.onclick = toggleDarkMode;
+  darkModeIcon.onclick = toggleDarkMode;
 </script>
+
 </html>

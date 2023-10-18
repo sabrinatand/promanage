@@ -2,124 +2,131 @@
 <html lang="en" data-bs-theme="auto">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Team Member Page</title>
-    <link href="/bootstrap.min.css" rel="stylesheet" />
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora&display=swap">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Team Member Page</title>
+  <link href="/bootstrap.min.css" rel="stylesheet" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora&display=swap">
 </head>
 
 <body>
-    <div class="banner">
-        <nav>
-          <img src="/image/logo-light.png" id="logoImage"class="logo">
-          <ul>
-            <li><a href="/add-task">Add Tasks</a></li>
-            <li><a href="/product-backlog">Product Backlog</a></li>
-            <li><a href="/add-member">Team Members</a></li>
-            <li><a href="/add-sprint">Add Sprint</a></li>
-            <li><a href="/home"><i class='bx bxs-home'></i></a></li>
-          </ul>
-          
-          <img src="image/user.png" id="userImage" class="user" onclick="toggleMenu()">
-    
-          <div class="sub-menu-wrap" id="subMenu">
-            <div class="sub-menu">
-              <div class="user-info">
-                <img src="image/user.png" class="user">
-                <h4>User</h4>
-              </div>
-    
-              <hr>
-              <a href="" class="sub-menu-link">
-                <div class="dark-mode-wrapper">
-                <i class='bx bx-moon' id="dark-icon"></i>
-                <p>Dark Mode</p>   
-              </div>
-              <div class="switch-wrapper">
-                <span><label class="switch">
+  <div class="banner">
+    <nav>
+      <img src="/image/logo-light.png" id="logoImage" class="logo">
+      <ul>
+        <li><a href="/add-task">Add Tasks</a></li>
+        <li><a href="/product-backlog">Product Backlog</a></li>
+        <li><a href="/add-member">Team Members</a></li>
+        <li><a href="/add-sprint">Add Sprint</a></li>
+        <li><a href="/change-user-password">Change User Password</a></li>
+        <li><a href="/home"><i class='bx bxs-home'></i></a></li>
+      </ul>
+
+      <img src="image/user.png" id="userImage" class="user" onclick="toggleMenu()">
+
+      <div class="sub-menu-wrap" id="subMenu">
+        <div class="sub-menu">
+          <div class="user-info">
+            <img src="image/user.png" class="user">
+            <h4>User</h4>
+          </div>
+
+          <hr>
+          <a href="" class="sub-menu-link">
+            <div class="dark-mode-wrapper">
+              <i class='bx bx-moon' id="dark-icon"></i>
+              <p>Dark Mode</p>
+            </div>
+            <div class="switch-wrapper">
+              <span><label class="switch">
                   <input type="checkbox" id="icon">
                   <span class="slider"></span>
                 </label></span>
-              </a>
-            </div>
-        
-              <a href="/" class="sub-menu-link">
-                <i class='bx bx-log-out' id='dark-icon'></i>
-                <img src="">
-                <p>Sign Out</p>
-                <span>></span>
-              </a>
-            </div>
-          </div>
-          </nav>
-      
-        
-    <main>
-      <div class="memb-heading">
-        <h3 class="my-2">Add New Team Member</h3>
-        </div>
-        <div class="row row-cols-1 row-cols-sm-2 g-3">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <form action="/add-member" method="POST">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Member Name</label>
-                                <input type="text" name="name" class="form-control" id="name"
-                                    placeholder="Enter member name" required />
-                            </div>
-
-                            <button class="button">Submit</button>
-                        </form>
-                    </div>
-               </div>
-            </div>
+          </a>
         </div>
 
-        <div class="album py-5">
-                <div class="container">
-                    <table class="content-table">
-                        <thead>
-                            <tr>
-                                <td>#</td>
-                                <td>Name</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for(let i=0; i < members.length; i++ ){ %>
-                                <tr>
-                                    <td>
-                                        <%= (i+1) %>
-                                    </td>
-                                    <td>
-                                        <%= members[i].name %>
-                                    </td>
-                                    <% } %>
-                                </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            
+        <a href="/" class="sub-menu-link">
+          <i class='bx bx-log-out' id='dark-icon'></i>
+          <img src="">
+          <p>Sign Out</p>
+          <span>></span>
+        </a>
+      </div>
+  </div>
+  </nav>
+
+
+  <main>
+    <div class="memb-heading">
+      <h3 class="my-2">Add New Team Member</h3>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 g-3">
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <form action="/add-member" method="POST">
+              <div class="mb-3">
+                <label for="name" class="form-label">Member Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Enter member name"
+                  required />
               </div>
+
+              <button class="button">Submit</button>
+            </form>
           </div>
-      </div> 
-    </main>
+        </div>
+      </div>
+    </div>
+
+    <div class="album py-5">
+      <div class="container">
+        <table class="content-table">
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Name</td>
+              <td>Delete</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0; i < members.length; i++ ){ %>
+              <tr>
+                <td>
+                  <%= (i+1) %>
+                </td>
+                <td>
+                  <%= members[i].name %>
+                </td>
+                <td>
+                  <a href="delete-member/<%= members[i]._id %>">
+                    <button class="btn-danger">Delete</button>
+                  </a>
+                </td>
+                <% } %>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    </div>
+    </div>
+    </div>
+  </main>
 </body>
 <style>
-:root{
-    --grad-white : rgba(255, 255, 255, 0.75);
+  :root {
+    --grad-white: rgba(255, 255, 255, 0.75);
     --primary-color: #fff;
     --secondary-color: #ddd9d9;
     --tertiary-color: #747473;
     --quarternary-color: #2d2928;
-    --quinary-color:#212121;
+    --quinary-color: #212121;
   }
 
-  .dark-theme{
+  .dark-theme {
     --primary-color: #212121;
     --secondary-color: #2d2928;
     --tertiary-color: #747473;
@@ -127,26 +134,33 @@
     --quinary-color: #fff;
     --grad-white: rgba(80, 79, 79, 0.75);
   }
+
   .dark-theme .user-info img {
     filter: brightness(0) invert(1);
-  } 
-  .dark-theme .user-info {
-    color: white; /* Set the text color to white */
   }
+
+  .dark-theme .user-info {
+    color: white;
+    /* Set the text color to white */
+  }
+
   .dark-theme .banner img {
     filter: brightness(0) invert(1);
   }
+
   i.bx {
-    font-size: 24px; 
+    font-size: 24px;
   }
-  .banner{
+
+  .banner {
     width: 100%;
     height: 100vh;
     background-image: linear-gradient(var(--grad-white), var(--primary-color)), url(/image/image.jpg);
-    background-size:cover;
+    background-size: cover;
     background-position: center;
   }
-  nav{
+
+  nav {
     background: var(--secondary-color);
     width: 100%;
     padding: 20px 10%;
@@ -155,35 +169,38 @@
     justify-content: space-between;
     position: relative;
   }
-  .logo{
+
+  .logo {
     width: 120px;
     cursor: pointer;
     /* transform: translateY(-16%); */
   }
-  .user{
+
+  .user {
     width: 50px;
     cursor: pointer;
     margin-left: 30px;
   }
-  nav ul{
+
+  nav ul {
     flex: 1;
     text-align: right;
   }
 
-  nav ul li{
+  nav ul li {
     list-style: none;
     display: inline-block;
     margin: 0 20px;
     position: relative;
   }
 
-  nav ul li a{
+  nav ul li a {
     text-decoration: none;
     color: var(--quarternary-color);
     /* text-transform: uppercase; */
   }
 
-  nav ul li::after{
+  nav ul li::after {
     content: '';
     height: 3px;
     width: 0;
@@ -194,11 +211,11 @@
     transition: 0.5s;
   }
 
-  nav ul li:hover::after{
+  nav ul li:hover::after {
     width: 100%;
   }
 
-  .sub-menu-wrap{
+  .sub-menu-wrap {
     position: absolute;
     top: 100%;
     right: 10%;
@@ -208,51 +225,61 @@
     transition: max-height 0.5s;
     z-index: 2;
   }
-  .sub-menu-wrap.open-menu{
+
+  .sub-menu-wrap.open-menu {
     max-height: 400px;
   }
+
   .dark-mode-wrapper {
     display: flex;
     align-items: center;
-    margin-right: 3px; 
+    margin-right: 3px;
   }
-  .sub-menu{
+
+  .sub-menu {
     background: var(--secondary-color);
     padding: 20px;
     margin: 10px;
     border: 1px solid var(--quarternary-color);
   }
-  .user-info{
+
+  .user-info {
     display: flex;
     align-items: center;
   }
-  .user-info h4{
+
+  .user-info h4 {
     font-weight: 500;
   }
-  .user-info img{
+
+  .user-info img {
     width: 60px;
     border-radius: 50%;
     margin-right: 16px;
   }
-  .sub-menu hr{
+
+  .sub-menu hr {
     border: 0;
     height: 1px;
     width: 100%;
     background: var(--tertiary-color);
     margin: 15px 0 10px;
   }
-  .sub-menu-link{
+
+  .sub-menu-link {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: var(--quarternary-color);
     margin: 12px 0;
   }
-  .sub-menu-link p{
-    transform: translateY(25%); 
+
+  .sub-menu-link p {
+    transform: translateY(25%);
     width: 100%;
   }
-  .sub-menu-link i{
+
+  .sub-menu-link i {
     /* transform: translateY(-20%);  */
     margin-right: 16px;
     width: 40px;
@@ -261,17 +288,20 @@
     padding: 8px;
   }
 
-  .sub-menu-link span{
+  .sub-menu-link span {
     font-size: 20px;
     color: var(--quarternary-color);
     transition: transform 0.5s;
   }
+
   .sub-menu-link:hover span {
     transform: translateX(5px);
   }
-  .sub-menu-link:hover p{
+
+  .sub-menu-link:hover p {
     font-weight: 600;
   }
+
   .switch {
     transform: translateX(60%);
     position: relative;
@@ -280,6 +310,7 @@
     height: 33px;
     margin: 0 10px;
   }
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -291,7 +322,11 @@
     transition: .4s;
     border-radius: 34px;
   }
-  .switch input{display: none;}
+
+  .switch input {
+    display: none;
+  }
+
   .slider:before {
     position: absolute;
     content: "";
@@ -303,12 +338,15 @@
     transition: 0.4s;
     border-radius: 50px;
   }
-  input:checked + .slider {
+
+  input:checked+.slider {
     background-color: var(--primary-color);
   }
-  input:checked + .slider:before {
+
+  input:checked+.slider:before {
     transform: translateX(32px);
   }
+
   .content-table {
     border-collapse: collapse;
     width: 100%;
@@ -347,32 +385,39 @@
     font-weight: bold;
     color: var(--quarternary-color);
   }
+
   .container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50%;
   }
+
   .memb-heading {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px; 
+    height: 100px;
   }
+
   .row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  } 
-  .card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
     background-color: var(--primary-color);
   }
+
   .card label {
     color: var(--quarternary-color);
   }
+
   .card-body {
-  background-color: var(--primary-color); 
+    background-color: var(--primary-color);
   }
+
   .button {
     margin: 10px 0;
     border-radius: 19px;
@@ -382,48 +427,49 @@
     color: var(--primary-color);
     cursor: pointer;
     overflow: hidden;
-    width: 100px; 
-    padding: 10px; 
+    width: 100px;
+    padding: 10px;
     text-align: center;
     display: inline-block;
   }
+
   .card-body form {
     text-align: center;
-  } 
+  }
+
   .memb-heading h3 {
     margin: 0;
     font-family: "Lora", sans-serif;
-    font-size: 2em; 
-    color: var(--quarternary-color); 
-    text-transform: uppercase; 
-    font-weight: bold; 
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+    font-size: 2em;
+    color: var(--quarternary-color);
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   }
-
-  
 </style>
 <script>
-    let subMenu = document.getElementById("subMenu");
-    let logoImage = document.getElementById("logoImage");
-    let darkModeIcon = document.getElementById("dark-icon");
-  
-    function toggleMenu() {
-      subMenu.classList.toggle("open-menu");
-    }
-  
-    var icon = document.getElementById("icon");
-  
-    icon.onclick = function () {
+  let subMenu = document.getElementById("subMenu");
+  let logoImage = document.getElementById("logoImage");
+  let darkModeIcon = document.getElementById("dark-icon");
+
+  function toggleMenu() {
+    subMenu.classList.toggle("open-menu");
+  }
+
+  var icon = document.getElementById("icon");
+
+  icon.onclick = function () {
     document.body.classList.toggle("dark-theme");
-  
+
     if (document.body.classList.contains("dark-theme")) {
-        logoImage.src = "/image/logo-dark.png"; 
-      } else {
-        logoImage.src = "/image/logo-light.png"; 
-      }
+      logoImage.src = "/image/logo-dark.png";
+    } else {
+      logoImage.src = "/image/logo-light.png";
     }
-  
-  
+  }
+
+
   darkModeIcon.onclick = toggleDarkMode;
-  </script>
+</script>
+
 </html>
