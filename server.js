@@ -830,7 +830,7 @@ app.post("/change-user-password", async function (req, res) {
       { new: true }
     );
     if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
+      res.render("user-not-found");
     }
     res.redirect("/home");
   } catch (err) {
