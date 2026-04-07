@@ -1,114 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="bootstrap.min.css" rel="stylesheet" />
-  <title>Project Manager</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Account Created</title>
 </head>
 
 <body>
   <style>
-    :root {
-      --primary-color: rgba(231, 224, 224, 0.75);
-      --secondary-color: #322e2e;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'DM Sans', sans-serif;
     }
-    .banner {
-    width: 100%;
-    height: 100vh;
-    background-image: linear-gradient(var(--primary-color),var(--secondary-color)), url(/image/background3.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    }
-    .navbar {
-      width: 85%;
-      margin: auto;
-      padding: 35px 0;
+
+    body {
       display: flex;
-      align-items:center;
-      justify-content: space-between;
-    }
-    button {
-      width: 200px;
-      padding: 15px 0;
-      text-align: center;
-      margin: 20px 10px;
-      border-radius: 25px;
-      font-weight: bold;
-      border: 2px solid #3a3a3a;
-      background: transparent;
-      color: var(--primary-color);
-      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: url(/image/background2.jpg) no-repeat center center/cover;
+      background-attachment: fixed;
       position: relative;
-      overflow: hidden;
+      padding: 20px;
     }
-    span {
-      background: #3a3a3a;
-      height: 100%;
-      width: 0;
-      border-radius: 25px;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      z-index: -1;
-      transition: 0.5s;
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 10, 16, 0.72);
+      z-index: 0;
     }
-    button:hover span {
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
       width: 100%;
+      max-width: 500px;
+      background: rgba(18, 21, 32, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      color: #f0ede8;
+      border-radius: 16px;
+      padding: 40px 32px 36px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+      text-align: center;
     }
-    button:hover {
+
+    .wrapper h1 {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      color: #f0ede8;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: rgba(240, 237, 232, 0.65);
+      margin-bottom: 28px;
+    }
+
+    .credential-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .credential-box h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e8b86d;
+      margin-bottom: 8px;
+    }
+
+    .credential-box p {
+      font-size: 14px;
+      color: #f0ede8;
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    .btn {
+      width: 100%;
+      height: 46px;
       border: none;
-    }
-    .logo {
-      width: 130px;
+      outline: none;
+      border-radius: 10px;
       cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.06);
+      color: #f0ede8;
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
-    .content {
-      width: 100%;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      color: #e6e4e4;
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.11);
+      transform: translateY(-1px);
     }
-    .content h1{
-      font-size: 65px;
-      margin-top: 80px;
-      font-family: "Times New Roman", serif;
+
+    .button-link {
+      text-decoration: none;
+      display: block;
+      margin-top: 18px;
     }
-    .content h2{
-      font-size: 45px;
-      margin-top: 15px;
-      font-family: "Times New Roman", serif;
-    }
-    .content p {
-      margin: 20px auto;
-      font-weight: 100;
-      line-height: 25px;
-    }
-    .container {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
+
+    @media (max-width: 576px) {
+      .wrapper {
+        padding: 32px 20px 28px;
+      }
+
+      .wrapper h1 {
+        font-size: 24px;
+      }
+
+      .credential-box h2 {
+        font-size: 15px;
+      }
+
+      .credential-box p {
+        font-size: 13px;
+      }
     }
   </style>
-  <div class="banner">
-    <div class="navbar"> 
-      <img src="/image/logo2.png" class="logo">
-    </div>
-    <div class="content">
-      <h1>ACCOUNT CREATED</h1>
-      <% records.forEach(user => { %>
-        <h2>Username: "<%= user.usernameUser %>"</h2>
-        <h2>Password: "<%= user.passwordUser %>"</h2>
-      <% }) %>
-      <div>
-        <a href="/" class="button-link">
-          <button type="button"><span></span>Go Back</button>
-        </a>
+
+  <div class="wrapper">
+    <h1>Account Created</h1>
+    <p class="subtitle">Your account has been successfully created.</p>
+
+    <% records.forEach(user => { %>
+      <div class="credential-box">
+        <h2>Username</h2>
+        <p><%= user.usernameUser %></p>
       </div>
-    </div>
+
+      <div class="credential-box">
+        <h2>Password</h2>
+        <p><%= user.passwordUser %></p>
+      </div>
+    <% }) %>
+
+    <a href="/" class="button-link">
+      <button type="button" class="btn">Go Back</button>
+    </a>
+  </div>
 </body>
-</html> 
+</html>

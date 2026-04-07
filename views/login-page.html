@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
         <title>Login Form</title>
     </head>
     <body>
@@ -12,8 +13,9 @@
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
-                font-family: "Poppins", sans-serif;
+                font-family: 'DM Sans', sans-serif;
             }
+
             body {
                display: flex;
                justify-content: center;
@@ -24,61 +26,125 @@
                background-position: center;
                background-attachment: fixed;
             }
-            .wrapper{
+
+            /* dark overlay behind wrapper */
+            body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background: rgba(8, 10, 16, 0.72);
+                z-index: 0;
+            }
+
+            .wrapper {
+                position: relative;
+                z-index: 1;
                 width: 420px;
-                background: transparent;
-                border: 2px solid rgba(255, 255, 255, 0.2);
-                color: #fff;
-                border-radius: 12px;
-                padding: 30px 40px;
+                background: rgba(18, 21, 32, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                color: #f0ede8;
+                border-radius: 16px;
+                padding: 40px 40px 36px;
+                box-shadow: 0 24px 64px rgba(0,0,0,0.5);
             }
+
             .wrapper h1 {
-                font-size: 36px;
+                font-family: 'DM Sans', sans-serif;
+                font-size: 28px;
+                font-weight: 800;
+                letter-spacing: -0.5px;
                 text-align: center;
+                margin-bottom: 8px;
+                color: #f0ede8;
             }
+
             .wrapper .input-box {
                 position: relative;
                 width: 100%;
                 height: 50px;
-                margin: 30px 0;
+                margin: 20px 0;
             }
+
             .input-box input {
                 width: 100%;
                 height: 100%;
-                background: transparent;
-                border: none;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.12);
                 outline: none;
-                border: 2px solid rgba(255, 255, 255, .2);
-                border-radius: 40px;
-                font-size: 16px;
-                color: #fff;
-                padding: 20px 45px 20px 20px;
-            }
-            .input-box input::placeholder {
-                color: #fff;
-            }
-            .input-box i {
-                position: absolute;
-                right: 20px;
-                top: 30%;
-                transform: translate(-50%);
-                font-size: 20px;
-            }
-            .wrapper .btn {
-                width: 100%;
-                height: 45px;
-                background: #fff;
-                border: none;
-                outline: none;
-                border-radius: 40px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-                cursor: pointer;
-                font-size: 16px;
-                color: #333;
-                font-weight: 600;
+                border-radius: 10px;
+                font-size: 14px;
+                font-family: 'DM Sans', sans-serif;
+                color: #f0ede8;
+                padding: 0 44px 0 16px;
+                transition: border-color 0.2s, box-shadow 0.2s;
             }
 
+            .input-box input::placeholder {
+                color: rgba(240, 237, 232, 0.38);
+            }
+
+            .input-box input:focus {
+                border-color: #e8b86d;
+                box-shadow: 0 0 0 3px rgba(232, 184, 109, 0.15);
+            }
+
+            .input-box i {
+                position: absolute;
+                right: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 18px;
+                color: rgba(240, 237, 232, 0.35);
+                pointer-events: none;
+            }
+
+            .wrapper .btn {
+                width: 100%;
+                height: 46px;
+                border: none;
+                outline: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-family: 'DM Sans', sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                transition: all 0.2s ease;
+                margin-bottom: 0;
+            }
+
+            /* Submit button — gold primary */
+            form .btn {
+                background: #e8b86d;
+                color: #0a0c12;
+                box-shadow: 0 4px 14px rgba(232,184,109,0.25);
+            }
+            form .btn:hover {
+                background: #f0c87e;
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(232,184,109,0.35);
+            }
+
+            /* Secondary buttons — outlined */
+            div > .btn {
+                background: rgba(255, 255, 255, 0.06);
+                color: #f0ede8;
+                border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                box-shadow: none;
+            }
+            div > .btn:hover {
+                background: rgba(255, 255, 255, 0.11);
+                transform: translateY(-1px);
+            }
+
+            .button-link { text-decoration: none; }
+
+            /* spacing between secondary buttons */
+            div + br { display: none; }
+            div:not(:last-child) { margin-bottom: 10px; }
         </style>
+
         <div class="wrapper">
             <form action="/login" method="POST">
                 <h1>Login</h1>
